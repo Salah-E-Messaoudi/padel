@@ -3,7 +3,9 @@ import 'package:padel/src/settings/preferences.dart';
 import 'package:padel/src/settings/settings_controller.dart';
 import 'package:padel/src/widgets/authentication/onboarding.dart';
 import 'package:padel/src/widgets/authentication/phone_auth.dart';
+import 'package:padel/src/widgets/screens/booking_details.dart';
 import 'package:padel/src/widgets/screens/main_screen.dart';
+import 'package:padel/src/widgets/screens/stadium_details.dart';
 // import 'package:provider/provider.dart';
 // import 'package:yami_chef/src/services_models/models.dart';
 // import 'package:yami_chef/src/widgets/authentication.dart';
@@ -44,7 +46,7 @@ class _WrapperState extends State<Wrapper> {
           //   );
           // }
           if (showOnboarding == true) {
-            return MainScreen();
+            return BookingDetails();
             // Onboarding(
             //   setShowOnboarding: hideOnboarding,
             // );
