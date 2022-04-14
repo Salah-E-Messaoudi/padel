@@ -23,7 +23,7 @@
 	"invalid_verification_code":"Verification code is not valid",
 	"invalid_verification_id":"Verification ID is not valid",
 	"missing_android_pkg_name":"An Android package name must be provided if the Android app is required to be installed",
-	"missing_client_identifier":"L'identifiant d'application est invalide",
+	"missing_client_identifier":"Application ID is invalid",
 	"missing_continue_uri":"A continue URL must be provided in the request.",
 	"missing_ios_bundle_id":"An iOS Bundle ID must be provided if an App Store ID is provided.",
 	"network_request_failed":"Check your internet connection",
@@ -64,5 +64,59 @@
   "female":"female",
 
   "confirme":"CONFIRME",
-  "field_required":"Field required"
+  "field_required":"Field required",
+
+  "hi":"Hi",
+  "stadiums_subtitle":"Let's Book A Stadium And Plan Our Game",
+  "categories":"You want to book",
+  "all":"All",
+  "padel":"padel",
+  "football":"Football",
+  "available_stadiums":"Available Stadium",
+
+  "bookings_title":"Check Your Booking's",
+  "bookings_subtitle":"See All Your Active And Recent Booking",
+
+  "notification":"Notification",
+  "notification_padel_invitation":" has invited you to join him into a Padel match on ",
+  "notification_football_invitation":" has invited you to join him into a football match on ",
+
+  "notification_padel_invitation_accept":" accept your invitation to Padel match in ",
+  "notification_football_invitation_accept":" accept your invitation to football match in ",
+
+  "notification_padel_invitation_reject":" accept your invitation to Padel match in ",
+  "notification_football_invitation_reject":" accept your invitation to football match in ",
+
+  "this_week":"This Week",
+  "selected_date":"Selected Date : ",
+  "select_date":"Select Date",
+  "book_now":"BOOK NOW",
+
+  "details":"Details",
+  "owner":"Owner",
+  "time":"Time",
+  "date":"Date",
+  "team_members":"Team Members ",
+  "members":"Members",
+  "add_new_member":"Add New Members",
+  "look_stadium":"Take a look at the stadium",
+  "profile":"Profile",
+  "my_friends":"My Friends",
+  "pending_invitation":"Pending Invitation",
+  "play_system":"Play System",
+  "logout":"Log Out",
+  "user_gender":"Gender",
+  "user_age":"Age",
+  "edit_profile":"Edit Profile",
+
+  "add_new_friend":"Add New Friend",
+  "add_new_friend_subtitle":"Enter Your Friend Phone Number",
+  "add_friends":"Add Friend",
+  "invite_from":"Invite From",
+  "event":"Event",
+  "date_time":"Date Time",
+  "team":"Team",
+  "accept":"Accept",
+  "reject":"Reject",
+  "joined":"Joined"
 }
