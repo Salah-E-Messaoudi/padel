@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BookingTile extends StatelessWidget {
   const BookingTile({Key? key}) : super(key: key);
@@ -71,7 +72,7 @@ class BookingTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Team',
+                          AppLocalizations.of(context)!.team,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
@@ -80,7 +81,7 @@ class BookingTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '4 / 4 Joined',
+                          '4 / 4' + AppLocalizations.of(context)!.joined,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
@@ -95,7 +96,7 @@ class BookingTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Date Time',
+                          AppLocalizations.of(context)!.date_time,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,

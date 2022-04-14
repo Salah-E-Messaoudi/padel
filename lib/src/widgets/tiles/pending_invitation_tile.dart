@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PendingInvitationTile extends StatelessWidget {
   const PendingInvitationTile({Key? key}) : super(key: key);
@@ -101,7 +102,7 @@ class PendingInvitationTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Date Time',
+                          AppLocalizations.of(context)!.time,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
@@ -110,7 +111,7 @@ class PendingInvitationTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '8 Apr • 16:00 - 17:00',
+                          '16:00 - 17:00',
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
@@ -125,7 +126,7 @@ class PendingInvitationTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Date',
+                          AppLocalizations.of(context)!.date,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
@@ -149,7 +150,7 @@ class PendingInvitationTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Team',
+                          AppLocalizations.of(context)!.team,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,

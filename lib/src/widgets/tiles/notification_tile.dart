@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationTile extends StatelessWidget {
   const NotificationTile({Key? key}) : super(key: key);
@@ -67,4 +68,18 @@ class NotificationTile extends StatelessWidget {
       ],
     );
   }
+  // String notificationMsg(BuildContext context ,String event, String result){
+  //   switch (event) {
+  //     case 'padel':
+  //       switch (result) {
+  //         case 'accept':
+  //           return AppLocalizations.of(context)!.notification
+  //           break;
+  //         default:
+  //       }
+  //       break;
+  //     case 'football':
+  //     default:
+  //   }
+  // }
 }
