@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:padel/src/widgets/tiles/available_staduims_tile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Stadiums extends StatefulWidget {
   const Stadiums({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _StadiumsState extends State<Stadiums> {
       children: [
         SizedBox(height: 15.h),
         Text(
-          'Hi, Salah Eddine',
+          AppLocalizations.of(context)!.hi + 'Salah Eddine',
           style: GoogleFonts.poppins(
             fontSize: 22.sp,
             fontWeight: FontWeight.bold,
@@ -28,7 +29,7 @@ class _StadiumsState extends State<Stadiums> {
           ),
         ),
         Text(
-          "Let's Book A Stadium And Plan Our Game",
+          AppLocalizations.of(context)!.stadiums_subtitle,
           style: GoogleFonts.poppins(
             fontSize: 10.sp,
             fontWeight: FontWeight.w600,
@@ -37,7 +38,7 @@ class _StadiumsState extends State<Stadiums> {
         ),
         SizedBox(height: 20.h),
         Text(
-          'You want to book',
+          AppLocalizations.of(context)!.categories,
           style: GoogleFonts.poppins(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
@@ -48,9 +49,10 @@ class _StadiumsState extends State<Stadiums> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            menuCard(context, 0, 'both', 'All'),
-            menuCard(context, 1, 'padel', 'Padel'),
-            menuCard(context, 2, 'football', 'FootBall'),
+            menuCard(context, 0, 'both', AppLocalizations.of(context)!.all),
+            menuCard(context, 1, 'padel', AppLocalizations.of(context)!.padel),
+            menuCard(
+                context, 2, 'football', AppLocalizations.of(context)!.football),
           ],
         ),
         SizedBox(height: 15.h),
@@ -62,7 +64,7 @@ class _StadiumsState extends State<Stadiums> {
         ),
         SizedBox(height: 20.h),
         Text(
-          'Available Stadiums',
+          AppLocalizations.of(context)!.available_stadiums,
           style: GoogleFonts.poppins(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:padel/src/models.dart/team_members.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BookingDetails extends StatelessWidget {
   const BookingDetails({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class BookingDetails extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          'Details',
+          AppLocalizations.of(context)!.details,
           style: GoogleFonts.poppins(
             fontSize: 15.sp,
             color: Theme.of(context).textTheme.headline1!.color,
@@ -61,7 +62,7 @@ class BookingDetails extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Owner',
+                        AppLocalizations.of(context)!.owner,
                         style: GoogleFonts.poppins(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
@@ -117,7 +118,7 @@ class BookingDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Date Time',
+                          AppLocalizations.of(context)!.time,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
@@ -151,7 +152,7 @@ class BookingDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Date',
+                          AppLocalizations.of(context)!.date,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
@@ -185,7 +186,7 @@ class BookingDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Event',
+                          AppLocalizations.of(context)!.event,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
@@ -213,7 +214,7 @@ class BookingDetails extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Team Members ',
+                    text: AppLocalizations.of(context)!.team_members,
                     style: GoogleFonts.poppins(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -287,7 +288,7 @@ class BookingDetails extends StatelessWidget {
                       ),
                       SizedBox(width: 10.w),
                       Text(
-                        'Members',
+                        AppLocalizations.of(context)!.members,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.poppins(
                           fontSize: 12.sp,
@@ -320,7 +321,7 @@ class BookingDetails extends StatelessWidget {
                 ),
                 SizedBox(width: 10.w),
                 Text(
-                  'Add New Members',
+                  AppLocalizations.of(context)!.add_new_member,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
                     fontSize: 14.sp,
@@ -332,7 +333,7 @@ class BookingDetails extends StatelessWidget {
             ),
             SizedBox(height: 25.h),
             Text(
-              'Take a look at the stadium',
+              AppLocalizations.of(context)!.look_stadium,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.poppins(
                 fontSize: 12.sp,

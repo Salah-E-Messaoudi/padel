@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:padel/src/models.dart/available_time.dart';
 import 'package:padel/src/widgets/widget_modules.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StadiumDetails extends StatefulWidget {
   const StadiumDetails({Key? key}) : super(key: key);
@@ -48,7 +49,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                     color: Colors.grey.withOpacity(0.8),
                     spreadRadius: 1,
                     blurRadius: 6,
-                    offset: const Offset(0, 2), // changes position of shadow
+                    offset: const Offset(0, 2),
                   ),
                 ],
               ),
@@ -113,7 +114,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                       SizedBox(width: 30.w),
                       const Spacer(),
                       Text(
-                        'This Week',
+                        AppLocalizations.of(context)!.this_week,
                         style: GoogleFonts.poppins(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
@@ -197,7 +198,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Selected Date : ',
+                              text: AppLocalizations.of(context)!.selected_date,
                               style: GoogleFonts.poppins(
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
@@ -224,7 +225,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                   SizedBox(height: 15.h),
                   Center(
                     child: Text(
-                      'Select Time',
+                      AppLocalizations.of(context)!.select_date,
                       style: GoogleFonts.poppins(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w600,
@@ -259,7 +260,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                       ),
                       const Spacer(),
                       CustomIconTextButton(
-                        label: 'BOOK NOW',
+                        label: AppLocalizations.of(context)!.book_now,
                         onPressed: () {},
                         fontColor: Colors.white,
                         fontSize: 15.sp,
