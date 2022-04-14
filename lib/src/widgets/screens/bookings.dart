@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:padel/src/widgets/tiles/booking_tile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Bookings extends StatefulWidget {
   const Bookings({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _BookingsState extends State<Bookings> {
       children: [
         SizedBox(height: 18.h),
         Text(
-          "Check Your Booking's",
+          AppLocalizations.of(context)!.bookings_title,
           style: GoogleFonts.poppins(
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
@@ -26,7 +27,7 @@ class _BookingsState extends State<Bookings> {
           ),
         ),
         Text(
-          "See All Your Active And Recent Booking",
+          AppLocalizations.of(context)!.bookings_subtitle,
           style: GoogleFonts.poppins(
             fontSize: 10.sp,
             fontWeight: FontWeight.w600,

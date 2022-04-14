@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:padel/src/widgets/tiles/pending_invitation_tile.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:padel/src/widgets/tiles/notification_tile.dart';
 
-class PendingInvitation extends StatelessWidget {
-  const PendingInvitation({Key? key}) : super(key: key);
+class PlaySystem extends StatelessWidget {
+  const PlaySystem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,7 @@ class PendingInvitation extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          AppLocalizations.of(context)!.pending_invitation,
+          'Notification',
           style: GoogleFonts.poppins(
             fontSize: 15.sp,
             color: Theme.of(context).textTheme.headline1!.color,
@@ -21,9 +20,19 @@ class PendingInvitation extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.delete_outline,
+              color: Theme.of(context).textTheme.headline1!.color,
+              size: 26.sp,
+            ),
+          ),
+        ],
       ),
       body: Column(
-        children: const [PendingInvitationTile()],
+        children: const [NotificationTile(), NotificationTile()],
       ),
     );
   }

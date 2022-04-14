@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:padel/src/widgets/widget_models/custom_textformfield.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          'Profile',
+          AppLocalizations.of(context)!.profile,
           style: GoogleFonts.poppins(
             fontSize: 15.sp,
             color: Theme.of(context).textTheme.headline1!.color,
@@ -67,11 +67,17 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           SizedBox(height: 70.h),
-          info(context, Icons.badge_outlined, 'Full Name',
+          info(
+              context,
+              Icons.badge_outlined,
+              AppLocalizations.of(context)!.full_name,
               'Salah Eddine Messaoudi'),
-          info(context, Icons.call_outlined, 'Phone Number', '+965 2871 2942'),
-          info(context, Icons.male, 'Gender', 'Male'),
-          info(context, Icons.person_outline_rounded, 'Age', 23.toString()),
+          info(context, Icons.call_outlined,
+              AppLocalizations.of(context)!.phone_number, '+965 2871 2942'),
+          info(context, Icons.male, AppLocalizations.of(context)!.gender,
+              'Male'),
+          info(context, Icons.person_outline_rounded,
+              AppLocalizations.of(context)!.age, 23.toString()),
         ],
       ),
       floatingActionButton: Container(
@@ -86,7 +92,7 @@ class _ProfileState extends State<Profile> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Edit Profile',
+                AppLocalizations.of(context)!.edit_profile,
                 style: GoogleFonts.poppins(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,

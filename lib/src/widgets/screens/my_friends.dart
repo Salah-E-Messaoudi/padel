@@ -7,6 +7,7 @@ import 'package:padel/functions.dart';
 import 'package:padel/src/widgets/widget_models/custom_textformfield.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:padel/src/widgets/widget_modules.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyFriends extends StatelessWidget {
   const MyFriends({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class MyFriends extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          'My Friends',
+          AppLocalizations.of(context)!.my_friends,
           style: GoogleFonts.poppins(
             fontSize: 15.sp,
             color: Theme.of(context).textTheme.headline1!.color,
@@ -77,7 +78,7 @@ class _AddFriendState extends State<AddFriend> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Add New Friend',
+            AppLocalizations.of(context)!.add_new_friend,
             style: GoogleFonts.poppins(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
@@ -85,7 +86,7 @@ class _AddFriendState extends State<AddFriend> {
             ),
           ),
           Text(
-            'Enter Your Friend Phone Number',
+            AppLocalizations.of(context)!.add_new_friend_subtitle,
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
               fontSize: 11.sp,
@@ -156,7 +157,7 @@ class _AddFriendState extends State<AddFriend> {
           ),
           SizedBox(height: 30.h),
           CustomIconTextButton(
-            label: 'Add Friend',
+            label: AppLocalizations.of(context)!.add_friends,
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(50),
             fontColor: Theme.of(context).scaffoldBackgroundColor,

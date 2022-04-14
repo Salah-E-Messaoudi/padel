@@ -5,6 +5,7 @@ import 'package:padel/src/widgets/screens/my_friends.dart';
 import 'package:padel/src/widgets/screens/pending_invitation.dart';
 import 'package:padel/src/widgets/screens/play_system.dart';
 import 'package:padel/src/widgets/screens/profile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -61,16 +62,25 @@ class SideMenu extends StatelessWidget {
                   color: Theme.of(context).textTheme.headline5!.color,
                 ),
                 SizedBox(height: 30.h),
-                menuListItem(context, Icons.person_outline_rounded, 'Profile',
-                    const Profile()),
-                menuListItem(context, Icons.people_outline_rounded,
-                    'My Friends', const MyFriends()),
-                menuListItem(context, Icons.person_add_alt_outlined,
-                    'Pending Invitation', const PendingInvitation()),
-                menuListItem(context, Icons.assignment_outlined, 'Play System',
-                    const PlaySystem()),
+                menuListItem(context, Icons.person_outline_rounded,
+                    AppLocalizations.of(context)!.profile, const Profile()),
                 menuListItem(
-                    context, Icons.logout_rounded, 'Log Out', const Profile()),
+                    context,
+                    Icons.people_outline_rounded,
+                    AppLocalizations.of(context)!.my_friends,
+                    const MyFriends()),
+                menuListItem(
+                    context,
+                    Icons.person_add_alt_outlined,
+                    AppLocalizations.of(context)!.pending_invitation,
+                    const PendingInvitation()),
+                menuListItem(
+                    context,
+                    Icons.assignment_outlined,
+                    AppLocalizations.of(context)!.play_system,
+                    const PlaySystem()),
+                menuListItem(context, Icons.logout_rounded,
+                    AppLocalizations.of(context)!.logout, const Profile()),
               ],
             ),
           ),
