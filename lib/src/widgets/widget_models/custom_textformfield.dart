@@ -70,11 +70,11 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     InputBorder customBorder = border ??
-        OutlineInputBorder(
+        UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Theme.of(context).textTheme.headline3!.color!,
+            color: Theme.of(context).primaryColor,
+            width: 2,
           ),
-          borderRadius: BorderRadius.circular(10.sp),
         );
     TextFormField widget = TextFormField(
         enabled: enabled,
@@ -106,11 +106,12 @@ class CustomTextFormField extends StatelessWidget {
                     : Icon(prefixIcon,
                         size: iconSize.sp,
                         color: Theme.of(context).primaryColor)),
-            contentPadding: suffixIcon != null || suffixWidget != null
-                ? border == null
-                    ? EdgeInsets.zero
-                    : null
-                : contentPadding,
+            contentPadding: contentPadding ??
+                (suffixIcon != null || suffixWidget != null
+                    ? border == null
+                        ? EdgeInsets.zero
+                        : null
+                    : contentPadding),
             fillColor: fillColor,
             filled: fillColor != null,
             counterText: null,
@@ -120,9 +121,11 @@ class CustomTextFormField extends StatelessWidget {
             errorText: errorText,
             hintStyle: hintStyle ??
                 GoogleFonts.poppins(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).textTheme.headline3!.color),
+                  height: 1,
+                  fontSize: fontSize.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).textTheme.headline3!.color,
+                ),
             labelStyle: GoogleFonts.poppins(
                 height: 1,
                 color: enabled

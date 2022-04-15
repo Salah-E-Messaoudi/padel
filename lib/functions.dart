@@ -1,6 +1,8 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 String? getError(BuildContext context, String? code) {
   if (code == null) {
@@ -59,10 +61,10 @@ String? getError(BuildContext context, String? code) {
 String? validateNumberInt(
     {required String? value, required BuildContext context}) {
   if (value == null || value.isEmpty) {
-    return 'AppLocalizations.of(context)!.field_required';
+    return AppLocalizations.of(context)!.field_required;
   }
   if (int.tryParse(value) == null) {
-    return 'AppLocalizations.of(context)!.value_invalid';
+    return AppLocalizations.of(context)!.invalid_phone_number;
   }
   return null;
 }
@@ -75,4 +77,30 @@ String? validateNotNull({
     return AppLocalizations.of(context)!.field_required;
   }
   return null;
+}
+
+void showSnackBarMessage({
+  required BuildContext context,
+  required String hintMessage,
+  int seconds = 2,
+  IconData icon = Icons.check_outlined,
+  double fontSize = 16,
+}) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Theme.of(context).primaryColor,
+      duration: Duration(seconds: seconds),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: Colors.white, size: 22.sp),
+          SizedBox(
+            width: 15.w,
+          ),
+          Text(hintMessage,
+              style: GoogleFonts.openSans(
+                fontSize: fontSize.sp,
+                color: Colors.white,
+              )),
+        ],
+      )));
 }

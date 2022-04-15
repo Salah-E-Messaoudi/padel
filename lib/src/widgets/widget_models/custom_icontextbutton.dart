@@ -73,7 +73,7 @@ class CustomIconTextButton extends StatelessWidget {
                 ? [
                     SpinKitWave(
                       color: iconColor ?? fontColor,
-                      size: ((minimumSize?.height ?? 35) - 10).sp,
+                      size: ((minimumSize?.height ?? 25) - 10).sp,
                     )
                   ]
                 : [

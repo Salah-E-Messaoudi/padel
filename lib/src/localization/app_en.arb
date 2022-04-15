@@ -1,5 +1,5 @@
 {
-  "appTitle": "Padel",
+  "appTitle": "Padel Life",
   "@appTitle": {
     "description": "The title of the application"
   },
@@ -7,9 +7,9 @@
   "onboarding_title_1":"Searching For\nPadel Stadiums",
   "onboarding_title_2":"So You Are In\nThe Right Place",
   "onboarding_title_3":"Invite Your Friends\nTo The Game",
-  "onboarding_subtitle_1":"Are You Trying To Find A Professional Padel\nStadiums For Booking To Join With Your Team\nAnd Have Fun Together?",
-  "onboarding_subtitle_2":"We Provide You A List Of Choices So You Can\nBook The Padel Stadium And The Time\nYou Want Just From Your Phone",
-  "onboarding_subtitle_3":"Add Your Friends And Invite Them To Join To\nYour Padel Games And Have Fun Together",
+  "onboarding_subtitle_1":"Are You Trying To Find A Professional Padel Stadiums For Booking To Join With Your Team And Have Fun Together?",
+  "onboarding_subtitle_2":"We Provide You A List Of Choices So You Can Book The Padel Stadium And The Time You Want Just From Your Phone",
+  "onboarding_subtitle_3":"Add Your Friends And Invite Them To Join To Your Padel Games And Have Fun Together",
   "next":"Next",
   "get_started":"Get Started",
   "auth_title":"Let's sign you in",

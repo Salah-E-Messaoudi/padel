@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/settings/preferences.dart';
 import 'package:padel/src/settings/settings_controller.dart';
 import 'package:padel/src/widgets/authentication.dart';
 import 'package:padel/src/widgets/screens.dart';
+import 'package:provider/provider.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({
@@ -17,17 +19,14 @@ class Wrapper extends StatefulWidget {
 
 class _WrapperState extends State<Wrapper> {
   bool? showOnboarding;
-  // UserData? userStream;
+  UserData? userStream;
 
   @override
   Widget build(BuildContext context) {
-    // userStream = Provider.of<UserData?>(context);
-    // if (userStream != null &&
-    //     (userStream == UserData() || userStream!.uid == null)) {
-    //   return const SplashScreen(
-    //     loading: true,
-    //   );
-    // }
+    userStream = Provider.of<UserData?>(context);
+    if (userStream != null && userStream!.init) {
+      return const SplashScreen(loading: true);
+    }
     return FutureBuilder(
         future: getShowOnboarding(),
         builder: (context, snapshot) {
@@ -40,35 +39,17 @@ class _WrapperState extends State<Wrapper> {
               setShowOnboarding: hideOnboarding,
             );
           } else {
-            return Container(color: Colors.white);
+            if (userStream == null) {
+              return const PhoneAuth();
+            } else {
+              if (userStream!.isNotComplete) {
+                return const SetupAccount();
+              } else {
+                return const MainScreen();
+              }
+            }
           }
-          // if (userStream == null) {
-          //   return PhoneAuth();
-          // } else {
-          //   if (userStream!.requiresCompleteRegistration) {
-          //     return CompleteRegisration(
-          //       user: userStream!,
-          //       rebuildWrapper: () {
-          //         setState(() {});
-          //       },
-          //     );
-          //   } else {
-          //     if (userStream!.approved != true) {
-          //       return PendingApproval(
-          //         user: userStream!,
-          //       );
-          //     } else {
-          //       return MainScreen(
-          //         user: userStream!,
-          //       );
-          //     }
-          //   }
-          // }
         });
-  }
-
-  Future<void> delay() async {
-    await Future.delayed(const Duration(seconds: 1));
   }
 
   Future<void> getShowOnboarding() async {

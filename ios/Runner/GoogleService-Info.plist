@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>422129557503-23sss7acit7u85dmnbnbg9estcera4kc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.422129557503-23sss7acit7u85dmnbnbg9estcera4kc</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>422129557503-qrtsdi8gncgm5i6udrc26m2f4ftcu1ci.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAicoajWZkPvIJTIIJHVMAM0uuOVjULNIM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>422129557503</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.padel.life</string>
+	<key>PROJECT_ID</key>
+	<string>padel-life</string>
+	<key>STORAGE_BUCKET</key>
+	<string>padel-life.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:422129557503:ios:23b6f67adc7c7feeb951ca</string>
+</dict>
+</plist>
