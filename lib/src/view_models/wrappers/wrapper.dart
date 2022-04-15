@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:padel/src/settings/preferences.dart';
 import 'package:padel/src/settings/settings_controller.dart';
 import 'package:padel/src/widgets/authentication.dart';
+import 'package:padel/src/widgets/screens.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({
@@ -30,12 +31,10 @@ class _WrapperState extends State<Wrapper> {
     return FutureBuilder(
         future: getShowOnboarding(),
         builder: (context, snapshot) {
-          // if (showOnboarding == null ||
-          //     snapshot.connectionState == ConnectionState.waiting) {
-          //   return const SplashScreen(
-          //     loading: true,
-          //   );
-          // }
+          if (showOnboarding == null ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen(loading: true);
+          }
           if (showOnboarding == true) {
             return Onboarding(
               setShowOnboarding: hideOnboarding,

@@ -11,7 +11,7 @@ class CustomIconTextButton extends StatelessWidget {
       this.disabledcolor,
       this.icon,
       this.onPressed,
-      this.fontSize = 20,
+      this.fontSize = 16,
       this.fixedSize,
       this.fontColor,
       this.iconColor,
