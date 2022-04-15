@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "422129557503",
+    "project_id": "padel-life",
+    "storage_bucket": "padel-life.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422129557503:android:1f7cc3464802653fb951ca",
+        "android_client_info": {
+          "package_name": "com.padel.life"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422129557503-qrtsdi8gncgm5i6udrc26m2f4ftcu1ci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.padel.life",
+            "certificate_hash": "bff8e511a7bd296446811884eb63cb83666604c4"
+          }
+        },
+        {
+          "client_id": "422129557503-fcr24red3d3i4ujqoms6akqtb4ngm7r3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBigH68w9xwq2ncsAuJVFHrjpYKvFUB57c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422129557503-fcr24red3d3i4ujqoms6akqtb4ngm7r3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
