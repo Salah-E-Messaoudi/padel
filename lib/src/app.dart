@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
         builder: () => AnimatedBuilder(
               animation: settingsController,
               builder: (BuildContext context, Widget? child) {
-                //TODO provider here
                 return MaterialApp(
                   restorationScopeId: 'app',
                   localizationsDelegates: const [

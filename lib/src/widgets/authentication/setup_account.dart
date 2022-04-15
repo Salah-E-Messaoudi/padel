@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +32,7 @@ class _SetupAccountState extends State<SetupAccount> {
       final selectedImage = File(image.path);
       setState(() => this.image = selectedImage);
     } on PlatformException catch (e) {
-      print('Fieled to pick image: $e');
+      log('Fieled to pick image: $e');
     }
   }
 
