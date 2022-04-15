@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:padel/src/settings/preferences.dart';
 import 'package:padel/src/settings/settings_controller.dart';
-import 'package:padel/src/widgets/screens/booking_details.dart';
+import 'package:padel/src/widgets/authentication.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({
@@ -37,10 +37,9 @@ class _WrapperState extends State<Wrapper> {
           //   );
           // }
           if (showOnboarding == true) {
-            return const BookingDetails();
-            // Onboarding(
-            //   setShowOnboarding: hideOnboarding,
-            // );
+            return Onboarding(
+              setShowOnboarding: hideOnboarding,
+            );
           } else {
             return Container(color: Colors.white);
           }

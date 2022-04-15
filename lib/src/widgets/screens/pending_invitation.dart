@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:padel/src/widgets/tiles/pending_invitation_tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:padel/src/widgets/tiles.dart';
 
 class PendingInvitation extends StatelessWidget {
   const PendingInvitation({Key? key}) : super(key: key);

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:padel/src/widgets/tiles/my_friends_tile.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:padel/functions.dart';
-import 'package:padel/src/widgets/widget_models/custom_textformfield.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:padel/src/widgets/widget_modules.dart';
+import 'package:padel/src/widgets/tiles.dart';
+import 'package:padel/src/widgets/widget_models.dart';
 
 class MyFriends extends StatelessWidget {
   const MyFriends({Key? key}) : super(key: key);

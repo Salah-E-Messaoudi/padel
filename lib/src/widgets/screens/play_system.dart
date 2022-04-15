@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:padel/src/widgets/tiles/notification_tile.dart';
+import 'package:padel/src/widgets/tiles.dart';
 
 class PlaySystem extends StatelessWidget {
   const PlaySystem({Key? key}) : super(key: key);

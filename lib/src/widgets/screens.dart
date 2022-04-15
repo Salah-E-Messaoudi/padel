@@ -1,0 +1,11 @@
+export 'package:padel/src/widgets/screens/booking_details.dart';
+export 'package:padel/src/widgets/screens/bookings.dart';
+export 'package:padel/src/widgets/screens/main_screen.dart';
+export 'package:padel/src/widgets/screens/my_friends.dart';
+export 'package:padel/src/widgets/screens/notification.dart';
+export 'package:padel/src/widgets/screens/pending_invitation.dart';
+export 'package:padel/src/widgets/screens/play_system.dart';
+export 'package:padel/src/widgets/screens/profile.dart';
+export 'package:padel/src/widgets/screens/side_menu.dart';
+export 'package:padel/src/widgets/screens/stadium_details.dart';
+export 'package:padel/src/widgets/screens/stadiums.dart';

@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:padel/src/models.dart/available_time.dart';
-import 'package:padel/src/widgets/widget_modules.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/widgets/widget_models.dart';
 
 class StadiumDetails extends StatefulWidget {
   const StadiumDetails({Key? key}) : super(key: key);
@@ -264,7 +264,6 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                         onPressed: () {},
                         fontColor: Colors.white,
                         fontSize: 15.sp,
-                        // fixedSize: Size(0.8.sw, 45.sp),
                       ),
                     ],
                   ),

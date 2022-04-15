@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:padel/src/widgets/screens/my_friends.dart';
-import 'package:padel/src/widgets/screens/pending_invitation.dart';
-import 'package:padel/src/widgets/screens/play_system.dart';
-import 'package:padel/src/widgets/screens/profile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:padel/src/widgets/screens.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);

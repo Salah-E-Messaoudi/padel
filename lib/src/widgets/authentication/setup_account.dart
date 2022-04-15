@@ -6,9 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:padel/functions.dart';
-import 'package:padel/src/widgets/widget_models/custom_textformfield.dart';
-import 'package:padel/src/widgets/widget_modules.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:padel/src/widgets/widget_models.dart';
 
 class SetupAccount extends StatefulWidget {
   const SetupAccount({Key? key}) : super(key: key);
