@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +21,13 @@ class UserData {
 
   final bool init;
   final String uid;
-  final String? displayName;
+  String? displayName;
   final String? phoneNumber;
-  final String? gender;
-  final String? photoUrl;
+  String? gender;
+  String? photoUrl;
   final String? token;
-  final int? age;
-  final ImageProvider<Object>? photo;
+  int? age;
+  ImageProvider<Object>? photo;
 
   factory UserData.fromUser(
     User user,
@@ -92,4 +93,17 @@ class UserData {
 
   bool get isNotComplete =>
       displayName == null || photoUrl == null || age == null || gender == null;
+
+  void completeRegiration(
+    String displayName,
+    String photoUrl,
+    String gender,
+    int age,
+  ) {
+    this.displayName = displayName;
+    this.gender = gender;
+    this.photoUrl = photoUrl;
+    this.age = age;
+    photo = CachedNetworkImageProvider(photoUrl);
+  }
 }

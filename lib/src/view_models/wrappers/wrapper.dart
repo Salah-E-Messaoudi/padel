@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/settings/preferences.dart';
@@ -23,6 +25,7 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
+    log('rebuild wrapper');
     userStream = Provider.of<UserData?>(context);
     if (userStream != null && userStream!.init) {
       return const SplashScreen(loading: true);
@@ -35,15 +38,16 @@ class _WrapperState extends State<Wrapper> {
             return const SplashScreen(loading: true);
           }
           if (showOnboarding == true) {
-            return Onboarding(
-              setShowOnboarding: hideOnboarding,
-            );
+            return Onboarding(setShowOnboarding: hideOnboarding);
           } else {
             if (userStream == null) {
               return const PhoneAuth();
             } else {
               if (userStream!.isNotComplete) {
-                return const SetupAccount();
+                return SetupAccount(
+                  user: userStream!,
+                  rebuildWrapper: () => setState(() {}),
+                );
               } else {
                 return const MainScreen();
               }

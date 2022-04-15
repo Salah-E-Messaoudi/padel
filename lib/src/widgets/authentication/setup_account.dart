@@ -1,16 +1,24 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:padel/functions.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/services_models/services.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
 class SetupAccount extends StatefulWidget {
-  const SetupAccount({Key? key}) : super(key: key);
+  const SetupAccount({
+    Key? key,
+    required this.user,
+    required this.rebuildWrapper,
+  }) : super(key: key);
+
+  final UserData user;
+  final void Function() rebuildWrapper;
 
   @override
   State<SetupAccount> createState() => _SetupAccountState();
@@ -18,40 +26,26 @@ class SetupAccount extends StatefulWidget {
 
 class _SetupAccountState extends State<SetupAccount> {
   final GlobalKey<FormState> _keyA = GlobalKey();
-  late String gender = '';
-  late String fullName;
-  late int age;
-  late bool genderSelected = true;
+  String? gender;
+  String? displayName;
+  int? age;
   File? image;
-
-  Future imagePicker() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      final selectedImage = File(image.path);
-      setState(() => this.image = selectedImage);
-    } on PlatformException catch (e) {
-      log('Fieled to pick image: $e');
-    }
-  }
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.w),
+        padding: EdgeInsets.symmetric(horizontal: 35.w),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 100.h),
               SizedBox(
-                height: 0.8.sh,
+                height: 0.75.sh,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: 40.h),
                     Text(
                       AppLocalizations.of(context)!.setup_account,
                       style: GoogleFonts.poppins(
@@ -72,44 +66,44 @@ class _SetupAccountState extends State<SetupAccount> {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 40.h),
-                    Stack(
-                      children: [
-                        Container(
-                          height: 120.sp,
-                          width: 120.sp,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
+                    InkWell(
+                      onTap: loading ? null : imagePicker,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 120.sp,
+                            width: 120.sp,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
                                 color: Theme.of(context).primaryColor,
-                                width: 3),
+                                width: 3,
+                              ),
+                            ),
+                            child: image == null
+                                ? Center(
+                                    child: Icon(
+                                      Icons.person_outline_rounded,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline1!
+                                          .color,
+                                      size: 70.sp,
+                                    ),
+                                  )
+                                : Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: CircleAvatar(
+                                      backgroundImage: FileImage(image!),
+                                    ),
+                                  ),
                           ),
-                          child: image == null
-                              ? Center(
-                                  child: Icon(
-                                    Icons.person_outline_rounded,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline1!
-                                        .color,
-                                    size: 70.sp,
-                                  ),
-                                )
-                              : Container(
-                                  padding: const EdgeInsets.all(2),
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: CircleAvatar(
-                                    backgroundImage: FileImage(image!),
-                                  )),
-                        ),
-                        Positioned(
-                          bottom: 3.h,
-                          right: 10.w,
-                          child: InkWell(
-                            onTap: () {
-                              imagePicker();
-                            },
+                          Positioned(
+                            bottom: 3.h,
+                            right: 10.w,
                             child: Container(
                               height: 25.sp,
                               width: 25.sp,
@@ -127,8 +121,8 @@ class _SetupAccountState extends State<SetupAccount> {
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(height: 40.h),
                     Form(
@@ -146,44 +140,18 @@ class _SetupAccountState extends State<SetupAccount> {
                           ),
                           CustomTextFormField(
                             hint: AppLocalizations.of(context)!.full_name_hint,
-                            hintStyle: GoogleFonts.poppins(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline3!
-                                    .color),
-                            style: GoogleFonts.poppins(
-                              height: 2.1,
-                              color:
-                                  Theme.of(context).textTheme.headline1!.color,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            keyboardType: TextInputType.text,
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor,
-                                width: 2,
-                              ),
-                            ),
+                            keyboardType: TextInputType.name,
                             width: 0.7.sw,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 10.sp,
-                              vertical: 8.sp,
-                            ),
-                            fontSize: 20.sp,
                             validator: (value) =>
                                 validateNotNull(value: value, context: context),
+                            textInputAction: TextInputAction.next,
                             onSaved: (value) {
                               if (value != null) {
-                                setState(() {
-                                  fullName = value;
-                                });
+                                displayName = value;
                               }
                             },
+                            enabled: !loading,
                           ),
-                          SizedBox(height: 20.h),
                           Text(
                             AppLocalizations.of(context)!.age,
                             style: GoogleFonts.poppins(
@@ -193,42 +161,18 @@ class _SetupAccountState extends State<SetupAccount> {
                           ),
                           CustomTextFormField(
                             hint: AppLocalizations.of(context)!.age_hint,
-                            hintStyle: GoogleFonts.poppins(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline3!
-                                    .color),
-                            style: GoogleFonts.poppins(
-                              height: 2.1,
-                              color:
-                                  Theme.of(context).textTheme.headline1!.color,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
                             keyboardType: TextInputType.number,
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor,
-                                width: 2,
-                              ),
-                            ),
-                            width: 0.5.sw,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 15.sp, vertical: 8.sp),
-                            fontSize: 20.sp,
+                            width: 0.4.sw,
                             validator: (value) =>
                                 validateNotNull(value: value, context: context),
+                            textInputAction: TextInputAction.done,
                             onSaved: (value) {
                               if (value != null) {
-                                setState(() {
-                                  age = int.parse(value);
-                                });
+                                age = int.parse(value);
                               }
                             },
+                            enabled: !loading,
                           ),
-                          SizedBox(height: 20.h),
                           Text(
                             AppLocalizations.of(context)!.gender,
                             style: GoogleFonts.poppins(
@@ -236,12 +180,31 @@ class _SetupAccountState extends State<SetupAccount> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 10.h),
                           Row(
                             children: [
-                              radioButton(AppLocalizations.of(context)!.male),
+                              CustomRadioButton(
+                                text: AppLocalizations.of(context)!.male,
+                                value: 'male',
+                                groupValue: gender,
+                                enabled: !loading,
+                                onChanged: (value) {
+                                  setState(() {
+                                    gender = value;
+                                  });
+                                },
+                              ),
                               SizedBox(width: 40.w),
-                              radioButton(AppLocalizations.of(context)!.female),
+                              CustomRadioButton(
+                                text: AppLocalizations.of(context)!.female,
+                                value: 'female',
+                                groupValue: gender,
+                                enabled: !loading,
+                                onChanged: (value) {
+                                  setState(() {
+                                    gender = value;
+                                  });
+                                },
+                              ),
                             ],
                           ),
                         ],
@@ -259,17 +222,48 @@ class _SetupAccountState extends State<SetupAccount> {
                     shadowColor: Colors.transparent,
                     label: AppLocalizations.of(context)!.confirme,
                     fontColor: Theme.of(context).primaryColor,
-                    onPressed: () {
-                      if (_keyA.currentState!.validate()) {
-                        if (gender == '') {
-                          setState(() => genderSelected = false);
-                        } else {
-                          setState(() {});
-                        }
+                    onPressed: () async {
+                      FocusScope.of(context).unfocus();
+                      if (image == null) {
+                        showSnackBarMessage(
+                          context: context,
+                          hintMessage: getError(
+                            context,
+                            AppLocalizations.of(context)!.pick_image,
+                          )!,
+                          icon: Icons.info_outline,
+                        );
+                        return;
                       }
+                      if (!_keyA.currentState!.validate()) {
+                        return;
+                      }
+                      if (gender == null) {
+                        showSnackBarMessage(
+                          context: context,
+                          hintMessage: getError(
+                            context,
+                            AppLocalizations.of(context)!.pick_gender,
+                          )!,
+                          icon: Icons.info_outline,
+                        );
+                        return;
+                      }
+                      setState(() {
+                        loading = true;
+                      });
+                      _keyA.currentState!.save();
+                      await UserInfoService.completeRegiration(
+                        user: widget.user,
+                        displayName: displayName!,
+                        gender: gender!,
+                        age: age!,
+                        image: image!,
+                      );
+                      widget.rebuildWrapper();
                     },
                     fontSize: 14.sp,
-                    // loading: loading,
+                    loading: loading,
                   ),
                 ],
               ),
@@ -280,31 +274,79 @@ class _SetupAccountState extends State<SetupAccount> {
     );
   }
 
-  Row radioButton(String value) {
+  Future<void> imagePicker() async {
+    XFile? selectedfile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (selectedfile != null) {
+      File? croppedFile = await ImageCropper().cropImage(
+          sourcePath: selectedfile.path,
+          maxWidth: 300,
+          maxHeight: 300,
+          compressFormat: ImageCompressFormat.png,
+          cropStyle: CropStyle.circle,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              activeControlsWidgetColor: Theme.of(context).primaryColor,
+              toolbarTitle: 'Cropper',
+              toolbarColor: Theme.of(context).primaryColor,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.square,
+              lockAspectRatio: true),
+          iosUiSettings: const IOSUiSettings(
+            minimumAspectRatio: 1.0,
+            title: 'Cropper',
+          ));
+      if (croppedFile != null) {
+        setState(() {
+          image = croppedFile;
+        });
+      }
+    }
+  }
+}
+
+class CustomRadioButton extends StatelessWidget {
+  const CustomRadioButton({
+    Key? key,
+    required this.text,
+    required this.value,
+    required this.groupValue,
+    required this.enabled,
+    required this.onChanged,
+  }) : super(key: key);
+
+  final String text;
+  final String value;
+  final String? groupValue;
+  final bool enabled;
+  final void Function(String?) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
         Theme(
           data: Theme.of(context).copyWith(
-            unselectedWidgetColor: genderSelected == false
-                ? Colors.red
-                : Theme.of(context).textTheme.headline3!.color,
+            unselectedWidgetColor: Theme.of(context).textTheme.headline1!.color,
           ),
           child: Radio(
             activeColor: Theme.of(context).primaryColor,
             value: value,
-            groupValue: gender,
-            onChanged: (value) {
-              setState(() {
-                gender = value.toString();
-              });
-            },
+            groupValue: groupValue,
+            onChanged: enabled ? onChanged : null,
           ),
         ),
-        Text(
-          value,
-          style: GoogleFonts.poppins(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
+        InkWell(
+          onTap: () => onChanged(value),
+          child: Text(
+            text,
+            style: GoogleFonts.poppins(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).textTheme.headline1!.color,
+            ),
           ),
         ),
       ],
