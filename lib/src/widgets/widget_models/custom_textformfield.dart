@@ -108,9 +108,7 @@ class CustomTextFormField extends StatelessWidget {
                         color: Theme.of(context).primaryColor)),
             contentPadding: contentPadding ??
                 (suffixIcon != null || suffixWidget != null
-                    ? border == null
-                        ? EdgeInsets.zero
-                        : null
+                    ? (border == null ? EdgeInsets.zero : null)
                     : contentPadding),
             fillColor: fillColor,
             filled: fillColor != null,
@@ -147,6 +145,7 @@ class CustomTextFormField extends StatelessWidget {
             ),
             border: customBorder,
             enabledBorder: customBorder,
+            disabledBorder: InputBorder.none,
             focusedBorder: customBorder,
             focusedErrorBorder: customBorder.copyWith(
                 borderSide: const BorderSide(color: Colors.red)),

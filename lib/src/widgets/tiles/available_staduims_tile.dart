@@ -28,6 +28,7 @@ class AvailableStadiumsTile extends StatelessWidget {
       child: Container(
         width: 1.sw - 30.w,
         padding: EdgeInsets.symmetric(vertical: 10.h),
+        margin: EdgeInsets.only(bottom: 10.h),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.sp),
             border: Border.all(

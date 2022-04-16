@@ -1,4 +1,7 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,4 +106,64 @@ void showSnackBarMessage({
               )),
         ],
       )));
+}
+
+void showAlertDialog({
+  required BuildContext context,
+  required String title,
+  required String content,
+  String? yesLabel,
+  String? noLabel,
+  required void Function() onYes,
+}) {
+  showDialog(
+    context: context,
+    builder: Platform.isIOS
+        ? (context) => CupertinoAlertDialog(
+              title: Text(
+                title,
+              ),
+              content: Text(
+                content,
+              ),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: Text(noLabel ?? 'Cancel'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                CupertinoDialogAction(
+                  child: Text(yesLabel ?? 'Yes'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    onYes();
+                  },
+                ),
+              ],
+            )
+        : (context) => AlertDialog(
+              title: Text(
+                title,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: Text(
+                content,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(noLabel ?? 'Cancel'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                TextButton(
+                  child: Text(yesLabel ?? 'Yes'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    onYes();
+                  },
+                ),
+              ],
+            ),
+  );
 }

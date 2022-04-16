@@ -29,45 +29,34 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideMenu(),
+      appBar: AppBar(
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ScreenNotification(),
+              ),
+            ),
+            icon: const Icon(
+              Icons.notifications_outlined,
+            ),
+          ),
+        ],
+      ),
+      drawer: SideMenu(user: widget.user),
       body: RefreshIndicator(
         backgroundColor: const Color.fromARGB(245, 245, 245, 255),
         color: Theme.of(context).primaryColor,
         onRefresh: onRefresh,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScroled) => [
-            SliverAppBar(
-              elevation: 0,
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ScreenNotification(),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.notifications_outlined,
-                    color: Theme.of(context).textTheme.headline1!.color,
-                    size: 26.sp,
-                  ),
-                ),
-              ],
-            )
-          ],
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: IndexedStack(
-              index: currentIndex,
-              children: [
-                Stadiums(
-                  user: widget.user,
-                ),
-                const Bookings()
-              ],
-            ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: IndexedStack(
+            index: currentIndex,
+            children: [
+              Stadiums(user: widget.user),
+            ],
           ),
         ),
       ),
@@ -112,6 +101,15 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  ScrollController? getScrollController() {
+    switch (currentIndex) {
+      case 0:
+        return null;
+      default:
+        return null;
+    }
+  }
+
   Future<void> onRefresh() async {
     switch (currentIndex) {
       case 0:
@@ -120,6 +118,6 @@ class _MainScreenState extends State<MainScreen> {
       default:
         return;
     }
-    // setState(() {});
+    setState(() {});
   }
 }

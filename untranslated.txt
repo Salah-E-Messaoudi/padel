@@ -3,6 +3,7 @@
     "pick_image",
     "pick_gender",
     "kdw_hour",
-    "price_kdw"
+    "price_kdw",
+    "save_profile"
   ]
 }

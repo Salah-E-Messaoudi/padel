@@ -9,6 +9,8 @@ class ListStadiums {
 
   static bool get isEmpty => list.isEmpty;
 
+  static bool get isNotEmpty => list.isNotEmpty;
+
   static bool get isNotNull => !isNull;
 
   static int get length => list.length;
@@ -23,12 +25,13 @@ class ListStadiums {
   }
 
   static Future<void> refresh() async {
-    reset();
-    getList(selectedType);
+    isNull = true;
+    await getList(selectedType);
   }
 
   static void reset() {
     isNull = true;
+    isLoading = false;
     list.clear();
   }
 }

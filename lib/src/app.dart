@@ -49,6 +49,9 @@ class MyApp extends StatelessWidget {
                         AppLocalizations.of(context)!.appTitle,
                     theme: ThemeData().copyWith(
                       primaryColor: const Color(0xFF3F4170),
+                      colorScheme: ThemeData.light().colorScheme.copyWith(
+                            secondary: const Color(0xFF27B594),
+                          ),
                       scaffoldBackgroundColor: Colors.white,
                       splashColor: Colors.transparent,
                       focusColor: Colors.transparent,

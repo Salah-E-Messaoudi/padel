@@ -130,6 +130,7 @@
   "user_gender":"Gender",
   "user_age":"Age",
   "edit_profile":"Edit Profile",
+  "save_profile":"Save Profile",
 
   "add_new_friend":"Add New Friend",
   "add_new_friend_subtitle":"Enter Your Friend Phone Number",
