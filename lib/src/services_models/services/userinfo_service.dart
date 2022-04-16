@@ -26,6 +26,43 @@ class UserInfoService {
     );
   }
 
+  ///create userInfo document with `uid`, `token`, and `phoneNumber`
+  static Future<void> updateUserInfo({
+    required UserData user,
+    required String displayName,
+    required String gender,
+    required int age,
+    required File? image,
+  }) async {
+    Map<String, dynamic> data = {
+      'displayName': displayName,
+      'gender': gender,
+      'age': age,
+    };
+    String? photoURL;
+    if (image != null) {
+      photoURL = await uploadImage(
+        root: 'profileImages',
+        imagePath: image.path,
+        fileName: user.uid,
+      );
+      data.addAll({
+        'photoURL': photoURL,
+      });
+      await AuthenticationService.updatePhotoUrl(photoURL);
+    }
+    if (displayName != user.displayName) {
+      await AuthenticationService.updateDisplayName(displayName);
+    }
+    await fb.doc(FirestorePath.userInfo(uid: user.uid)).update(data);
+    user.updateProfile(
+      displayName,
+      photoURL,
+      gender,
+      age,
+    );
+  }
+
   static Future<void> completeRegiration({
     required UserData user,
     required String displayName,

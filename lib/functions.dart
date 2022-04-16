@@ -7,6 +7,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'src/widgets/tiles.dart';
+
 String? getError(BuildContext context, String? code) {
   if (code == null) {
     return null;
@@ -114,7 +116,7 @@ void showAlertDialog({
   required String content,
   String? yesLabel,
   String? noLabel,
-  required void Function() onYes,
+  required Future<void> Function() onYes,
 }) {
   showDialog(
     context: context,
@@ -158,12 +160,75 @@ void showAlertDialog({
                 ),
                 TextButton(
                   child: Text(yesLabel ?? 'Yes'),
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(context).pop();
-                    onYes();
+                    await onYes();
                   },
                 ),
               ],
             ),
+  );
+}
+
+void showFutureAlertDialog({
+  required BuildContext context,
+  required String title,
+  required String content,
+  String? yesLabel,
+  String? noLabel,
+  required Future<void> Function() onYes,
+  void Function()? onComplete,
+}) {
+  showAlertDialog(
+    context: context,
+    title: title,
+    content: content,
+    yesLabel: yesLabel,
+    noLabel: noLabel,
+    onYes: () async {
+      showLoadingWidget(context);
+      try {
+        await onYes().then((_) {
+          Navigator.pop(context);
+          if (onComplete != null) {
+            onComplete();
+          }
+        });
+      } on Exception catch (e) {
+        Navigator.pop(context);
+        rethrow;
+      }
+    },
+  );
+  // showAlertDialog(
+  //   content: context,
+  //   title: title,
+  //   content: content,
+  //   yesLabel: yesLabel,
+  //   noLabel: noLabel,
+  //   onYes: () async {
+  //     showLoadingWidget(context);
+  //     await onYes().then((_) {
+  //       Navigator.pop(context);
+  //       if (onComplete != null) {
+  //         onComplete();
+  //       }
+  //     });
+  //   },
+  // );
+}
+
+void showLoadingWidget(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => WillPopScope(
+      onWillPop: () async => Future.value(false),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: const [LoadingTile()],
+      ),
+    ),
   );
 }

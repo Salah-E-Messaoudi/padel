@@ -106,4 +106,19 @@ class UserData {
     this.age = age;
     photo = CachedNetworkImageProvider(photoUrl);
   }
+
+  void updateProfile(
+    String displayName,
+    String? photoUrl,
+    String gender,
+    int age,
+  ) {
+    this.displayName = displayName;
+    this.gender = gender;
+    if (photoUrl != null) {
+      this.photoUrl = photoUrl;
+      photo = CachedNetworkImageProvider(photoUrl);
+    }
+    this.age = age;
+  }
 }

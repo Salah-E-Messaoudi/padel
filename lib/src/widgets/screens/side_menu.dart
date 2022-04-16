@@ -24,12 +24,11 @@ class SideMenu extends StatelessWidget {
         children: [
           SizedBox(height: 120.h),
           InkWell(
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Profile(
-                          user: user,
-                        ))),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Profile(user: user)));
+            },
             child: Column(
               children: [
                 Container(

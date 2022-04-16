@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -10,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:padel/functions.dart';
 import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/services_models/services.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
 class Profile extends StatefulWidget {
@@ -25,10 +24,12 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final GlobalKey<FormState> _keyA = GlobalKey();
   File? image;
   bool isEditing = false;
   bool loading = false;
-  late String? gender;
+  String? gender, displayName;
+  int? age;
 
   @override
   void initState() {
@@ -51,83 +52,136 @@ class _ProfileState extends State<Profile> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 50.h),
-          InkWell(
-            onTap: loading ? null : imagePicker,
-            child: Container(
-              height: 120.sp,
-              width: 120.sp,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border:
-                    Border.all(color: Theme.of(context).primaryColor, width: 3),
-              ),
+      body: Form(
+        key: _keyA,
+        autovalidateMode: AutovalidateMode.disabled,
+        child: Column(
+          children: [
+            SizedBox(height: 50.h),
+            InkWell(
+              onTap: loading ? null : imagePicker,
               child: Container(
-                padding: const EdgeInsets.all(3),
-                decoration: const BoxDecoration(
+                height: 120.sp,
+                width: 120.sp,
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  border: Border.all(
+                      color: Theme.of(context).primaryColor, width: 3),
                 ),
-                child: CircleAvatar(
-                  backgroundColor: Theme.of(context).textTheme.headline5!.color,
-                  backgroundImage:
-                      image != null ? FileImage(image!) : widget.user.photo,
+                child: Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor:
+                        Theme.of(context).textTheme.headline5!.color,
+                    backgroundImage:
+                        image != null ? FileImage(image!) : widget.user.photo,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 60.h),
-          ProfileInfo(
-            icon: Icons.badge_outlined,
-            label: AppLocalizations.of(context)!.full_name,
-            value: widget.user.displayName!,
-            enabled: isEditing,
-            validator: (value) =>
-                validateNotNull(value: value, context: context),
-          ),
-          ProfileInfo(
-            icon: Icons.call_outlined,
-            label: AppLocalizations.of(context)!.phone_number,
-            value: widget.user.phoneNumber!,
-            enabled: false,
-            validator: (value) =>
-                validateNotNull(value: value, context: context),
-          ),
-          DropDownGender(
-              icon: Icons.male,
-              label: AppLocalizations.of(context)!.gender,
-              groupValue: gender,
+            SizedBox(height: 60.h),
+            ProfileInfo(
+              icon: Icons.badge_outlined,
+              label: AppLocalizations.of(context)!.full_name,
+              value: widget.user.displayName!,
               enabled: isEditing,
-              onChanged: (value) => setState(() {
-                    gender = value;
-                  })),
-          ProfileInfo(
-            icon: Icons.person_outline_rounded,
-            label: AppLocalizations.of(context)!.age,
-            value: widget.user.age!.toString(),
-            enabled: isEditing,
-            width: 80.w,
-            validator: (value) =>
-                validateNumberInt(value: value, context: context),
-          ),
-        ],
+              validator: (value) =>
+                  validateNotNull(value: value, context: context),
+              onSaved: (value) => displayName = value,
+            ),
+            ProfileInfo(
+              icon: Icons.call_outlined,
+              label: AppLocalizations.of(context)!.phone_number,
+              value: widget.user.phoneNumber!,
+              enabled: false,
+              validator: (value) =>
+                  validateNotNull(value: value, context: context),
+            ),
+            DropDownGender(
+                icon: Icons.male,
+                label: AppLocalizations.of(context)!.gender,
+                groupValue: gender,
+                enabled: isEditing,
+                onChanged: (value) => setState(() {
+                      gender = value;
+                    })),
+            ProfileInfo(
+              icon: Icons.person_outline_rounded,
+              label: AppLocalizations.of(context)!.age,
+              value: widget.user.age!.toString(),
+              enabled: isEditing,
+              width: 80.w,
+              validator: (value) =>
+                  validateNumberInt(value: value, context: context),
+              onSaved: (value) => age = int.parse(value!),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: CustomIconTextButton(
         label: isEditing
             ? AppLocalizations.of(context)!.save_profile
             : AppLocalizations.of(context)!.edit_profile,
-        onPressed: () {
-          setState(() {
-            isEditing = !isEditing;
-          });
-        },
+        onPressed: toggleState,
         fontColor: Colors.white,
         icon: isEditing ? Icons.save_outlined : Icons.edit_outlined,
         fixedSize: Size(0.45.sw, 40.sp),
         loading: loading,
       ),
     );
+  }
+
+  Future<void> toggleState() async {
+    try {
+      if (isEditing) {
+        if (!_keyA.currentState!.validate()) return;
+        _keyA.currentState!.save();
+        if (image == null &&
+            widget.user.displayName == displayName &&
+            widget.user.age == age &&
+            widget.user.gender == gender) return;
+        showFutureAlertDialog(
+            context: context,
+            title: 'Update profile',
+            content:
+                'Are you sure you want to update your personnel information??',
+            onYes: () async {
+              await UserInfoService.updateUserInfo(
+                user: widget.user,
+                displayName: displayName!,
+                gender: gender!,
+                age: age!,
+                image: image,
+              );
+            },
+            onComplete: () {
+              setState(() {
+                isEditing = !isEditing;
+              });
+              if (mounted) {
+                showSnackBarMessage(
+                    context: context,
+                    hintMessage: 'update completed!',
+                    icon: Icons.check_circle_outline_outlined);
+              }
+            });
+      } else {
+        setState(() {
+          isEditing = !isEditing;
+        });
+      }
+    } on Exception {
+      if (mounted) {
+        showSnackBarMessage(
+          context: context,
+          hintMessage: AppLocalizations.of(context)!.unknown_error,
+          icon: Icons.info_outline,
+        );
+      }
+    }
   }
 
   Future<void> imagePicker() async {
