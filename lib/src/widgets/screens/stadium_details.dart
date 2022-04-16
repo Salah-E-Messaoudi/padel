@@ -8,7 +8,12 @@ import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
 class StadiumDetails extends StatefulWidget {
-  const StadiumDetails({Key? key}) : super(key: key);
+  const StadiumDetails({
+    Key? key,
+    required this.stadium,
+  }) : super(key: key);
+
+  final Stadium stadium;
 
   @override
   State<StadiumDetails> createState() => _StadiumDetailsState();
@@ -60,8 +65,8 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                     bottomLeft: Radius.circular(16.sp),
                     bottomRight: Radius.circular(16.sp),
                   ),
-                  child: const Image(
-                    image: AssetImage('assets/images/example.jpg'),
+                  child: Image(
+                    image: widget.stadium.photo!,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -74,7 +79,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'International Outdoor Tennis Stadium',
+                    widget.stadium.displayName,
                     style: GoogleFonts.poppins(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.bold,
@@ -82,7 +87,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                     ),
                   ),
                   Text(
-                    'Jassem Mohammad Al-Kharafi Rd, Kuwait',
+                    widget.stadium.address,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.poppins(
                       fontSize: 10.sp,
@@ -92,7 +97,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                   ),
                   SizedBox(height: 15.h),
                   Text(
-                    'As absolute is by amounted repeated entirely ye returned. These ready timed enjoy might sir yet one since. Years drift never if could forty being no.',
+                    widget.stadium.description,
                     style: GoogleFonts.poppins(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
@@ -248,55 +253,38 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                     ),
                   ),
                   SizedBox(height: 25.h),
-                  Row(
-                    children: [
-                      Text(
-                        '18.50 KDW',
-                        style: GoogleFonts.poppins(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).textTheme.headline1!.color,
-                        ),
-                      ),
-                      const Spacer(),
-                      CustomIconTextButton(
-                        label: AppLocalizations.of(context)!.book_now,
-                        onPressed: () {},
-                        fontColor: Colors.white,
-                        fontSize: 15.sp,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
                 ],
               ),
             ),
           ],
         ),
       ),
-      // bottomNavigationBar: Padding(
-      //   padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-      // child: Row(
-      //   children: [
-      //     Text(
-      //       '18.50 KDW',
-      //       style: GoogleFonts.poppins(
-      //         fontSize: 15.sp,
-      //         fontWeight: FontWeight.bold,
-      //         color: Theme.of(context).textTheme.headline1!.color,
-      //       ),
-      //     ),
-      //     const Spacer(),
-      //     CustomIconTextButton(
-      //       label: 'BOOK NOW',
-      //       onPressed: () {},
-      //       fontColor: Colors.white,
-      //       fontSize: 15.sp,
-      //       // fixedSize: Size(0.8.sw, 45.sp),
-      //     ),
-      //   ],
-      // ),
-      // ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 10,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 0),
+          child: Row(
+            children: [
+              Text(
+                AppLocalizations.of(context)!.price_kdw(
+                    NumberFormat('#0.00').format(widget.stadium.price)),
+                style: GoogleFonts.poppins(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.headline1!.color,
+                ),
+              ),
+              const Spacer(),
+              CustomIconTextButton(
+                label: 'BOOK NOW',
+                onPressed: () {},
+                fontColor: Colors.white,
+                fontSize: 15.sp,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

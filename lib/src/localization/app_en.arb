@@ -78,11 +78,21 @@
       }
     }
   },
-  "kdw_hour":"kdw/hour",
+  "kdw_hour":"/hour",
+  "price_kdw":"{price} KDW",
+  "@price_kdw": {
+    "description": "120 KDW",
+    "placeholders":{
+      "price":{
+        "type":"String",
+        "example":"120"
+      }
+    }
+  },
   "stadiums_subtitle":"Let's Book A Stadium And Plan Our Game",
   "categories":"You want to book",
   "all":"All",
-  "padel":"padel",
+  "padel":"Padel",
   "football":"Football",
   "available_stadiums":"Available Stadium",
 

@@ -2,6 +2,7 @@
   "ar": [
     "pick_image",
     "pick_gender",
-    "kdw_hour"
+    "kdw_hour",
+    "price_kdw"
   ]
 }
