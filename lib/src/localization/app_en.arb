@@ -141,5 +141,14 @@
   "team":"Team",
   "accept":"Accept",
   "reject":"Reject",
-  "joined":"Joined"
+  "joined":"Joined",
+
+  "alert_signout_title":"Sign out!",
+  "alert_signout_subtitle":"Are you sure you want to sign out and close your account?",
+  "alert_updateprofile_title":"Update profile!",
+  "alert_updateprofile_subtitle":"Are you sure you want to update your personnel information?",
+  "cropper":"Cropper",
+  "stadiums":"Stadiums",
+  "bookings":"Bookings",
+  "update_completed":"update completed!"
 }

@@ -289,14 +289,14 @@ class _SetupAccountState extends State<SetupAccount> {
           ],
           androidUiSettings: AndroidUiSettings(
               activeControlsWidgetColor: Theme.of(context).primaryColor,
-              toolbarTitle: 'Cropper',
+              toolbarTitle: AppLocalizations.of(context)!.cropper
               toolbarColor: Theme.of(context).primaryColor,
               toolbarWidgetColor: Colors.white,
               initAspectRatio: CropAspectRatioPreset.square,
               lockAspectRatio: true),
-          iosUiSettings: const IOSUiSettings(
+          iosUiSettings: IOSUiSettings(
             minimumAspectRatio: 1.0,
-            title: 'Cropper',
+            title: AppLocalizations.of(context)!.cropper,
           ));
       if (croppedFile != null) {
         setState(() {

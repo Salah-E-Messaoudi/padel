@@ -4,6 +4,14 @@
     "pick_gender",
     "kdw_hour",
     "price_kdw",
-    "save_profile"
+    "save_profile",
+    "alert_signout_title",
+    "alert_signout_subtitle",
+    "alert_updateprofile_title",
+    "alert_updateprofile_subtitle",
+    "cropper",
+    "stadiums",
+    "bookings",
+    "update_completed"
   ]
 }

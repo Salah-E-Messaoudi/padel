@@ -200,22 +200,6 @@ void showFutureAlertDialog({
       }
     },
   );
-  // showAlertDialog(
-  //   content: context,
-  //   title: title,
-  //   content: content,
-  //   yesLabel: yesLabel,
-  //   noLabel: noLabel,
-  //   onYes: () async {
-  //     showLoadingWidget(context);
-  //     await onYes().then((_) {
-  //       Navigator.pop(context);
-  //       if (onComplete != null) {
-  //         onComplete();
-  //       }
-  //     });
-  //   },
-  // );
 }
 
 void showLoadingWidget(BuildContext context) {

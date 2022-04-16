@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/screens.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({
@@ -86,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
                     ? Theme.of(context).primaryColor
                     : Theme.of(context).textTheme.headline3!.color,
               ),
-              label: 'Stadiums',
+              label: AppLocalizations.of(context)!.stadiums,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -95,7 +96,7 @@ class _MainScreenState extends State<MainScreen> {
                     ? Theme.of(context).primaryColor
                     : Theme.of(context).textTheme.headline3!.color,
               ),
-              label: 'Bookings',
+              label: AppLocalizations.of(context)!.bookings,
             )
           ]),
     );

@@ -122,9 +122,9 @@ class SideMenu extends StatelessWidget {
                   onPressed: () {
                     showAlertDialog(
                       context: context,
-                      title: 'Sign out!',
+                      title: AppLocalizations.of(context)!.alert_signout_title,
                       content:
-                          'Are you sure you want to sign out and close your account?',
+                          AppLocalizations.of(context)!.alert_signout_subtitle,
                       onYes: () => AuthenticationService.signOut(),
                     );
                   },

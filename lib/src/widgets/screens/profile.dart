@@ -145,9 +145,8 @@ class _ProfileState extends State<Profile> {
             widget.user.gender == gender) return;
         showFutureAlertDialog(
             context: context,
-            title: 'Update profile',
-            content:
-                'Are you sure you want to update your personnel information??',
+            title: AppLocalizations.of(context)!.alert_updateprofile_title,
+            content: AppLocalizations.of(context)!.alert_updateprofile_subtitle,
             onYes: () async {
               await UserInfoService.updateUserInfo(
                 user: widget.user,
@@ -164,7 +163,7 @@ class _ProfileState extends State<Profile> {
               if (mounted) {
                 showSnackBarMessage(
                     context: context,
-                    hintMessage: 'update completed!',
+                    hintMessage: AppLocalizations.of(context)!.update_completed,
                     icon: Icons.check_circle_outline_outlined);
               }
             });
