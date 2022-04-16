@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/settings/preferences.dart';
@@ -25,7 +23,6 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
-    log('rebuild wrapper');
     userStream = Provider.of<UserData?>(context);
     if (userStream != null && userStream!.init) {
       return const SplashScreen(loading: true);

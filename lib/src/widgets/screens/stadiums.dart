@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,11 +11,9 @@ class Stadiums extends StatefulWidget {
   const Stadiums({
     Key? key,
     required this.user,
-    required this.onRefresh,
   }) : super(key: key);
 
   final UserData user;
-  final Future<void> Function() onRefresh;
 
   @override
   State<Stadiums> createState() => _StadiumsState();
@@ -28,8 +24,6 @@ class _StadiumsState extends State<Stadiums> {
 
   @override
   Widget build(BuildContext context) {
-    log('rebuild stadiums');
-    log((ListStadiums?.length).toString());
     return FutureBuilder(
         future: getListStadiums(),
         builder: (context, snapshot) {
@@ -112,10 +106,13 @@ class _StadiumsState extends State<Stadiums> {
                       ? const SizedBox.shrink()
                       : Expanded(
                           child: ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            primary: false,
                             padding: EdgeInsets.zero,
                             itemBuilder: (context, index) =>
                                 AvailableStadiumsTile(
-                                    stadium: ListStadiums.list[index]),
+                              stadium: ListStadiums.list[index],
+                            ),
                             separatorBuilder: (context, _) =>
                                 SizedBox(height: 10.h),
                             itemCount: ListStadiums.length,
@@ -133,11 +130,6 @@ class _StadiumsState extends State<Stadiums> {
 
   Future getListStadiums() async {
     await ListStadiums.getList(selectedType);
-  }
-
-  Future refreshListStadiums() async {
-    await ListStadiums.refresh();
-    setState(() {});
   }
 }
 

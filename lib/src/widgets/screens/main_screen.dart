@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,8 +28,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log('rebuild main screen');
-
     return Scaffold(
       drawer: const SideMenu(),
       body: RefreshIndicator(
@@ -68,7 +64,6 @@ class _MainScreenState extends State<MainScreen> {
               children: [
                 Stadiums(
                   user: widget.user,
-                  onRefresh: onRefresh,
                 ),
                 const Bookings()
               ],

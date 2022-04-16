@@ -32,6 +32,7 @@ class AvailableStadiumsTile extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6.sp),
               color: Theme.of(context).textTheme.headline5!.color,
+              image: DecorationImage(image: stadium.photo!, fit: BoxFit.cover),
             ),
           ),
           SizedBox(width: 10.w),
@@ -122,12 +123,16 @@ class InfoWidget extends StatelessWidget {
     return Row(
       children: [
         SizedBox(width: 5.w),
-        Text(
-          '• ',
-          style: GoogleFonts.poppins(
-            fontSize: 11.sp,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).textTheme.headline3!.color,
+        Expanded(
+          child: Text(
+            '• ',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.poppins(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).textTheme.headline3!.color,
+            ),
           ),
         ),
         SizedBox(

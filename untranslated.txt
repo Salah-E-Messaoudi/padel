@@ -1,0 +1,7 @@
+{
+  "ar": [
+    "pick_image",
+    "pick_gender",
+    "kdw_hour"
+  ]
+}

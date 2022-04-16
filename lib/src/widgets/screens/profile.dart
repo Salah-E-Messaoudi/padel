@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -25,9 +24,8 @@ class _ProfileState extends State<Profile> {
       if (image == null) return;
       final selectedImage = File(image.path);
       setState(() => this.image = selectedImage);
-    } on PlatformException catch (e) {
-      log('Fieled to pick image: $e');
-    }
+      // ignore: empty_catches
+    } on PlatformException {}
   }
 
   @override
