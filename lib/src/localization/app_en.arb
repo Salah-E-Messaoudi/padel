@@ -68,7 +68,17 @@
   "confirme":"CONFIRME",
   "field_required":"Field required",
 
-  "hi":"Hi",
+  "hi":"Hi {name}",
+  "@hi": {
+    "description": "Say hi te the user",
+    "placeholders":{
+      "name":{
+        "type":"String",
+        "example":"Salah Eddine"
+      }
+    }
+  },
+  "kdw_hour":"kdw/hour",
   "stadiums_subtitle":"Let's Book A Stadium And Plan Our Game",
   "categories":"You want to book",
   "all":"All",

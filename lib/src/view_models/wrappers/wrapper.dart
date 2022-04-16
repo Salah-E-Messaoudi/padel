@@ -49,7 +49,7 @@ class _WrapperState extends State<Wrapper> {
                   rebuildWrapper: () => setState(() {}),
                 );
               } else {
-                return const MainScreen();
+                return MainScreen(user: userStream!);
               }
             }
           }

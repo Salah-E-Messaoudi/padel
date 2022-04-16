@@ -1,11 +1,20 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:padel/src/services_models/list_models.dart';
+import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/screens.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  final UserData user;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -13,38 +22,57 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
-  final screens = [const Stadiums(), const Bookings()];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    log('rebuild main screen');
+
     return Scaffold(
       drawer: const SideMenu(),
-      appBar: AppBar(
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ScreenNotification(),
+      body: RefreshIndicator(
+        backgroundColor: const Color.fromARGB(245, 245, 245, 255),
+        color: Theme.of(context).primaryColor,
+        onRefresh: onRefresh,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScroled) => [
+            SliverAppBar(
+              elevation: 0,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ScreenNotification(),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.notifications_outlined,
+                    color: Theme.of(context).textTheme.headline1!.color,
+                    size: 26.sp,
+                  ),
                 ),
-              );
-            },
-            icon: Icon(
-              Icons.notifications_outlined,
-              color: Theme.of(context).textTheme.headline1!.color,
-              size: 26.sp,
+              ],
+            )
+          ],
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: IndexedStack(
+              index: currentIndex,
+              children: [
+                Stadiums(
+                  user: widget.user,
+                  onRefresh: onRefresh,
+                ),
+                const Bookings()
+              ],
             ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: IndexedStack(
-            index: currentIndex,
-            children: screens,
           ),
         ),
       ),
@@ -87,5 +115,16 @@ class _MainScreenState extends State<MainScreen> {
             )
           ]),
     );
+  }
+
+  Future<void> onRefresh() async {
+    switch (currentIndex) {
+      case 0:
+        await ListStadiums.refresh();
+        break;
+      default:
+        return;
+    }
+    // setState(() {});
   }
 }

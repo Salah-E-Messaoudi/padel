@@ -66,7 +66,16 @@
   "confirme":"تأكيد",
   "field_required":"معلومات مطلوبة",
 
-  "hi":"مرحبا",
+  "hi":"Hi {name}",
+  "@hi": {
+    "description": "Say hi te the user",
+    "placeholders":{
+      "name":{
+        "type":"String",
+        "example":"Salah Eddine"
+      }
+    }
+  },
   "stadiums_subtitle":"دعنا نحجز ملعبًا ونخطط للعبتنا",
   "categories":"تريد حجز",
   "all":"الكل",

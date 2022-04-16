@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:padel/src/services_models/models.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AvailableStadiumsTile extends StatelessWidget {
-  const AvailableStadiumsTile({Key? key}) : super(key: key);
+  const AvailableStadiumsTile({
+    Key? key,
+    required this.stadium,
+  }) : super(key: key);
+
+  final Stadium stadium;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +43,7 @@ class AvailableStadiumsTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Stadium Name N1',
+                  stadium.displayName,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
                     fontSize: 13.sp,
@@ -43,8 +51,8 @@ class AvailableStadiumsTile extends StatelessWidget {
                     color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ),
-                info(context, 'Saturday - Thursday'),
-                info(context, 'Jassem Mohammad Al-Kharafi Rd, Kuwait'),
+                const InfoWidget(info: 'Saturday - Thursday'),
+                InfoWidget(info: stadium.address),
                 const Spacer(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -57,7 +65,9 @@ class AvailableStadiumsTile extends StatelessWidget {
                         color: Theme.of(context).textTheme.headline5!.color,
                       ),
                       child: Text(
-                        'Padel',
+                        stadium.type == 'padel'
+                            ? AppLocalizations.of(context)!.padel
+                            : AppLocalizations.of(context)!.football,
                         style: GoogleFonts.poppins(
                           fontSize: 10.sp,
                           fontWeight: FontWeight.w600,
@@ -70,7 +80,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: '19.50',
+                            text: NumberFormat('#0.##').format(stadium.price),
                             style: GoogleFonts.poppins(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
@@ -78,7 +88,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: ' hour',
+                            text: ' ' + AppLocalizations.of(context)!.kdw_hour,
                             style: GoogleFonts.poppins(
                               fontSize: 9.sp,
                               fontWeight: FontWeight.w600,
@@ -97,8 +107,18 @@ class AvailableStadiumsTile extends StatelessWidget {
       ),
     );
   }
+}
 
-  Row info(BuildContext context, String info) {
+class InfoWidget extends StatelessWidget {
+  const InfoWidget({
+    Key? key,
+    required this.info,
+  }) : super(key: key);
+
+  final String info;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
         SizedBox(width: 5.w),
