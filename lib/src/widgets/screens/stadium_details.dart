@@ -1,3 +1,7 @@
+import 'dart:developer' as dev;
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,15 +10,20 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:padel/functions.dart';
 import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/services_models/services.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
 class StadiumDetails extends StatefulWidget {
   const StadiumDetails({
     Key? key,
+    required this.user,
     required this.stadiummax,
+    required this.changeTab,
   }) : super(key: key);
 
+  final UserData user;
   final StadiumMax stadiummax;
+  final void Function(int) changeTab;
 
   @override
   State<StadiumDetails> createState() => _StadiumDetailsState();
@@ -23,19 +32,15 @@ class StadiumDetails extends StatefulWidget {
 class _StadiumDetailsState extends State<StadiumDetails> {
   DateTime? customDate;
   DateTime? selectedDate;
-  String? selectedTime;
+  AvailableTime? selectedTime;
 
-  List<AvailableTime> listTime = [
-    AvailableTime(available: true, time: '10:00 - 11:00'),
-    AvailableTime(available: true, time: '11:00 - 12:00'),
-    AvailableTime(available: true, time: '12:00 - 13:00'),
-    AvailableTime(available: true, time: '13:00 - 14:00'),
-    AvailableTime(available: false, time: '14:00 - 15:00'),
-    AvailableTime(available: false, time: '15:00 - 16:00'),
-    AvailableTime(available: true, time: '16:00 - 17:00'),
-    AvailableTime(available: false, time: '17:00 - 18:00'),
-    AvailableTime(available: true, time: '18:00 - 19:00'),
-  ];
+  List<AvailableTime> listTime = List.generate(
+    15,
+    (index) => AvailableTime.fromTime(
+      Random().nextInt(2) == 0,
+      index + 8,
+    ),
+  ).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,6 @@ class _StadiumDetailsState extends State<StadiumDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // SizedBox(height: MediaQuery.of(context).viewPadding.top),
             Stack(
               children: [
                 Container(
@@ -197,6 +201,13 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                 setState(() {
                                   customDate = date;
                                   selectedDate = date;
+                                  if (selectedDate != null &&
+                                      selectedTime != null) {
+                                    dev.log('booking id=>' +
+                                        selectedTime!.getId(
+                                            widget.stadiummax.stadium.id,
+                                            selectedDate!));
+                                  }
                                 });
                               },
                               currentTime: selectedDate ?? customDate,
@@ -228,17 +239,25 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                             () {
                               selectedDate = date;
                               customDate = null;
+                              if (selectedDate != null &&
+                                  selectedTime != null) {
+                                dev.log('booking id=>' +
+                                    selectedTime!.getId(
+                                        widget.stadiummax.stadium.id,
+                                        selectedDate!));
+                              }
                             },
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 24.sp,
-                    child: customDate != null
-                        ? Center(
-                            child: RichText(
+                  Center(
+                    child: SizedBox(
+                      height: 24.sp,
+                      child: customDate != null &&
+                              customDate!.difference(DateTime.now()).inDays > 5
+                          ? RichText(
                               text: TextSpan(
                                 children: [
                                   TextSpan(
@@ -265,9 +284,19 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                   ),
                                 ],
                               ),
+                            )
+                          : Text(
+                              AppLocalizations.of(context)!.pick_your_session,
+                              style: GoogleFonts.poppins(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .color,
+                              ),
                             ),
-                          )
-                        : null,
+                    ),
                   ),
                   SizedBox(height: 15.h),
                   Center(
@@ -279,12 +308,23 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                       runSpacing: 10.sp,
                       direction: Axis.horizontal,
                       children: listTime
-                          .map((i) => SelectTime(
+                          .map(
+                            (i) => SelectTime(
                               time: i.time,
-                              selectedTime: selectedTime,
+                              selected: selectedTime == i,
                               available: i.available,
-                              onTap: () =>
-                                  setState(() => selectedTime = i.time)))
+                              onTap: () {
+                                setState(() => selectedTime = i);
+                                if (selectedDate != null &&
+                                    selectedTime != null) {
+                                  dev.log('booking id=>' +
+                                      selectedTime!.getId(
+                                          widget.stadiummax.stadium.id,
+                                          selectedDate!));
+                                }
+                              },
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
@@ -317,28 +357,61 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                   if (isValide) {
                     showFutureAlertDialog(
                         context: context,
-                        title: 'Book A Stadium',
-                        content:
-                            'Are you sure you want to book this stadium with selected date and time',
+                        title: AppLocalizations.of(context)!
+                            .alert_booking_confirmation_title,
+                        content: AppLocalizations.of(context)!
+                            .alert_booking_confirmation_subtitle,
                         onYes: () async {
-                          //TODO book
-                          await Future.delayed(const Duration(seconds: 1));
+                          Map<String, dynamic> data = {
+                            'stadium': widget.stadiummax.stadium.toMap(),
+                            'owner': widget.user.toUserMin(),
+                            'list_uid': [widget.user.uid],
+                            'list_photoURL': [widget.user.photoUrl],
+                            'createdAt': FieldValue.serverTimestamp(),
+                            'startAt': selectedTime!.getStartAt(selectedDate!),
+                            'endAt': selectedTime!.getEndAt(selectedDate!),
+                          };
+                          String id = selectedTime!.getId(
+                            widget.stadiummax.stadium.id,
+                            selectedDate!,
+                          );
+                          await BookingsService.book(id: id, data: data);
                         },
                         onComplete: () {
                           Navigator.pop(context);
                           showSnackBarMessage(
                             context: context,
                             fontSize: 14.sp,
-                            hintMessage:
-                                'You have successfuly booked this stadium',
+                            hintMessage: AppLocalizations.of(context)!
+                                .session_booked_successfully,
                             icon: Icons.check_circle_outline_outlined,
                           );
+                          widget.changeTab(1);
+                        },
+                        onException: (e) {
+                          if (e is FirebaseException) {
+                            dev.log(e.code);
+                            dev.log(e.message.toString());
+                            showSnackBarMessage(
+                              context: context,
+                              hintMessage: AppLocalizations.of(context)!
+                                  .session_already_taken,
+                              icon: Icons.info_outline,
+                            );
+                          } else {
+                            showSnackBarMessage(
+                              context: context,
+                              hintMessage:
+                                  AppLocalizations.of(context)!.unknown_error,
+                              icon: Icons.info_outline,
+                            );
+                          }
                         });
-                    //TODO book
                   } else {
                     showSnackBarMessage(
                       context: context,
-                      hintMessage: 'Please Select Date And Time',
+                      hintMessage:
+                          AppLocalizations.of(context)!.complete_booking,
                       icon: Icons.info_outline_rounded,
                     );
                   }
@@ -361,13 +434,13 @@ class SelectTime extends StatelessWidget {
   const SelectTime({
     Key? key,
     required this.time,
-    required this.selectedTime,
+    required this.selected,
     required this.available,
     required this.onTap,
   }) : super(key: key);
 
   final String time;
-  final String? selectedTime;
+  final bool selected;
   final bool available;
   final void Function() onTap;
 
@@ -376,18 +449,20 @@ class SelectTime extends StatelessWidget {
     return InkWell(
       onTap: available ? onTap : null,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
+        padding: EdgeInsets.symmetric(vertical: 8.h),
+        alignment: Alignment.center,
+        width: 110.sp,
         decoration: BoxDecoration(
           border: Border.all(
             color: available
-                ? selectedTime == time
+                ? (selected
                     ? Theme.of(context).primaryColor
-                    : Theme.of(context).textTheme.headline3!.color!
+                    : Theme.of(context).textTheme.headline3!.color!)
                 : Theme.of(context).textTheme.headline5!.color!,
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30),
-          color: selectedTime == time
+          color: selected
               ? Theme.of(context).primaryColor
               : Theme.of(context).scaffoldBackgroundColor,
         ),
@@ -397,9 +472,9 @@ class SelectTime extends StatelessWidget {
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             color: available
-                ? selectedTime == time
+                ? (selected
                     ? Theme.of(context).scaffoldBackgroundColor
-                    : Theme.of(context).textTheme.headline3!.color!
+                    : Theme.of(context).textTheme.headline3!.color!)
                 : Theme.of(context).textTheme.headline5!.color!,
           ),
         ),

@@ -4,14 +4,24 @@
     "pick_gender",
     "kdw_hour",
     "price_kdw",
+    "type_match",
+    "notifications",
     "save_profile",
     "alert_signout_title",
     "alert_signout_subtitle",
     "alert_updateprofile_title",
     "alert_updateprofile_subtitle",
+    "alert_booking_confirmation_title",
+    "alert_booking_confirmation_subtitle",
     "cropper",
     "stadiums",
     "bookings",
-    "update_completed"
+    "update_completed",
+    "session_booked_successfully",
+    "complete_booking",
+    "pick_your_session",
+    "empty_bookings",
+    "empty_stadiums",
+    "session_already_taken"
   ]
 }

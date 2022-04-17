@@ -15,13 +15,8 @@ class MyFriends extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          AppLocalizations.of(context)!.my_friends,
-          style: GoogleFonts.poppins(
-            fontSize: 15.sp,
-            color: Theme.of(context).textTheme.headline1!.color,
-            fontWeight: FontWeight.w600,
-          ),
+        title: AppBarTitle(
+          title: AppLocalizations.of(context)!.my_friends,
         ),
         centerTitle: true,
         actions: [

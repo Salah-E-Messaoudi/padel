@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class StadiumMin {
   StadiumMin({
+    required this.id,
     required this.displayName,
     required this.address,
     required this.description,
@@ -12,6 +13,7 @@ class StadiumMin {
     required this.photo,
   });
 
+  final String id;
   final String displayName;
   final String address;
   final String description;
@@ -24,6 +26,7 @@ class StadiumMin {
     Map<String, dynamic> json,
   ) =>
       StadiumMin(
+        id: json['id'],
         displayName: json['displayName'],
         address: json['address'],
         description: json['description'],
@@ -34,11 +37,12 @@ class StadiumMin {
       );
 
   Map<String, dynamic> toMap() => {
+        'id': id,
         'displayName': displayName,
         'address': address,
         'description': description,
         'price': price,
         'type': type,
-        'photoUrl': photoUrl,
+        'photoURL': photoUrl,
       };
 }

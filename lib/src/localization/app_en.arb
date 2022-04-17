@@ -93,6 +93,16 @@
   "categories":"You want to book",
   "all":"All",
   "padel":"Padel",
+  "type_match":"{type} match",
+  "@type_match": {
+    "description": "Padel match",
+    "placeholders":{
+      "type":{
+        "type":"String",
+        "example":"Padel"
+      }
+    }
+  },
   "football":"Football",
   "available_stadiums":"Available Stadium",
 
@@ -123,6 +133,7 @@
   "add_new_member":"Add New Members",
   "look_stadium":"Take a look at the stadium",
   "profile":"Profile",
+  "notifications":"Notifications",
   "my_friends":"My Friends",
   "pending_invitation":"Pending Invitation",
   "play_system":"Play System",
@@ -147,8 +158,16 @@
   "alert_signout_subtitle":"Are you sure you want to sign out and close your account?",
   "alert_updateprofile_title":"Update profile!",
   "alert_updateprofile_subtitle":"Are you sure you want to update your personnel information?",
+  "alert_booking_confirmation_title":"Confirm your booking",
+  "alert_booking_confirmation_subtitle":"Are you sure you want to book this stadium with selected date and time?",
   "cropper":"Cropper",
   "stadiums":"Stadiums",
   "bookings":"Bookings",
-  "update_completed":"update completed!"
+  "update_completed":"Update completed!",
+  "session_booked_successfully":"Session booked successfully!",
+  "complete_booking":"Please select date and a session!",
+  "pick_your_session":"Pick your session",
+  "empty_bookings":"You have no bookings at this moment. All your future bookings will be listed here.",
+  "empty_stadiums":"At this moment there are no stadiums for selected option, try another option or try later.",
+  "session_already_taken":"Session already taken!"
 }

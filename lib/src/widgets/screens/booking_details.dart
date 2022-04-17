@@ -1,32 +1,27 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/widgets/widget_models.dart';
 
 class BookingDetails extends StatelessWidget {
-  const BookingDetails({Key? key}) : super(key: key);
+  const BookingDetails({Key? key, required this.user, required this.booking})
+      : super(key: key);
+
+  final UserData user;
+  final Booking booking;
 
   @override
   Widget build(BuildContext context) {
-    List<TeamMember> teamMembers = [
-      TeamMember(imageUrl: 'imageUrl', uid: 'uid'),
-      TeamMember(imageUrl: 'imageUrl', uid: 'uid'),
-      TeamMember(imageUrl: 'imageUrl', uid: 'uid'),
-      TeamMember(imageUrl: 'imageUrl', uid: 'uid'),
-      TeamMember(imageUrl: 'imageUrl', uid: 'uid'),
-      TeamMember(imageUrl: 'imageUrl', uid: 'uid'),
-    ];
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          AppLocalizations.of(context)!.details,
-          style: GoogleFonts.poppins(
-            fontSize: 15.sp,
-            color: Theme.of(context).textTheme.headline1!.color,
-            fontWeight: FontWeight.w600,
-          ),
+        title: AppBarTitle(
+          title: AppLocalizations.of(context)!.details,
         ),
         centerTitle: true,
       ),
@@ -44,6 +39,10 @@ class BookingDetails extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18.sp),
                     color: Theme.of(context).textTheme.headline4!.color,
+                    image: DecorationImage(
+                      image: booking.owner.photo,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SizedBox(width: 15.w),
@@ -53,7 +52,7 @@ class BookingDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Salah Eddine Messaoudi',
+                        booking.owner.displayName,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.poppins(
                           fontSize: 14.sp,
@@ -77,7 +76,7 @@ class BookingDetails extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             Text(
-              'International Outdoor Tennis Stadium',
+              booking.stadium.displayName,
               style: GoogleFonts.poppins(
                 fontSize: 17.sp,
                 fontWeight: FontWeight.bold,
@@ -85,7 +84,7 @@ class BookingDetails extends StatelessWidget {
               ),
             ),
             Text(
-              'Jassem Mohammad Al-Kharafi Rd, Kuwait',
+              booking.stadium.address,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.poppins(
                 fontSize: 10.sp,
@@ -95,7 +94,7 @@ class BookingDetails extends StatelessWidget {
             ),
             SizedBox(height: 15.h),
             Text(
-              'As absolute is by amounted repeated entirely ye returned. These ready timed enjoy might sir yet one since. Years drift never if could forty being no.',
+              booking.stadium.description,
               style: GoogleFonts.poppins(
                 fontSize: 11.sp,
                 fontWeight: FontWeight.w600,
@@ -127,7 +126,9 @@ class BookingDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '16:00 - 17:00',
+                          DateFormat('HH:mm').format(booking.startAt) +
+                              ' - ' +
+                              DateFormat('HH:mm').format(booking.endAt),
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
@@ -161,7 +162,7 @@ class BookingDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '8 Apr',
+                          DateFormat('EEE dd MMM').format(booking.startAt),
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
@@ -195,7 +196,9 @@ class BookingDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Football',
+                          booking.stadium.type == 'padel'
+                              ? AppLocalizations.of(context)!.padel
+                              : AppLocalizations.of(context)!.football,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
@@ -222,7 +225,11 @@ class BookingDetails extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: ' (10/11)',
+                    text: '(' +
+                        booking.teamCount.toString() +
+                        '/' +
+                        (booking.stadium.type == 'padel' ? '4' : '11') +
+                        ')',
                     style: GoogleFonts.poppins(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -239,8 +246,7 @@ class BookingDetails extends StatelessWidget {
                   height: 45.h,
                   width: 210.w,
                   child: ListView.builder(
-                      itemCount:
-                          teamMembers.length > 4 ? 4 : teamMembers.length,
+                      itemCount: min(booking.teamCount, 4),
                       physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
@@ -255,6 +261,10 @@ class BookingDetails extends StatelessWidget {
                                     .textTheme
                                     .headline4!
                                     .color,
+                                image: DecorationImage(
+                                  image: booking.listphotoURL[index],
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             SizedBox(width: 10.w),
@@ -263,7 +273,7 @@ class BookingDetails extends StatelessWidget {
                       }),
                 ),
                 SizedBox(width: 10.w),
-                if (teamMembers.length > 4)
+                if (booking.teamCount > 4)
                   Row(
                     children: [
                       Container(
@@ -276,7 +286,7 @@ class BookingDetails extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            '+${teamMembers.length - 4}',
+                            '+${booking.teamCount - 4}',
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
                               fontSize: 18.sp,
@@ -300,37 +310,38 @@ class BookingDetails extends StatelessWidget {
                   ),
               ],
             ),
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                Container(
-                  height: 44.sp,
-                  width: 44.sp,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.sp),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.add_rounded,
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      size: 28.sp,
+            if (!booking.isFull) SizedBox(height: 20.h),
+            if (!booking.isFull)
+              Row(
+                children: [
+                  Container(
+                    height: 44.sp,
+                    width: 44.sp,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.sp),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.add_rounded,
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        size: 28.sp,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 10.w),
-                Text(
-                  AppLocalizations.of(context)!.add_new_member,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryColor,
+                  SizedBox(width: 10.w),
+                  Text(
+                    AppLocalizations.of(context)!.add_new_member,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             SizedBox(height: 25.h),
             Text(
               AppLocalizations.of(context)!.look_stadium,
@@ -350,8 +361,8 @@ class BookingDetails extends StatelessWidget {
                 aspectRatio: 16 / 10,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12.sp),
-                  child: const Image(
-                    image: AssetImage('assets/images/example.jpg'),
+                  child: Image(
+                    image: booking.stadium.photo!,
                     fit: BoxFit.fill,
                   ),
                 ),

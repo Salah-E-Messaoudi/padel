@@ -59,9 +59,8 @@ class _BookingsState extends State<Bookings> {
                     ? const LoadingTile()
                     : ListBookings.isEmpty
                         ? EmptyListView(
-                            text:
-                                'You have no bookings at this moment. All your future bookings will be listed here.',
-                            verticalPadding: 50.h,
+                            text: AppLocalizations.of(context)!.empty_bookings,
+                            verticalPadding: 300.h,
                           )
                         : const SizedBox.shrink(),
               ),
@@ -69,10 +68,11 @@ class _BookingsState extends State<Bookings> {
             if (ListBookings.isNotNull && ListBookings.isNotEmpty)
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) => const BookingTile(
-                      // stadium: ListBookings.list[index],
-                      ),
-                  childCount: ListBookings.length,
+                  (context, index) => BookingTile(
+                    user: widget.user,
+                    booking: ListBookings.list[index],
+                  ),
+                  childCount: ListBookings.list.length,
                 ),
               ),
           ],

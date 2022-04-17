@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:padel/src/widgets/tiles.dart';
+import 'package:padel/src/widgets/widget_models.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlaySystem extends StatelessWidget {
   const PlaySystem({Key? key}) : super(key: key);
@@ -11,13 +12,8 @@ class PlaySystem extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          'Notification',
-          style: GoogleFonts.poppins(
-            fontSize: 15.sp,
-            color: Theme.of(context).textTheme.headline1!.color,
-            fontWeight: FontWeight.w600,
-          ),
+        title: AppBarTitle(
+          title: AppLocalizations.of(context)!.notifications,
         ),
         centerTitle: true,
         actions: [

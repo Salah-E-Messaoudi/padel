@@ -179,6 +179,7 @@ void showFutureAlertDialog({
   String? noLabel,
   required Future<void> Function() onYes,
   void Function()? onComplete,
+  void Function(Exception)? onException,
 }) {
   showAlertDialog(
     context: context,
@@ -195,9 +196,11 @@ void showFutureAlertDialog({
             onComplete();
           }
         });
-      } on Exception {
+      } on Exception catch (e) {
         Navigator.pop(context);
-        rethrow;
+        if (onException != null) {
+          onException(e);
+        }
       }
     },
   );

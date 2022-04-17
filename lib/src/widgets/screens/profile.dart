@@ -42,13 +42,8 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          AppLocalizations.of(context)!.profile,
-          style: GoogleFonts.poppins(
-            fontSize: 18.sp,
-            color: Theme.of(context).textTheme.headline1!.color,
-            fontWeight: FontWeight.w600,
-          ),
+        title: AppBarTitle(
+          title: AppLocalizations.of(context)!.profile,
         ),
         centerTitle: true,
       ),

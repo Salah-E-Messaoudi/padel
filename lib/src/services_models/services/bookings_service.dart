@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:padel/src/services_models/firestorepath.dart';
 import 'package:padel/src/services_models/list_models.dart';
@@ -10,7 +12,6 @@ class BookingsService {
     required String id,
     required Map<String, dynamic> data,
   }) async {
-    //idYYYYMMHH
     await fb
         .doc(FirestorePath.booking(id: id))
         .set(data, SetOptions(merge: false));
@@ -26,11 +27,12 @@ class BookingsService {
   }) async {
     Query query = fb
         .collection(FirestorePath.bookings())
-        // .where('chef.uid', isEqualTo: uid)
-        .orderBy('createdAt', descending: true)
+        // .where('list_uid', arrayContains: uid)
+        .orderBy('startAt')
         .limit(length);
     if (afterDocument != null) query = query.startAfterDocument(afterDocument);
     QuerySnapshot resultquery = await query.get();
+    log('got ${resultquery.docs.length} documents');
     List<Booking> list = [];
     DateTime now = DateTime.now();
     list.addAll(resultquery.docs

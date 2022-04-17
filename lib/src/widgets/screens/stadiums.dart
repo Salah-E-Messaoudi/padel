@@ -6,16 +6,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/tiles.dart';
+import 'package:padel/src/widgets/widget_models.dart';
 
 class Stadiums extends StatefulWidget {
   const Stadiums({
     Key? key,
     required this.user,
     this.controller,
+    required this.changeTab,
   }) : super(key: key);
 
   final UserData user;
   final ScrollController? controller;
+  final void Function(int) changeTab;
 
   @override
   State<Stadiums> createState() => _StadiumsState();
@@ -126,7 +129,11 @@ class _StadiumsState extends State<Stadiums> {
                   child: ListStadiumsMax.isNull
                       ? const LoadingTile()
                       : ListStadiumsMax.isEmpty
-                          ? const SizedBox.shrink()
+                          ? EmptyListView(
+                              text:
+                                  AppLocalizations.of(context)!.empty_stadiums,
+                              verticalPadding: 70.h,
+                            )
                           : const SizedBox.shrink(),
                 ),
               ),
@@ -134,7 +141,9 @@ class _StadiumsState extends State<Stadiums> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => AvailableStadiumsTile(
+                      user: widget.user,
                       stadium: ListStadiumsMax.list[index],
+                      changeTab: widget.changeTab,
                     ),
                     childCount: ListStadiumsMax.length,
                   ),

@@ -70,7 +70,10 @@ class _MainScreenState extends State<MainScreen> {
           child: IndexedStack(
             index: currentIndex,
             children: [
-              Stadiums(user: widget.user),
+              Stadiums(
+                user: widget.user,
+                changeTab: updateCurrentIndex,
+              ),
               Bookings(
                 user: widget.user,
                 controller: _bookingsController,
@@ -119,6 +122,14 @@ class _MainScreenState extends State<MainScreen> {
             )
           ]),
     );
+  }
+
+  void updateCurrentIndex(int index) {
+    if (mounted) {
+      setState(() {
+        currentIndex = index;
+      });
+    }
   }
 
   ScrollController? getScrollController() {

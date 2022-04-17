@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-String userDataToMap(UserData data) => json.encode(data.toMap());
 
 class UserData {
   UserData({
@@ -75,19 +72,27 @@ class UserData {
         displayName: json['displayName'],
         phoneNumber: json['phoneNumber'],
         gender: json['gender'],
-        photoUrl: json['photoUrl'],
+        photoUrl: json['photoURL'],
         age: json['age'],
         token: json['token'],
         photo: photo,
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toUserMax() => {
         'uid': uid,
         'displayName': displayName,
         'phoneNumber': phoneNumber,
         'gender': gender,
-        'photoUrl': photoUrl,
+        'photoURL': photoUrl,
         'age': age,
+        'token': token,
+      };
+
+  Map<String, dynamic> toUserMin() => {
+        'uid': uid,
+        'displayName': displayName,
+        'phoneNumber': phoneNumber,
+        'photoURL': photoUrl,
         'token': token,
       };
 

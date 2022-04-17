@@ -9,10 +9,14 @@ import 'package:padel/src/widgets/screens.dart';
 class AvailableStadiumsTile extends StatelessWidget {
   const AvailableStadiumsTile({
     Key? key,
+    required this.user,
     required this.stadium,
+    required this.changeTab,
   }) : super(key: key);
 
+  final UserData user;
   final StadiumMax stadium;
+  final void Function(int) changeTab;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,9 @@ class AvailableStadiumsTile extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => StadiumDetails(
+            user: user,
             stadiummax: stadium,
+            changeTab: changeTab,
           ),
         ),
       ),
