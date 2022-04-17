@@ -6,6 +6,19 @@ import 'package:padel/src/services_models/models.dart';
 class BookingsService {
   static final FirebaseFirestore fb = FirebaseFirestore.instance;
 
+  static Future<void> book({
+    required String id,
+    required Map<String, dynamic> data,
+  }) async {
+    //idYYYYMMHH
+    await fb
+        .doc(FirestorePath.booking(id: id))
+        .set(data, SetOptions(merge: false));
+    if (ListBookings.isNotNull) {
+      await ListBookings.refresh();
+    }
+  }
+
   static Future<void> getListBookings({
     required String uid,
     required int length,

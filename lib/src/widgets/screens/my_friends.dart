@@ -27,6 +27,9 @@ class MyFriends extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => showModalBottomSheet(
+              isScrollControlled: true,
+              isDismissible: true,
+              enableDrag: true,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10.sp),

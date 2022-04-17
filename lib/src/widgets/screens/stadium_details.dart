@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:padel/functions.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
@@ -20,8 +21,10 @@ class StadiumDetails extends StatefulWidget {
 }
 
 class _StadiumDetailsState extends State<StadiumDetails> {
-  int? currentIndex;
   DateTime? customDate;
+  DateTime? selectedDate;
+  String? selectedTime;
+
   List<AvailableTime> listTime = [
     AvailableTime(available: true, time: '10:00 - 11:00'),
     AvailableTime(available: true, time: '11:00 - 12:00'),
@@ -34,7 +37,6 @@ class _StadiumDetailsState extends State<StadiumDetails> {
     AvailableTime(available: true, time: '18:00 - 19:00'),
   ];
 
-  String? selectedTime;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,37 +44,65 @@ class _StadiumDetailsState extends State<StadiumDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: MediaQuery.of(context).viewPadding.top),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(14.sp),
-                  bottomRight: Radius.circular(14.sp),
+            // SizedBox(height: MediaQuery.of(context).viewPadding.top),
+            Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(14.sp),
+                      bottomRight: Radius.circular(14.sp),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.8),
+                        spreadRadius: 1,
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 10,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(16.sp),
+                        bottomRight: Radius.circular(16.sp),
+                      ),
+                      child: Image(
+                        image: widget.stadiummax.stadium.photo!,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.8),
-                    spreadRadius: 1,
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
+                Positioned(
+                  top: MediaQuery.of(context).viewPadding.top,
+                  left: 10.w,
+                  child: InkWell(
+                    onTap: (() => Navigator.pop(context)),
+                    child: Container(
+                      width: 36.sp,
+                      height: 36.sp,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .scaffoldBackgroundColor
+                            .withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(14.sp),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 20.sp,
+                          color: Theme.of(context).textTheme.headline2!.color,
+                        ),
+                      ),
+                    ),
                   ),
-                ],
-              ),
-              child: AspectRatio(
-                aspectRatio: 16 / 10,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16.sp),
-                    bottomRight: Radius.circular(16.sp),
-                  ),
-                  child: Image(
-                    image: widget.stadiummax.stadium.photo!,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
+                )
+              ],
             ),
-            SizedBox(height: 25.h),
+            SizedBox(height: 20.h),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
@@ -160,16 +190,16 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                 ),
                               ),
                               showTitleActions: true,
-                              minTime: DateTime(DateTime.now().year,
-                                  DateTime.now().month, DateTime.now().day),
-                              maxTime: DateTime(2022, 12, 30),
+                              minTime: DateTime.now(),
+                              maxTime:
+                                  DateTime.now().add(const Duration(days: 90)),
                               onConfirm: (date) {
                                 setState(() {
                                   customDate = date;
-                                  currentIndex = null;
+                                  selectedDate = date;
                                 });
                               },
-                              currentTime: DateTime.now(),
+                              currentTime: selectedDate ?? customDate,
                               locale: LocaleType.en,
                             );
                           },
@@ -183,62 +213,63 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 15.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      date(context, 0),
-                      date(context, 1),
-                      date(context, 2),
-                      date(context, 3),
-                      date(context, 4),
-                      date(context, 5),
-                      date(context, 6),
-                    ],
-                  ),
-                  SizedBox(height: 15.h),
-                  if (customDate != null)
-                    Center(
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: AppLocalizations.of(context)!.selected_date,
-                              style: GoogleFonts.poppins(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline3!
-                                    .color,
-                              ),
-                            ),
-                            TextSpan(
-                              text: DateFormat(' EEE dd MMM')
-                                  .format(customDate!)
-                                  .toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          ],
+                  SizedBox(height: 10.h),
+                  SizedBox(
+                    height: 60.sp,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(
+                        7,
+                        (index) => SelectDate(
+                          customDate: customDate,
+                          index: index,
+                          selectedDate: selectedDate,
+                          onTap: (date) => setState(
+                            () {
+                              selectedDate = date;
+                              customDate = null;
+                            },
+                          ),
                         ),
                       ),
                     ),
-                  SizedBox(height: 15.h),
-                  Center(
-                    child: Text(
-                      AppLocalizations.of(context)!.select_date,
-                      style: GoogleFonts.poppins(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).textTheme.headline1!.color,
-                      ),
-                    ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(
+                    height: 24.sp,
+                    child: customDate != null
+                        ? Center(
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: AppLocalizations.of(context)!
+                                        .selected_date,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline3!
+                                          .color,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: DateFormat(' EEE dd MMM')
+                                        .format(customDate!)
+                                        .toString(),
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
+                  SizedBox(height: 15.h),
                   Center(
                     child: Wrap(
                       alignment: WrapAlignment.center,
@@ -248,7 +279,12 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                       runSpacing: 10.sp,
                       direction: Axis.horizontal,
                       children: listTime
-                          .map((i) => selectTime(context, i.available, i.time))
+                          .map((i) => SelectTime(
+                              time: i.time,
+                              selectedTime: selectedTime,
+                              available: i.available,
+                              onTap: () =>
+                                  setState(() => selectedTime = i.time)))
                           .toList(),
                     ),
                   ),
@@ -276,8 +312,37 @@ class _StadiumDetailsState extends State<StadiumDetails> {
               ),
               const Spacer(),
               CustomIconTextButton(
-                label: 'BOOK NOW',
-                onPressed: () {},
+                label: AppLocalizations.of(context)!.book_now,
+                onPressed: () {
+                  if (isValide) {
+                    showFutureAlertDialog(
+                        context: context,
+                        title: 'Book A Stadium',
+                        content:
+                            'Are you sure you want to book this stadium with selected date and time',
+                        onYes: () async {
+                          //TODO book
+                          await Future.delayed(const Duration(seconds: 1));
+                        },
+                        onComplete: () {
+                          Navigator.pop(context);
+                          showSnackBarMessage(
+                            context: context,
+                            fontSize: 14.sp,
+                            hintMessage:
+                                'You have successfuly booked this stadium',
+                            icon: Icons.check_circle_outline_outlined,
+                          );
+                        });
+                    //TODO book
+                  } else {
+                    showSnackBarMessage(
+                      context: context,
+                      hintMessage: 'Please Select Date And Time',
+                      icon: Icons.info_outline_rounded,
+                    );
+                  }
+                },
                 fontColor: Colors.white,
                 fontSize: 15.sp,
               ),
@@ -288,13 +353,28 @@ class _StadiumDetailsState extends State<StadiumDetails> {
     );
   }
 
-  InkWell selectTime(BuildContext context, bool available, String time) {
+  bool get isValide =>
+      (customDate != null || selectedDate != null) && selectedTime != null;
+}
+
+class SelectTime extends StatelessWidget {
+  const SelectTime({
+    Key? key,
+    required this.time,
+    required this.selectedTime,
+    required this.available,
+    required this.onTap,
+  }) : super(key: key);
+
+  final String time;
+  final String? selectedTime;
+  final bool available;
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        if (available) {
-          setState(() => selectedTime = time);
-        }
-      },
+      onTap: available ? onTap : null,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
         decoration: BoxDecoration(
@@ -302,7 +382,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
             color: available
                 ? selectedTime == time
                     ? Theme.of(context).primaryColor
-                    : Theme.of(context).textTheme.headline4!.color!
+                    : Theme.of(context).textTheme.headline3!.color!
                 : Theme.of(context).textTheme.headline5!.color!,
             width: 2,
           ),
@@ -319,60 +399,82 @@ class _StadiumDetailsState extends State<StadiumDetails> {
             color: available
                 ? selectedTime == time
                     ? Theme.of(context).scaffoldBackgroundColor
-                    : Theme.of(context).textTheme.headline4!.color!
+                    : Theme.of(context).textTheme.headline3!.color!
                 : Theme.of(context).textTheme.headline5!.color!,
           ),
         ),
       ),
     );
   }
+}
 
-  Padding date(BuildContext context, int index) {
-    int day = DateTime.now().day + index;
+class SelectDate extends StatefulWidget {
+  const SelectDate({
+    Key? key,
+    required this.customDate,
+    required this.index,
+    required this.selectedDate,
+    required this.onTap,
+  }) : super(key: key);
+
+  final int index;
+  final DateTime? customDate;
+  final DateTime? selectedDate;
+  final void Function(DateTime) onTap;
+
+  @override
+  State<SelectDate> createState() => _SelectDateState();
+}
+
+class _SelectDateState extends State<SelectDate> {
+  late DateTime date;
+
+  @override
+  void initState() {
+    super.initState();
+    date = DateTime.now().add(Duration(days: widget.index));
+  }
+
+  bool get isSelected =>
+      widget.selectedDate != null &&
+      widget.selectedDate!.year == date.year &&
+      widget.selectedDate!.month == date.month &&
+      widget.selectedDate!.day == date.day;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: InkWell(
-        onTap: () {
-          setState(() {
-            currentIndex = index;
-            customDate = null;
-          });
-        },
+        onTap: () => widget.onTap(date),
         child: Column(
           children: [
             Text(
-              DateFormat('EEE').format(
-                DateTime(DateTime.now().year, DateTime.now().month, day),
-              ),
-              //
+              DateFormat('EEE').format(date),
               style: GoogleFonts.poppins(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: currentIndex != null
-                    ? currentIndex == index
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).textTheme.headline3!.color
+                color: isSelected
+                    ? Theme.of(context).primaryColor
                     : Theme.of(context).textTheme.headline3!.color,
               ),
             ),
             Text(
-              (DateTime.now().day + index).toString(),
+              (DateTime.now().day + widget.index).toString(),
               style: GoogleFonts.poppins(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                color: currentIndex != null
-                    ? currentIndex == index
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).textTheme.headline1!.color
-                    : Theme.of(context).textTheme.headline1!.color,
+                color: isSelected
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).textTheme.headline3!.color,
               ),
             ),
-            if (currentIndex != null && currentIndex == index)
+            if (isSelected)
               SizedBox(
                 width: 20.w,
                 child: Divider(
-                  height: 5,
-                  thickness: 2,
+                  height: 5.sp,
+                  thickness: 2.sp,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
