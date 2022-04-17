@@ -195,7 +195,7 @@ void showFutureAlertDialog({
             onComplete();
           }
         });
-      } on Exception catch (e) {
+      } on Exception {
         Navigator.pop(context);
         rethrow;
       }

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:padel/src/services_models/models.dart';
 
 class ApiCalls {
@@ -68,9 +67,6 @@ class ApiCalls {
           }
         ]
       },
-      const CachedNetworkImageProvider(
-        'https://www.integralturf.com/wp-content/uploads/2021/09/padel-tennis-court.jpg',
-      ),
     );
     return [
       stadium,

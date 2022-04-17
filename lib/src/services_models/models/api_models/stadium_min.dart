@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class StadiumMin {
@@ -21,7 +22,6 @@ class StadiumMin {
 
   factory StadiumMin.fromMap(
     Map<String, dynamic> json,
-    ImageProvider<Object>? image,
   ) =>
       StadiumMin(
         displayName: json['displayName'],
@@ -30,7 +30,7 @@ class StadiumMin {
         price: json['price'].toDouble(),
         type: json['type'],
         photoUrl: json['photoURL'],
-        photo: image,
+        photo: CachedNetworkImageProvider(json['photoURL'] as String),
       );
 
   Map<String, dynamic> toMap() => {

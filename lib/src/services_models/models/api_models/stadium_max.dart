@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:padel/src/services_models/models.dart';
 
 class StadiumMax {
@@ -10,12 +9,8 @@ class StadiumMax {
   final StadiumMin stadium;
   final List<AvailibilityDay> availibility;
 
-  factory StadiumMax.fromMap(
-    Map<String, dynamic> json,
-    ImageProvider<Object>? image,
-  ) =>
-      StadiumMax(
-        stadium: StadiumMin.fromMap(json, image),
+  factory StadiumMax.fromMap(Map<String, dynamic> json) => StadiumMax(
+        stadium: StadiumMin.fromMap(json),
         availibility: List<AvailibilityDay>.from(
             json['availibility'].map((x) => AvailibilityDay.fromMap(x))),
       );
