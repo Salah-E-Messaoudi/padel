@@ -12,7 +12,7 @@ class AvailableStadiumsTile extends StatelessWidget {
     required this.stadium,
   }) : super(key: key);
 
-  final Stadium stadium;
+  final StadiumMax stadium;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class AvailableStadiumsTile extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => StadiumDetails(
-            stadium: stadium,
+            stadiummax: stadium,
           ),
         ),
       ),
@@ -43,8 +43,8 @@ class AvailableStadiumsTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.sp),
                 color: Theme.of(context).textTheme.headline5!.color,
-                image:
-                    DecorationImage(image: stadium.photo!, fit: BoxFit.cover),
+                image: DecorationImage(
+                    image: stadium.stadium.photo!, fit: BoxFit.cover),
               ),
             ),
             SizedBox(width: 10.w),
@@ -56,7 +56,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    stadium.displayName,
+                    stadium.stadium.displayName,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.poppins(
                       fontSize: 13.sp,
@@ -65,7 +65,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                     ),
                   ),
                   const InfoWidget(info: 'Saturday - Thursday'),
-                  InfoWidget(info: stadium.address),
+                  InfoWidget(info: stadium.stadium.address),
                   const Spacer(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -78,7 +78,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                           color: Theme.of(context).textTheme.headline5!.color,
                         ),
                         child: Text(
-                          stadium.type == 'padel'
+                          stadium.stadium.type == 'padel'
                               ? AppLocalizations.of(context)!.padel
                               : AppLocalizations.of(context)!.football,
                           style: GoogleFonts.poppins(
@@ -91,7 +91,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                       const Spacer(),
                       Text(
                         AppLocalizations.of(context)!.price_kdw(
-                          NumberFormat('#0.00').format(stadium.price),
+                          NumberFormat('#0.00').format(stadium.stadium.price),
                         ),
                         style: GoogleFonts.poppins(
                           fontSize: 13.sp,
@@ -99,29 +99,6 @@ class AvailableStadiumsTile extends StatelessWidget {
                           color: const Color(0xFF009A61),
                         ),
                       ),
-                      // RichText(
-                      //   text: TextSpan(
-                      //     children: [
-                      //       TextSpan(
-                      //         text: NumberFormat('#0.##').format(stadium.price),
-                      //         style: GoogleFonts.poppins(
-                      //           fontSize: 13.sp,
-                      //           fontWeight: FontWeight.w600,
-                      //           color: const Color(0xFF009A61),
-                      //         ),
-                      //       ),
-                      //       TextSpan(
-                      //         text:
-                      //             ' ' + AppLocalizations.of(context)!.kdw_hour,
-                      //         style: GoogleFonts.poppins(
-                      //           fontSize: 9.sp,
-                      //           fontWeight: FontWeight.w600,
-                      //           color: const Color(0xFF009A61),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                     ],
                   )
                 ],

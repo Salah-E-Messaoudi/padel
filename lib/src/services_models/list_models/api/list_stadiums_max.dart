@@ -1,8 +1,8 @@
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
 
-class ListStadiums {
-  static List<Stadium> list = [];
+class ListStadiumsMax {
+  static List<StadiumMax> list = [];
   static bool isNull = true;
   static bool isLoading = false;
   static late String selectedType;

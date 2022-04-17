@@ -123,20 +123,20 @@ class _StadiumsState extends State<Stadiums> {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.only(top: 10.h),
-                  child: ListStadiums.isNull
+                  child: ListStadiumsMax.isNull
                       ? const LoadingTile()
-                      : ListStadiums.isEmpty
+                      : ListStadiumsMax.isEmpty
                           ? const SizedBox.shrink()
                           : const SizedBox.shrink(),
                 ),
               ),
-              if (ListStadiums.isNotNull && ListStadiums.isNotEmpty)
+              if (ListStadiumsMax.isNotNull && ListStadiumsMax.isNotEmpty)
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => AvailableStadiumsTile(
-                      stadium: ListStadiums.list[index],
+                      stadium: ListStadiumsMax.list[index],
                     ),
-                    childCount: ListStadiums.length,
+                    childCount: ListStadiumsMax.length,
                   ),
                 ),
             ],
@@ -145,12 +145,12 @@ class _StadiumsState extends State<Stadiums> {
   }
 
   void onTapCard(String value) => setState(() {
-        ListStadiums.reset();
+        ListStadiumsMax.reset();
         selectedType = value;
       });
 
   Future getListStadiums() async {
-    await ListStadiums.getList(selectedType);
+    await ListStadiumsMax.getList(selectedType);
   }
 }
 

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:padel/src/services_models/firestorepath.dart';
+import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
 
 class AuthenticationService {
@@ -48,6 +49,8 @@ class AuthenticationService {
 
   ///Signs out the current user.
   static Future<void> signOut() async {
+    ListStadiumsMax.reset();
+    ListBookings.reset();
     await _auth.signOut();
   }
 

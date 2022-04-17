@@ -10,10 +10,10 @@ import 'package:padel/src/widgets/widget_models.dart';
 class StadiumDetails extends StatefulWidget {
   const StadiumDetails({
     Key? key,
-    required this.stadium,
+    required this.stadiummax,
   }) : super(key: key);
 
-  final Stadium stadium;
+  final StadiumMax stadiummax;
 
   @override
   State<StadiumDetails> createState() => _StadiumDetailsState();
@@ -66,7 +66,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                     bottomRight: Radius.circular(16.sp),
                   ),
                   child: Image(
-                    image: widget.stadium.photo!,
+                    image: widget.stadiummax.stadium.photo!,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -79,7 +79,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.stadium.displayName,
+                    widget.stadiummax.stadium.displayName,
                     style: GoogleFonts.poppins(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.bold,
@@ -87,7 +87,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                     ),
                   ),
                   Text(
-                    widget.stadium.address,
+                    widget.stadiummax.stadium.address,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.poppins(
                       fontSize: 10.sp,
@@ -97,7 +97,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                   ),
                   SizedBox(height: 15.h),
                   Text(
-                    widget.stadium.description,
+                    widget.stadiummax.stadium.description,
                     style: GoogleFonts.poppins(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
@@ -266,8 +266,8 @@ class _StadiumDetailsState extends State<StadiumDetails> {
           child: Row(
             children: [
               Text(
-                AppLocalizations.of(context)!.price_kdw(
-                    NumberFormat('#0.00').format(widget.stadium.price)),
+                AppLocalizations.of(context)!.price_kdw(NumberFormat('#0.00')
+                    .format(widget.stadiummax.stadium.price)),
                 style: GoogleFonts.poppins(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.bold,

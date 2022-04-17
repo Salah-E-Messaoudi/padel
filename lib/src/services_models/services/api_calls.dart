@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:padel/src/services_models/models.dart';
 
 class ApiCalls {
-  static Future<List<Stadium>> getListStadiums(String type) async {
+  static Future<List<StadiumMax>> getListStadiums(String type) async {
     await Future.delayed(const Duration(seconds: 2));
-    var stadium = Stadium.fromMap(
+    var stadium = StadiumMax.fromMap(
       {
         'displayName': 'Dalton Mckee',
         'address': '254 Lee Avenue, Leland, South Dakota, 2583',

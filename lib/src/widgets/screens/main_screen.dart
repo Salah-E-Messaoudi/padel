@@ -21,10 +21,22 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
+  final _bookingsController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    ListBookings.uid = widget.user.uid;
+    _bookingsController.addListener(() {
+      if (!ListBookings.canGetMore || ListBookings.isLoading) return;
+      if (_bookingsController.position.maxScrollExtent ==
+          _bookingsController.offset) {
+        ListBookings.getMore().then((_) {
+          if (mounted) setState(() {});
+        });
+        if (mounted) setState(() {});
+      }
+    });
   }
 
   @override
@@ -57,6 +69,11 @@ class _MainScreenState extends State<MainScreen> {
             index: currentIndex,
             children: [
               Stadiums(user: widget.user),
+              Bookings(
+                user: widget.user,
+                controller: _bookingsController,
+                currentIndex: currentIndex,
+              ),
             ],
           ),
         ),
@@ -114,7 +131,10 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> onRefresh() async {
     switch (currentIndex) {
       case 0:
-        await ListStadiums.refresh();
+        await ListStadiumsMax.refresh();
+        break;
+      case 1:
+        await ListBookings.refresh();
         break;
       default:
         return;

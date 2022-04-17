@@ -9,4 +9,7 @@ class FirestorePath {
     required String id,
   }) =>
       'userInfo/$uid/notifications/$id';
+
+  static String bookings() => 'bookings/';
+  static String booking({required String? id}) => 'bookings/$id';
 }

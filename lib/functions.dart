@@ -1,6 +1,7 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -215,4 +216,17 @@ void showLoadingWidget(BuildContext context) {
       ),
     ),
   );
+}
+
+DateTime? getDateTime(dynamic value, [bool init = true]) {
+  if (value == null && !init) return null;
+  if (value == null) return DateTime.now();
+  if (value is Timestamp) {
+    return DateTime.fromMillisecondsSinceEpoch(value.millisecondsSinceEpoch)
+        .toLocal();
+  } else if (value is int) {
+    return DateTime.fromMillisecondsSinceEpoch(value).toLocal();
+  } else {
+    return DateTime.parse(value);
+  }
 }

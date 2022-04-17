@@ -1,40 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:padel/src/services_models/models.dart';
 
-class Stadium {
-  Stadium({
-    required this.displayName,
-    required this.address,
-    required this.description,
-    required this.price,
-    required this.type,
-    required this.photoUrl,
-    required this.photo,
+class StadiumMax {
+  StadiumMax({
+    required this.stadium,
     required this.availibility,
   });
 
-  final String displayName;
-  final String address;
-  final String description;
-  final double price;
-  final String type;
-  final String photoUrl;
-  final ImageProvider<Object>? photo;
+  final StadiumMin stadium;
   final List<AvailibilityDay> availibility;
 
-  factory Stadium.fromMap(
+  factory StadiumMax.fromMap(
     Map<String, dynamic> json,
     ImageProvider<Object>? image,
   ) =>
-      Stadium(
-        displayName: json['displayName'],
-        address: json['address'],
-        description: json['description'],
-        price: json['price'].toDouble(),
-        type: json['type'],
-        photoUrl: json['photoURL'],
+      StadiumMax(
+        stadium: StadiumMin.fromMap(json, image),
         availibility: List<AvailibilityDay>.from(
             json['availibility'].map((x) => AvailibilityDay.fromMap(x))),
-        photo: image,
       );
 }
 
