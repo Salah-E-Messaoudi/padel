@@ -59,7 +59,7 @@ class _ProfileState extends State<Profile> {
           children: [
             SizedBox(height: 50.h),
             InkWell(
-              onTap: loading ? null : imagePicker,
+              onTap: loading || !isEditing ? null : imagePicker,
               child: Container(
                 height: 120.sp,
                 width: 120.sp,
@@ -135,14 +135,14 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> toggleState() async {
+    bool changed = image != null ||
+        widget.user.displayName != displayName ||
+        widget.user.age != age ||
+        widget.user.gender != gender;
     try {
-      if (isEditing) {
+      if (isEditing && changed) {
         if (!_keyA.currentState!.validate()) return;
         _keyA.currentState!.save();
-        if (image == null &&
-            widget.user.displayName == displayName &&
-            widget.user.age == age &&
-            widget.user.gender == gender) return;
         showFutureAlertDialog(
             context: context,
             title: AppLocalizations.of(context)!.alert_updateprofile_title,

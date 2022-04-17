@@ -24,8 +24,10 @@ class ScreenNotification extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.delete_outline,
+              color: Theme.of(context).textTheme.headline1!.color,
+              size: 26.sp,
             ),
           ),
         ],

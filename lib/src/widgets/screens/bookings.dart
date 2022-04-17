@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/tiles.dart';
+import 'package:padel/src/widgets/widget_models.dart';
 
 class Bookings extends StatefulWidget {
   const Bookings({
@@ -57,36 +58,10 @@ class _BookingsState extends State<Bookings> {
                 child: ListBookings.isNull
                     ? const LoadingTile()
                     : ListBookings.isEmpty
-                        ? Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 50.h,
-                              horizontal: 20.w,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.info_outline,
-                                  size: 24.sp,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline3!
-                                      .color,
-                                ),
-                                SizedBox(height: 10.h),
-                                Text(
-                                  'You have no bookings at this moment. All your future bookings will be listed here.',
-                                  style: GoogleFonts.poppins(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline3!
-                                        .color,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
+                        ? EmptyListView(
+                            text:
+                                'You have no bookings at this moment. All your future bookings will be listed here.',
+                            verticalPadding: 50.h,
                           )
                         : const SizedBox.shrink(),
               ),

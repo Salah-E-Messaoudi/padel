@@ -52,8 +52,10 @@ class _MainScreenState extends State<MainScreen> {
                 builder: (context) => const ScreenNotification(),
               ),
             ),
-            icon: const Icon(
+            icon: Icon(
               Icons.notifications_outlined,
+              color: Theme.of(context).textTheme.headline1!.color,
+              size: 26.sp,
             ),
           ),
         ],
