@@ -8,7 +8,8 @@ import 'package:padel/src/widgets/tiles.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
 class MyFriends extends StatelessWidget {
-  const MyFriends({Key? key}) : super(key: key);
+  const MyFriends({Key? key, required this.invite}) : super(key: key);
+  final bool invite;
 
   @override
   Widget build(BuildContext context) {
@@ -16,34 +17,41 @@ class MyFriends extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: AppBarTitle(
-          title: AppLocalizations.of(context)!.my_friends,
+          title: invite
+              ? 'Invite Friends'
+              : AppLocalizations.of(context)!.my_friends,
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () => showModalBottomSheet(
-              isScrollControlled: true,
-              isDismissible: true,
-              enableDrag: true,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.sp),
-                  topRight: Radius.circular(10.sp),
+          if (!invite)
+            IconButton(
+              onPressed: () => showModalBottomSheet(
+                isScrollControlled: true,
+                isDismissible: true,
+                enableDrag: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.sp),
+                    topRight: Radius.circular(10.sp),
+                  ),
                 ),
+                context: context,
+                builder: (context) => const AddFriend(),
               ),
-              context: context,
-              builder: (context) => const AddFriend(),
+              icon: Icon(
+                Icons.add_rounded,
+                color: Theme.of(context).textTheme.headline1!.color,
+                size: 26.sp,
+              ),
             ),
-            icon: Icon(
-              Icons.add_rounded,
-              color: Theme.of(context).textTheme.headline1!.color,
-              size: 26.sp,
-            ),
-          ),
         ],
       ),
       body: Column(
-        children: const [MyFriendsTile(), MyFriendsTile()],
+        children: [
+          SizedBox(height: 15.h),
+          MyFriendsTile(invite: invite),
+          MyFriendsTile(invite: invite)
+        ],
       ),
     );
   }
@@ -162,7 +170,67 @@ class _AddFriendState extends State<AddFriend> {
             enabled: !loading,
             fontSize: 16.sp,
             onPressed: () {
-              if (_keyA.currentState!.validate()) {}
+              if (_keyA.currentState!.validate()) {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: 10.h),
+                          Icon(
+                            Icons.task_alt_rounded,
+                            size: 70.sp,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          SizedBox(height: 5.h),
+                          Text(
+                            'Success!',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            'You have successfuly add new friend, now you can invite him to your matches',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color:
+                                  Theme.of(context).textTheme.headline4!.color,
+                            ),
+                          ),
+                        ],
+                      ),
+                      actions: <Widget>[
+                        Center(
+                          child: ElevatedButton(
+                            child: Text(
+                              'Ok',
+                              style: GoogleFonts.poppins(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
             },
           ),
           SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
