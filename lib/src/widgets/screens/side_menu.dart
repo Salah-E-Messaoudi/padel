@@ -98,7 +98,8 @@ class SideMenu extends StatelessWidget {
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyFriends())),
+                          builder: (context) =>
+                              const MyFriends(invite: false))),
                 ),
                 CustomListTile(
                   text: AppLocalizations.of(context)!.pending_invitation,

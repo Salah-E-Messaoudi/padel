@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/widgets/screens/my_friends.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
 class BookingDetails extends StatelessWidget {
@@ -322,7 +323,14 @@ class BookingDetails extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyFriends(invite: true),
+                          ),
+                        );
+                      },
                       icon: Icon(
                         Icons.add_rounded,
                         color: Theme.of(context).scaffoldBackgroundColor,
