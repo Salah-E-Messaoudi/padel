@@ -253,6 +253,7 @@ class PendingInvitationTile extends StatelessWidget {
                       await PendingInvitationsService.confirm(
                         id: invitation.id,
                         uid: user.uid,
+                        photoURL: user.photoUrl!,
                       );
                     },
                     onComplete: () {

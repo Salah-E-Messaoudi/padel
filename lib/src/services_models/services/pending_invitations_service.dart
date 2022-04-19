@@ -9,10 +9,12 @@ class PendingInvitationsService {
   static Future<void> confirm({
     required String id,
     required String uid,
+    required String photoURL,
   }) async {
     await fb.doc(FirestorePath.booking(id: id)).update({
       'list_added': FieldValue.arrayUnion([uid]),
       'list_invited': FieldValue.arrayRemove([uid]),
+      'list_photoURL': FieldValue.arrayUnion([photoURL]),
     });
   }
 

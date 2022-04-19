@@ -312,8 +312,9 @@ class BookingDetails extends StatelessWidget {
                   ),
               ],
             ),
-            if (!booking.isFull) SizedBox(height: 20.h),
-            if (!booking.isFull)
+            if (!booking.isFull && booking.isOwner(user.uid))
+              SizedBox(height: 20.h),
+            if (!booking.isFull && booking.isOwner(user.uid))
               InkWell(
                 onTap: () => Navigator.push(
                   context,

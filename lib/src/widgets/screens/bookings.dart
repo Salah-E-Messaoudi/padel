@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,6 +77,11 @@ class _BookingsState extends State<Bookings> {
                   childCount: ListBookings.list.length,
                 ),
               ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: max(0, 6 - ListBookings.list.length) * 100.h,
+              ),
+            ),
           ],
         );
       },

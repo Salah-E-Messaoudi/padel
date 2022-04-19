@@ -22,122 +22,107 @@ class MyFriendsTile extends StatefulWidget {
 class _MyFriendsTileState extends State<MyFriendsTile> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 28.sp,
-                backgroundColor: Theme.of(context).textTheme.headline5!.color,
-                backgroundImage: widget.friend.photo,
-              ),
-              SizedBox(width: 10.w),
-              //TODO wrap text with expanded
-              SizedBox(
-                width: 1.sw - 160.w,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.friend.displayName,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).textTheme.headline1!.color,
-                      ),
-                    ),
-                    Text(
-                      widget.friend.phoneNumber,
-                      style: GoogleFonts.poppins(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).textTheme.headline3!.color,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (widget.booking != null)
-                SizedBox(
-                  width: 50.w,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (widget.booking!.hasUser(widget.friend.uid)) return;
-                      showAlertDialog(
-                          context: context,
-                          title: AppLocalizations.of(context)!
-                              .alert_invite_friend_title,
-                          content: AppLocalizations.of(context)!
-                              .alert_invite_friend_subtitle,
-                          onYes: () async {
-                            setState(() {
-                              //TODO implement invite friend
-                              widget.booking!
-                                  .inviteUser(widget.friend.uid)
-                                  .then((value) => showSnackBarMessage(
-                                        context: context,
-                                        hintMessage:
-                                            AppLocalizations.of(context)!
-                                                .invitation_sent_successfully,
-                                        icon: Icons.info_outline,
-                                      ))
-                                  .catchError((_) {
-                                if (mounted) {
-                                  setState(() {
-                                    widget.booking!
-                                        .undoInviteUser(widget.friend.uid);
-                                  });
-                                }
-                                showSnackBarMessage(
-                                  context: context,
-                                  hintMessage: AppLocalizations.of(context)!
-                                      .unknown_error,
-                                  icon: Icons.info_outline,
-                                );
-                              });
-                            });
-                            // Map<String, dynamic> data =
-                            //     widget.booking!.toBookingMinMap();
-                            // Future.delayed(const Duration(seconds: 1), () {});
-                          });
-                    },
-                    child: Text(
-                      widget.booking!.isInvited(widget.friend.uid)
-                          ? AppLocalizations.of(context)!.invited
-                          : widget.booking!.isAdded(widget.friend.uid)
-                              ? AppLocalizations.of(context)!.invited
-                              : AppLocalizations.of(context)!.invite,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: widget.booking!.hasUser(widget.friend.uid)
-                            ? Theme.of(context).textTheme.headline4!.color
-                            : Theme.of(context).primaryColor,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.transparent,
-                      padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      primary: Theme.of(context).scaffoldBackgroundColor,
-                    ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 28.sp,
+            backgroundColor: Theme.of(context).textTheme.headline5!.color,
+            backgroundImage: widget.friend.photo,
+          ),
+          SizedBox(width: 10.w),
+          SizedBox(
+            width: 1.sw - 160.w,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.friend.displayName,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.poppins(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ),
-            ],
+                Text(
+                  widget.friend.phoneNumber,
+                  style: GoogleFonts.poppins(
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).textTheme.headline3!.color,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Divider(
-            thickness: 1.5,
-            color: Theme.of(context).textTheme.headline5!.color!,
-          ),
-        )
-      ],
+          if (widget.booking != null)
+            SizedBox(
+              width: 50.w,
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (widget.booking!.hasUser(widget.friend.uid)) return;
+                  showAlertDialog(
+                      context: context,
+                      title: AppLocalizations.of(context)!
+                          .alert_invite_friend_title,
+                      content: AppLocalizations.of(context)!
+                          .alert_invite_friend_subtitle,
+                      onYes: () async {
+                        setState(() {
+                          widget.booking!
+                              .inviteUser(widget.friend.uid)
+                              .then(
+                                (value) => showSnackBarMessage(
+                                  context: context,
+                                  hintMessage: AppLocalizations.of(context)!
+                                      .invitation_sent_successfully,
+                                  icon: Icons.info_outline,
+                                ),
+                              )
+                              .catchError((_) {
+                            if (mounted) {
+                              setState(() {
+                                widget.booking!
+                                    .undoInviteUser(widget.friend.uid);
+                              });
+                            }
+                            showSnackBarMessage(
+                              context: context,
+                              hintMessage:
+                                  AppLocalizations.of(context)!.unknown_error,
+                              icon: Icons.info_outline,
+                            );
+                          });
+                        });
+                      });
+                },
+                child: Text(
+                  widget.booking!.isInvited(widget.friend.uid)
+                      ? AppLocalizations.of(context)!.invited
+                      : widget.booking!.isAdded(widget.friend.uid)
+                          ? AppLocalizations.of(context)!.added
+                          : AppLocalizations.of(context)!.invite,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.poppins(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    color: widget.booking!.hasUser(widget.friend.uid)
+                        ? Theme.of(context).textTheme.headline4!.color
+                        : Theme.of(context).primaryColor,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.transparent,
+                  padding: EdgeInsets.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  primary: Theme.of(context).scaffoldBackgroundColor,
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
