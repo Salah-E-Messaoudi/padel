@@ -28,7 +28,7 @@ class _BookingsState extends State<Bookings> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: widget.currentIndex == 1 ? ListBookings.get() : null,
-      builder: (context, snapshot) {
+      builder: (context, _) {
         return CustomScrollView(
           controller: widget.controller,
           slivers: [
@@ -60,7 +60,7 @@ class _BookingsState extends State<Bookings> {
                     : ListBookings.isEmpty
                         ? EmptyListView(
                             text: AppLocalizations.of(context)!.empty_bookings,
-                            verticalPadding: 300.h,
+                            topPadding: 300.h,
                           )
                         : const SizedBox.shrink(),
               ),

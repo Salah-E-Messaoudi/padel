@@ -46,5 +46,5 @@ class Booking {
 
   int get teamCount => listphotoURL.length;
 
-  bool get isFull => stadium.type == 'padel' ? teamCount == 4 : teamCount == 11;
+  bool get isFull => stadium.type == 'padel' ? teamCount >= 4 : teamCount == 11;
 }

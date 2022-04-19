@@ -51,6 +51,7 @@ class AuthenticationService {
   static Future<void> signOut() async {
     ListStadiumsMax.reset();
     ListBookings.reset();
+    ListNotifications.reset();
     await _auth.signOut();
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:padel/src/widgets/tiles.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -28,7 +27,7 @@ class PlaySystem extends StatelessWidget {
         ],
       ),
       body: Column(
-        children: const [NotificationTile(), NotificationTile()],
+        children: const [],
       ),
     );
   }

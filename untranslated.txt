@@ -22,6 +22,7 @@
     "pick_your_session",
     "empty_bookings",
     "empty_stadiums",
+    "empty_notifications",
     "session_already_taken"
   ]
 }

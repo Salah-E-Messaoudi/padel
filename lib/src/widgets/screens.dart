@@ -2,7 +2,7 @@ export './screens/booking_details.dart';
 export './screens/bookings.dart';
 export './screens/main_screen.dart';
 export './screens/my_friends.dart';
-export './screens/notification.dart';
+export 'screens/notifications.dart';
 export './screens/pending_invitation.dart';
 export './screens/play_system.dart';
 export './screens/profile.dart';

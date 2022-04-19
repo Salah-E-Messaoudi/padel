@@ -132,7 +132,7 @@ class _StadiumsState extends State<Stadiums> {
                           ? EmptyListView(
                               text:
                                   AppLocalizations.of(context)!.empty_stadiums,
-                              verticalPadding: 70.h,
+                              topPadding: 70.h,
                             )
                           : const SizedBox.shrink(),
                 ),

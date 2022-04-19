@@ -1,9 +1,13 @@
+import 'dart:developer';
+
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/services_models/services.dart';
 import 'package:padel/src/widgets/screens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -27,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     ListBookings.uid = widget.user.uid;
+    ListNotifications.uid = widget.user.uid;
     _bookingsController.addListener(() {
       if (!ListBookings.canGetMore || ListBookings.isLoading) return;
       if (_bookingsController.position.maxScrollExtent ==
@@ -45,18 +50,31 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         elevation: 0,
         actions: [
-          IconButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ScreenNotification(),
-              ),
-            ),
-            icon: Icon(
-              Icons.notifications_outlined,
-              color: Theme.of(context).textTheme.headline1!.color,
-              size: 26.sp,
-            ),
+          StreamBuilder<bool>(
+            stream:
+                NotificationsService.getNotificationBadge(uid: widget.user.uid),
+            builder: (context, snapshot) {
+              return Badge(
+                padding: snapshot.hasData && snapshot.data == true
+                    ? EdgeInsets.all(5.sp)
+                    : EdgeInsets.zero,
+                badgeColor: Theme.of(context).primaryColor,
+                position: BadgePosition.topEnd(top: 10.sp, end: 10.sp),
+                child: IconButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Notifications(),
+                    ),
+                  ),
+                  icon: Icon(
+                    Icons.notifications_outlined,
+                    color: Theme.of(context).textTheme.headline1!.color,
+                    size: 26.sp,
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -147,6 +165,7 @@ class _MainScreenState extends State<MainScreen> {
         await ListStadiumsMax.refresh();
         break;
       case 1:
+        if (ListBookings.isLoading) return;
         await ListBookings.refresh();
         break;
       default:

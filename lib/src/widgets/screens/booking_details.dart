@@ -313,42 +313,40 @@ class BookingDetails extends StatelessWidget {
             ),
             if (!booking.isFull) SizedBox(height: 20.h),
             if (!booking.isFull)
-              Row(
-                children: [
-                  Container(
-                    height: 44.sp,
-                    width: 44.sp,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.sp),
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MyFriends(invite: true),
-                          ),
-                        );
-                      },
-                      icon: Icon(
+              InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyFriends(invite: true),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 44.sp,
+                      width: 44.sp,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.sp),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      child: Icon(
                         Icons.add_rounded,
                         color: Theme.of(context).scaffoldBackgroundColor,
                         size: 28.sp,
                       ),
                     ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Text(
-                    AppLocalizations.of(context)!.add_new_member,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).primaryColor,
+                    SizedBox(width: 10.w),
+                    Text(
+                      AppLocalizations.of(context)!.add_new_member,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             SizedBox(height: 25.h),
             Text(

@@ -169,5 +169,6 @@
   "pick_your_session":"Pick your session",
   "empty_bookings":"You have no bookings at this moment. All your future bookings will be listed here.",
   "empty_stadiums":"At this moment there are no stadiums for selected option, try another option or try later.",
+  "empty_notifications":"You have no notfications for now, a red circle will be displayed on top of the notification button on the mainscreen to notify you.",
   "session_already_taken":"Session already taken!"
 }

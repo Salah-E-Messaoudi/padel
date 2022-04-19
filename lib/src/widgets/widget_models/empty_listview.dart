@@ -6,18 +6,20 @@ class EmptyListView extends StatelessWidget {
   const EmptyListView({
     Key? key,
     required this.text,
-    required this.verticalPadding,
+    required this.topPadding,
   }) : super(key: key);
 
   final String text;
-  final double verticalPadding;
+  final double topPadding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: verticalPadding,
-        horizontal: 20.w,
+      padding: EdgeInsets.fromLTRB(
+        20.w,
+        topPadding,
+        20.w,
+        0,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

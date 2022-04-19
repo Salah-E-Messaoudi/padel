@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:padel/src/services_models/models.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationTile extends StatelessWidget {
-  const NotificationTile({Key? key}) : super(key: key);
+  const NotificationTile({
+    Key? key,
+    required this.notification,
+  }) : super(key: key);
+
+  final FBNotification notification;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          // color: Colors.amber,
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Row(
             children: [
               CircleAvatar(
                 radius: 28.sp,
                 backgroundColor: Theme.of(context).textTheme.headline5!.color,
+                backgroundImage: notification.user.photo,
               ),
               SizedBox(width: 10.w),
               SizedBox(
@@ -25,7 +33,7 @@ class NotificationTile extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Khalid Ghazi',
+                        text: notification.user.displayName,
                         style: GoogleFonts.poppins(
                           fontSize: 11.sp,
                           fontWeight: FontWeight.bold,
@@ -33,11 +41,10 @@ class NotificationTile extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text:
-                            ' has invited you to join him into a Padel match on 8 Apr',
+                        text: getNotificationText(context),
                         style: GoogleFonts.poppins(
                           fontSize: 11.sp,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           color: Theme.of(context).textTheme.headline1!.color,
                         ),
                       ),
@@ -47,7 +54,7 @@ class NotificationTile extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '09:20\n',
+                DateFormat('HH:mm').format(notification.createdAt) + '\n',
                 style: GoogleFonts.poppins(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
@@ -67,18 +74,13 @@ class NotificationTile extends StatelessWidget {
       ],
     );
   }
-  // String notificationMsg(BuildContext context ,String event, String result){
-  //   switch (event) {
-  //     case 'padel':
-  //       switch (result) {
-  //         case 'accept':
-  //           return AppLocalizations.of(context)!.notification
-  //           break;
-  //         default:
-  //       }
-  //       break;
-  //     case 'football':
-  //     default:
-  //   }
-  // }
+
+  String getNotificationText(BuildContext context) {
+    switch (notification.key) {
+      case 'order_preparing':
+        return AppLocalizations.of(context)!.unknown_error;
+      default:
+        return notification.key;
+    }
+  }
 }
