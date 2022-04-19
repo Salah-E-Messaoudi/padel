@@ -11,7 +11,7 @@ class BookingTile extends StatelessWidget {
       : super(key: key);
 
   final UserData user;
-  final Booking booking;
+  final BookingMax booking;
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +110,7 @@ class BookingTile extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            booking.listphotoURL.length.toString() +
-                                '/' +
-                                (booking.stadium.type == 'padel' ? '4' : '11'),
+                            booking.countText,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
                               fontSize: 11.sp,
@@ -139,9 +137,10 @@ class BookingTile extends StatelessWidget {
                           ),
                           Text(
                             DateFormat('EEE dd MMM • HH:mm')
-                                    .format(booking.startAt) +
+                                    .format(booking.details.startAt) +
                                 ' - ' +
-                                DateFormat('HH:mm').format(booking.endAt),
+                                DateFormat('HH:mm')
+                                    .format(booking.details.endAt),
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
                               fontSize: 11.sp,

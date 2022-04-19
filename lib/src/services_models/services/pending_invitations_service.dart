@@ -3,45 +3,46 @@ import 'package:padel/src/services_models/firestorepath.dart';
 import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
 
-class BookingsService {
+class PendingInvitationsService {
   static final FirebaseFirestore fb = FirebaseFirestore.instance;
 
-  static Future<void> book({
+  static Future<void> confirm({
     required String id,
-    required Map<String, dynamic> data,
+    required String uid,
   }) async {
-    await fb
-        .doc(FirestorePath.booking(id: id))
-        .set(data, SetOptions(merge: false));
-    if (ListBookings.isNotNull) {
-      await ListBookings.refresh();
-    }
-  }
-
-  static Future<void> inviteUser(String id, String uid) async {
     await fb.doc(FirestorePath.booking(id: id)).update({
-      'list_invited': FieldValue.arrayUnion([uid]),
+      'list_added': FieldValue.arrayUnion([uid]),
+      'list_invited': FieldValue.arrayRemove([uid]),
     });
   }
 
-  static Future<void> getListBookings({
+  static Future<void> ignore({
+    required String id,
+    required String uid,
+  }) async {
+    await fb.doc(FirestorePath.booking(id: id)).update({
+      'list_invited': FieldValue.arrayRemove([uid]),
+    });
+  }
+
+  static Future<void> getListPendingInvitations({
     required String uid,
     required int length,
     DocumentSnapshot? afterDocument,
   }) async {
     Query query = fb
         .collection(FirestorePath.bookings())
-        .where('list_added', arrayContains: uid)
+        .where('list_invited', arrayContains: uid)
         .orderBy('startAt')
         .limit(length);
     if (afterDocument != null) query = query.startAfterDocument(afterDocument);
     QuerySnapshot resultquery = await query.get();
-    List<BookingMax> list = [];
+    List<PendingInvitation> list = [];
     DateTime now = DateTime.now();
     list.addAll(resultquery.docs
-        .map((doc) => BookingMax.fromDocumentSnapshot(doc, now))
+        .map((doc) => PendingInvitation.fromDocumentSnapshot(doc, now))
         .toList());
-    ListBookings.updateList(
+    ListPendingInvitations.updateList(
       list,
       resultquery.docs.length == length,
       resultquery.docs.isEmpty ? null : resultquery.docs.last,

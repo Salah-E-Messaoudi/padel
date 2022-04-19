@@ -2,9 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:padel/functions.dart';
+import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/services_models/services.dart';
 
 class PendingInvitationTile extends StatelessWidget {
-  const PendingInvitationTile({Key? key}) : super(key: key);
+  const PendingInvitationTile({
+    Key? key,
+    required this.user,
+    required this.invitation,
+    required this.popInvitation,
+  }) : super(key: key);
+
+  final UserData user;
+  final PendingInvitation invitation;
+  final void Function(PendingInvitation) popInvitation;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +43,7 @@ class PendingInvitationTile extends StatelessWidget {
                       radius: 22.sp,
                       backgroundColor:
                           Theme.of(context).textTheme.headline5!.color,
+                      backgroundImage: invitation.owner.photo,
                     ),
                     SizedBox(width: 10.w),
                     SizedBox(
@@ -38,7 +52,7 @@ class PendingInvitationTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Invite From',
+                            AppLocalizations.of(context)!.invite_from,
                             style: GoogleFonts.poppins(
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w500,
@@ -48,7 +62,7 @@ class PendingInvitationTile extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Khalid Ghazi',
+                            invitation.owner.displayName,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
                               fontSize: 13.sp,
@@ -64,7 +78,7 @@ class PendingInvitationTile extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          'Event',
+                          AppLocalizations.of(context)!.event,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w500,
@@ -72,7 +86,11 @@ class PendingInvitationTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Padel Match',
+                          invitation.stadium.type == 'padel'
+                              ? AppLocalizations.of(context)!.type_match(
+                                  AppLocalizations.of(context)!.padel)
+                              : AppLocalizations.of(context)!.type_match(
+                                  AppLocalizations.of(context)!.football),
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w600,
@@ -85,7 +103,7 @@ class PendingInvitationTile extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  'Jassem Mohammad Al-Kharafi Rd, Kuwait',
+                  invitation.stadium.address,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
                     fontSize: 10.sp,
@@ -103,7 +121,6 @@ class PendingInvitationTile extends StatelessWidget {
                       children: [
                         Text(
                           AppLocalizations.of(context)!.time,
-                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w500,
@@ -111,8 +128,11 @@ class PendingInvitationTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '16:00 - 17:00',
-                          overflow: TextOverflow.ellipsis,
+                          DateFormat('HH:mm')
+                                  .format(invitation.details.startAt) +
+                              ' - ' +
+                              DateFormat('HH:mm')
+                                  .format(invitation.details.endAt),
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
                             fontWeight: FontWeight.w600,
@@ -127,7 +147,6 @@ class PendingInvitationTile extends StatelessWidget {
                       children: [
                         Text(
                           AppLocalizations.of(context)!.date,
-                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w500,
@@ -135,8 +154,8 @@ class PendingInvitationTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '8 Apr',
-                          overflow: TextOverflow.ellipsis,
+                          DateFormat('EEE dd MMM')
+                              .format(invitation.details.startAt),
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
                             fontWeight: FontWeight.w600,
@@ -151,7 +170,6 @@ class PendingInvitationTile extends StatelessWidget {
                       children: [
                         Text(
                           AppLocalizations.of(context)!.team,
-                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w500,
@@ -159,8 +177,8 @@ class PendingInvitationTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '4 / 4 Joined',
-                          overflow: TextOverflow.ellipsis,
+                          AppLocalizations.of(context)!
+                              .number_joined(invitation.countText),
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
                             fontWeight: FontWeight.w600,
@@ -182,21 +200,41 @@ class PendingInvitationTile extends StatelessWidget {
           ),
           IntrinsicHeight(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InkWell(
-                  onTap: () {},
-                  child: SizedBox(
-                    width: (1.sw - 50) / 2,
-                    height: 40.h,
-                    child: Center(
-                      child: Text(
-                        'Accept',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF278E67),
-                        ),
-                      ),
+                TextButton(
+                  onPressed: () => showFutureAlertDialog(
+                    context: context,
+                    title: AppLocalizations.of(context)!.confirmation,
+                    content: AppLocalizations.of(context)!
+                        .alert_reject_invit_subtitle,
+                    onYes: () async {
+                      await PendingInvitationsService.ignore(
+                        id: invitation.id,
+                        uid: user.uid,
+                      );
+                    },
+                    onComplete: () {
+                      popInvitation(invitation);
+                      showSnackBarMessage(
+                        context: context,
+                        hintMessage: AppLocalizations.of(context)!
+                            .invitation_rejected_successfully,
+                        icon: Icons.info_outline,
+                      );
+                    },
+                    onException: (e) => showSnackBarMessage(
+                      context: context,
+                      hintMessage: AppLocalizations.of(context)!.unknown_error,
+                      icon: Icons.info_outline,
+                    ),
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.reject,
+                    style: GoogleFonts.poppins(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFFFC1111),
                     ),
                   ),
                 ),
@@ -205,20 +243,39 @@ class PendingInvitationTile extends StatelessWidget {
                   width: 1.5,
                   thickness: 1.5,
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: SizedBox(
-                    width: (1.sw - 50) / 2,
-                    height: 40.h,
-                    child: Center(
-                      child: Text(
-                        'Reject',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFFFC1111),
-                        ),
-                      ),
+                TextButton(
+                  onPressed: () => showFutureAlertDialog(
+                    context: context,
+                    title: AppLocalizations.of(context)!.confirmation,
+                    content: AppLocalizations.of(context)!
+                        .alert_accept_invit_subtitle,
+                    onYes: () async {
+                      await PendingInvitationsService.confirm(
+                        id: invitation.id,
+                        uid: user.uid,
+                      );
+                    },
+                    onComplete: () {
+                      popInvitation(invitation);
+                      showSnackBarMessage(
+                        context: context,
+                        hintMessage: AppLocalizations.of(context)!
+                            .invitation_accepted_successfully,
+                        icon: Icons.info_outline,
+                      );
+                    },
+                    onException: (e) => showSnackBarMessage(
+                      context: context,
+                      hintMessage: AppLocalizations.of(context)!.unknown_error,
+                      icon: Icons.info_outline,
+                    ),
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.accept,
+                    style: GoogleFonts.poppins(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF278E67),
                     ),
                   ),
                 ),

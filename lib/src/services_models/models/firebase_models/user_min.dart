@@ -28,4 +28,12 @@ class UserMin {
         token: json['token'],
         photo: CachedNetworkImageProvider(json['photoURL']),
       );
+
+  Map<String, dynamic> toMap() => {
+        'uid': uid,
+        'displayName': displayName,
+        'phoneNumber': phoneNumber,
+        'photoURL': photoUrl,
+        'token': token
+      };
 }

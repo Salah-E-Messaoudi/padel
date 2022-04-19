@@ -103,6 +103,7 @@
       }
     }
   },
+  
   "football":"Football",
   "available_stadiums":"Available Stadium",
 
@@ -123,6 +124,8 @@
   "selected_date":"Selected Date : ",
   "select_date":"Select Date",
   "book_now":"BOOK NOW",
+  "accept":"Accept",
+  "reject":"Reject",
 
   "details":"Details",
   "owner":"Owner",
@@ -136,7 +139,7 @@
   "notifications":"Notifications",
   "my_friends":"My Friends",
   "invite_friends":"Invite Friends",
-  "pending_invitation":"Pending Invitation",
+  "pending_invitation":"Pending Invitations",
   "play_system":"Play System",
   "logout":"Log Out",
   "user_gender":"Gender",
@@ -153,28 +156,47 @@
   "team":"Team",
   "accept":"Accept",
   "reject":"Reject",
-  "joined":"Joined",
+  "number_joined":"{number} joined",
+  "@number_joined": {
+    "description": "Padel match",
+    "placeholders":{
+      "number":{
+        "type":"String",
+        "example":"Padel"
+      }
+    }
+  },
 
+  "confirmation":"Confirmation",
+  "alert_accept_invit_subtitle":"Would like to accept this invitation and join the match?",
+  "alert_reject_invit_subtitle":"Would like to reject and delete this invitation?",
   "alert_signout_title":"Sign out!",
   "alert_signout_subtitle":"Are you sure you want to sign out and close your account?",
   "alert_updateprofile_title":"Update profile!",
   "alert_updateprofile_subtitle":"Are you sure you want to update your personnel information?",
   "alert_booking_confirmation_title":"Confirm your booking",
   "alert_booking_confirmation_subtitle":"Are you sure you want to book this stadium with selected date and time?",
+  "alert_invite_friend_title":"Invite to match",
+  "alert_invite_friend_subtitle":"Would like to send this user an invitation to join this match?",
   "cropper":"Cropper",
   "stadiums":"Stadiums",
   "bookings":"Bookings",
   "update_completed":"Update completed!",
   "session_booked_successfully":"Session booked successfully!",
+  "invitation_sent_successfully":"Invitation sent successfully!",
+  "invitation_accepted_successfully":"Invitation accepted successfully!",
+  "invitation_rejected_successfully":"Invitation rejected successfully!",
   "complete_booking":"Please select date and a session!",
   "pick_your_session":"Pick your session",
   "empty_bookings":"You have no bookings at this moment. All your future bookings will be listed here.",
   "empty_stadiums":"At this moment there are no stadiums for selected option, try another option or try later.",
   "empty_notifications":"You have no notfications for now, a red circle will be displayed on top of the notification button on the mainscreen to notify you.",
   "empty_friends_myfriends":"You have no friends at this moment. Add a friend to Padel Life platforme using his/her phone number.",
+  "empty_pending_invitations":"Your friends can bool stadiums and invite you to join their match. Your invitations will be displayed here.",
   "empty_friends_invite":"You have no friends at this moment. From the side menu, on my friends option, add users to your friends list using phone number.",
   "session_already_taken":"Session already taken!",
 
+  "invite_from":"Invite From",
   "invited":"Invited",
   "added":"Added",
   "invite":"Invite"

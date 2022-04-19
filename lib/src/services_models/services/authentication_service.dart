@@ -53,6 +53,7 @@ class AuthenticationService {
     ListBookings.reset();
     ListNotifications.reset();
     ListFriends.reset();
+    ListPendingInvitations.reset();
     await _auth.signOut();
   }
 

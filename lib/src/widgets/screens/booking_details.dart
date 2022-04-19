@@ -14,7 +14,7 @@ class BookingDetails extends StatelessWidget {
       : super(key: key);
 
   final UserData user;
-  final Booking booking;
+  final BookingMax booking;
 
   @override
   Widget build(BuildContext context) {
@@ -127,9 +127,9 @@ class BookingDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          DateFormat('HH:mm').format(booking.startAt) +
+                          DateFormat('HH:mm').format(booking.details.startAt) +
                               ' - ' +
-                              DateFormat('HH:mm').format(booking.endAt),
+                              DateFormat('HH:mm').format(booking.details.endAt),
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
@@ -163,7 +163,8 @@ class BookingDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          DateFormat('EEE dd MMM').format(booking.startAt),
+                          DateFormat('EEE dd MMM')
+                              .format(booking.details.startAt),
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 11.sp,
@@ -263,7 +264,7 @@ class BookingDetails extends StatelessWidget {
                                     .headline4!
                                     .color,
                                 image: DecorationImage(
-                                  image: booking.listphotoURL[index],
+                                  image: booking.details.listphotoURL[index],
                                   fit: BoxFit.cover,
                                 ),
                               ),

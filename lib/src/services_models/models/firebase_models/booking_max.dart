@@ -1,56 +1,50 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:padel/functions.dart';
 import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/services_models/services.dart';
 
-class Booking {
-  Booking({
+class BookingMax {
+  BookingMax({
+    required this.id,
     required this.stadium,
     required this.owner,
     required this.createdAt,
-    required this.startAt,
-    required this.endAt,
-    required this.active,
+    required this.details,
     required this.listAdded,
     required this.listInvited,
-    required this.listphotoURL,
+    required this.listURL,
     required this.reference,
   });
 
+  final String id;
   final StadiumMin stadium;
   final UserMin owner;
   final DateTime createdAt;
-  final DateTime startAt;
-  final DateTime endAt;
-  final bool active;
+  final BookingMin details;
   final List<String> listAdded;
   List<String> listInvited;
-  final List<ImageProvider<Object>> listphotoURL;
+  final List<String> listURL;
   final DocumentReference reference;
 
-  factory Booking.fromDocumentSnapshot(
+  factory BookingMax.fromDocumentSnapshot(
     DocumentSnapshot doc,
     DateTime now,
   ) {
     Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
-    return Booking(
+    return BookingMax(
+      id: doc.id,
       stadium: StadiumMin.fromMap(json['stadium']),
       owner: UserMin.fromMap(json['owner']),
       createdAt: getDateTime(json['createdAt'])!,
-      startAt: getDateTime(json['startAt'])!,
-      endAt: getDateTime(json['endAt'])!,
-      active: getDateTime(json['endAt'])!.isAfter(now),
+      details: BookingMin.fromMap(json, now),
       listAdded: List<String>.from(json['list_added']),
       listInvited: List<String>.from(json['list_invited']),
-      listphotoURL: List<String>.from(json['list_photoURL'])
-          .map((e) => CachedNetworkImageProvider(e))
-          .toList(),
+      listURL: List<String>.from(json['list_photoURL']),
       reference: doc.reference,
     );
   }
 
-  int get teamCount => listphotoURL.length;
+  int get teamCount => listAdded.length;
 
   bool get isFull => stadium.type == 'padel' ? teamCount >= 4 : teamCount == 11;
 
@@ -61,11 +55,26 @@ class Booking {
   bool hasUser(String uid) =>
       listAdded.contains(uid) || listInvited.contains(uid);
 
-  void inviteUser(String uid) {
+  Future<void> inviteUser(String uid) async {
     listInvited.add(uid);
+    await BookingsService.inviteUser(id, uid);
   }
 
   void undoInviteUser(String uid) {
     listInvited.remove(uid);
   }
+
+  String get countText =>
+      details.listphotoURL.length.toString() +
+      '/' +
+      (stadium.type == 'padel' ? '4' : '11');
+
+  Map<String, dynamic> toBookingMinMap() => {
+        'stadium': stadium.toMap(),
+        'owner': owner.toMap(),
+        'startAt': details.startAt,
+        'endAt': details.endAt,
+        'list_photoURL': listURL,
+        'createdAt': FieldValue.serverTimestamp(),
+      };
 }

@@ -31,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
     ListBookings.uid = widget.user.uid;
     ListNotifications.uid = widget.user.uid;
     ListFriends.uid = widget.user.uid;
+    ListPendingInvitations.uid = widget.user.uid;
     _bookingsController.addListener(() {
       if (!ListBookings.canGetMore || ListBookings.isLoading) return;
       if (_bookingsController.position.maxScrollExtent ==

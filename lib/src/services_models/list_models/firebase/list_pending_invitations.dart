@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
 
-class ListBookings {
-  static List<BookingMax> list = [];
+class ListPendingInvitations {
+  static List<PendingInvitation> list = [];
   static DocumentSnapshot? lastDoc;
   static bool hasMore = false;
   static bool isNull = true;
@@ -18,7 +18,7 @@ class ListBookings {
   static bool get isNotNull => !isNull;
 
   static void updateList(
-    List<BookingMax> updatedList,
+    List<PendingInvitation> updatedList,
     bool updateHasMore,
     DocumentSnapshot? updateLastDoc,
   ) {
@@ -35,7 +35,7 @@ class ListBookings {
     }
     list.clear();
     isLoading = true;
-    await BookingsService.getListBookings(
+    await PendingInvitationsService.getListPendingInvitations(
       uid: uid,
       length: length,
     );
@@ -45,7 +45,7 @@ class ListBookings {
     int? want,
   }) async {
     isLoading = true;
-    await BookingsService.getListBookings(
+    await PendingInvitationsService.getListPendingInvitations(
       uid: uid,
       length: want ?? length,
       afterDocument: lastDoc,
@@ -53,14 +53,14 @@ class ListBookings {
   }
 
   static Future<void> refresh() async {
-    ListBookings.reset();
-    await ListBookings.get();
+    ListPendingInvitations.reset();
+    await ListPendingInvitations.get();
   }
 
   static Future<bool> deleteFromList(
-    BookingMax booking,
+    PendingInvitation invitation,
   ) async {
-    list.remove(booking);
+    list.remove(invitation);
     bool oldhasMore = hasMore;
     if (hasMore) {
       await getMore(
@@ -71,10 +71,10 @@ class ListBookings {
   }
 
   static Future<bool> deleteFromDB(
-    BookingMax booking,
+    PendingInvitation invitation,
   ) async {
-    await booking.reference.delete();
-    return await deleteFromList(booking);
+    await invitation.reference.delete();
+    return await deleteFromList(invitation);
   }
 
   static void reset() {
@@ -91,5 +91,5 @@ class ListBookings {
   }
 
   static bool get canGetMore =>
-      (ListBookings.isNotNull && ListBookings.hasMore);
+      (ListPendingInvitations.isNotNull && ListPendingInvitations.hasMore);
 }

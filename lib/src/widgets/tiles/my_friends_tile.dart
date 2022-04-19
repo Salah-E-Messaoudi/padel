@@ -12,7 +12,7 @@ class MyFriendsTile extends StatefulWidget {
     required this.friend,
   }) : super(key: key);
 
-  final Booking? booking;
+  final BookingMax? booking;
   final Friend friend;
 
   @override
@@ -67,30 +67,40 @@ class _MyFriendsTileState extends State<MyFriendsTile> {
                       if (widget.booking!.hasUser(widget.friend.uid)) return;
                       showAlertDialog(
                           context: context,
-                          title: 'Invite to match',
-                          content:
-                              'Would like to send this user an invitation to join this match',
+                          title: AppLocalizations.of(context)!
+                              .alert_invite_friend_title,
+                          content: AppLocalizations.of(context)!
+                              .alert_invite_friend_subtitle,
                           onYes: () async {
-                            try {
-                              setState(() {
-                                widget.booking!.inviteUser(widget.friend.uid);
+                            setState(() {
+                              //TODO implement invite friend
+                              widget.booking!
+                                  .inviteUser(widget.friend.uid)
+                                  .then((value) => showSnackBarMessage(
+                                        context: context,
+                                        hintMessage:
+                                            AppLocalizations.of(context)!
+                                                .invitation_sent_successfully,
+                                        icon: Icons.info_outline,
+                                      ))
+                                  .catchError((_) {
+                                if (mounted) {
+                                  setState(() {
+                                    widget.booking!
+                                        .undoInviteUser(widget.friend.uid);
+                                  });
+                                }
+                                showSnackBarMessage(
+                                  context: context,
+                                  hintMessage: AppLocalizations.of(context)!
+                                      .unknown_error,
+                                  icon: Icons.info_outline,
+                                );
                               });
-                              //TODO implement send invitation
-                              Future.delayed(const Duration(seconds: 1), () {});
-                            } on Exception {
-                              if (mounted) {
-                                setState(() {
-                                  widget.booking!
-                                      .undoInviteUser(widget.friend.uid);
-                                });
-                              }
-                              showSnackBarMessage(
-                                context: context,
-                                hintMessage:
-                                    AppLocalizations.of(context)!.unknown_error,
-                                icon: Icons.info_outline,
-                              );
-                            }
+                            });
+                            // Map<String, dynamic> data =
+                            //     widget.booking!.toBookingMinMap();
+                            // Future.delayed(const Duration(seconds: 1), () {});
                           });
                     },
                     child: Text(
