@@ -31,6 +31,7 @@ class _MyFriendsTileState extends State<MyFriendsTile> {
               CircleAvatar(
                 radius: 28.sp,
                 backgroundColor: Theme.of(context).textTheme.headline5!.color,
+                backgroundImage: widget.friend.photo,
               ),
               SizedBox(width: 10.w),
               //TODO wrap text with expanded

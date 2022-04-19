@@ -39,10 +39,4 @@ class Friend {
   Future<void> delete() async {
     await reference.delete();
   }
-
-  // void isInvited(Booking booking) => booking.isInvited(uid);
-
-  // void isAdded(Booking booking) => booking.isAdded(uid);
-
-  // void addToInvited(Booking booking) => booking.addToInvited(uid);
 }

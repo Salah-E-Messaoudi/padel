@@ -64,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Notifications(),
+                      builder: (context) => Notifications(user: widget.user),
                     ),
                   ),
                   icon: Icon(

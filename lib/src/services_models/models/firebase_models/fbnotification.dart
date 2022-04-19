@@ -1,24 +1,25 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:padel/functions.dart';
-import 'package:padel/src/services_models/models.dart';
 
 class FBNotification {
   FBNotification({
     required this.id,
-    required this.user,
+    required this.displayName,
     required this.key,
     required this.createdAt,
-    required this.path,
     required this.seen,
+    required this.photo,
     required this.reference,
   });
 
   final String id;
-  final UserMin user;
+  final String displayName;
   final String key;
   final DateTime createdAt;
-  final String? path;
   final bool seen;
+  final ImageProvider<Object> photo;
   final DocumentReference reference;
 
   factory FBNotification.fromDocumentSnapshot(
@@ -27,11 +28,11 @@ class FBNotification {
     Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
     return FBNotification(
       id: doc.id,
-      user: json['user'],
+      displayName: json['displayName'],
       key: json['key'],
       createdAt: getDateTime(json['createdAt'])!,
-      path: json['path'],
       seen: json['seen'],
+      photo: CachedNetworkImageProvider(json['photoURL']),
       reference: doc.reference,
     );
   }

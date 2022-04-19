@@ -96,6 +96,14 @@ class UserData {
         'token': token,
       };
 
+  Map<String, String> toUserMinString() => {
+        'uid': uid,
+        'displayName': displayName!,
+        'phoneNumber': phoneNumber!,
+        'photoURL': photoUrl!,
+        'token': token!,
+      };
+
   bool get isNotComplete =>
       displayName == null || photoUrl == null || age == null || gender == null;
 

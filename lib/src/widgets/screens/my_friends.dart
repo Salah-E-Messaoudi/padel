@@ -70,7 +70,10 @@ class _MyFriendsState extends State<MyFriends> {
                                   ),
                                 ),
                                 context: context,
-                                builder: (context) => const AddFriend(),
+                                builder: (context) => AddFriend(
+                                  user: widget.user,
+                                  rebuildScreen: () => onRefresh(),
+                                ),
                               ),
                               icon: Icon(
                                 Icons.add_rounded,
@@ -100,7 +103,7 @@ class _MyFriendsState extends State<MyFriends> {
                                 const Color.fromARGB(245, 245, 245, 255),
                             color: Theme.of(context).primaryColor,
                             onRefresh: onRefresh,
-                            child: ListView.builder(
+                            child: ListView.separated(
                               controller: scrollController,
                               itemCount: ListFriends.list.length,
                               padding: EdgeInsets.zero,
@@ -108,6 +111,8 @@ class _MyFriendsState extends State<MyFriends> {
                                 friend: ListFriends.list[index],
                                 booking: widget.booking,
                               ),
+                              separatorBuilder: (context, _) =>
+                                  const CustomSeperator(),
                             ),
                           ),
               ),

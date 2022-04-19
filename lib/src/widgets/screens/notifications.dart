@@ -4,11 +4,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:padel/functions.dart';
 import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/widgets/screens.dart';
 import 'package:padel/src/widgets/tiles.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
 class Notifications extends StatefulWidget {
-  const Notifications({Key? key}) : super(key: key);
+  const Notifications({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  final UserData user;
 
   @override
   State<Notifications> createState() => _NotificationsState();
@@ -51,9 +57,10 @@ class _NotificationsState extends State<Notifications> {
                         onPressed: () {
                           showFutureAlertDialog(
                             context: context,
-                            title: 'Delete',
-                            content:
-                                'Are you sure you want to delete all your notifications',
+                            title: AppLocalizations.of(context)!
+                                .alert_delete_all_notifications_title,
+                            content: AppLocalizations.of(context)!
+                                .alert_delete_all_notifications_subtitle,
                             onYes: () async {
                               await ListNotifications.deleteAllFromDb();
                             },
@@ -94,13 +101,16 @@ class _NotificationsState extends State<Notifications> {
                                 const Color.fromARGB(245, 245, 245, 255),
                             color: Theme.of(context).primaryColor,
                             onRefresh: onRefresh,
-                            child: ListView.builder(
+                            child: ListView.separated(
                               controller: scrollController,
                               itemCount: ListNotifications.list.length,
                               padding: EdgeInsets.zero,
                               itemBuilder: (context, index) => NotificationTile(
                                 notification: ListNotifications.list[index],
+                                onTap: onClickNotification,
                               ),
+                              separatorBuilder: (context, _) =>
+                                  const CustomSeperator(),
                             ),
                           ),
               ),
@@ -115,22 +125,25 @@ class _NotificationsState extends State<Notifications> {
   }
 
   Future<void> onClickNotification(FBNotification notification) async {
-    showLoadingWidget(context);
-
+    // showLoadingWidget(context);
     try {
-      String id = notification.id;
+      // String id = notification.id;
       switch (notification.key) {
-        case 'new_order':
-          break;
-        case 'order_completed':
-        case 'order_canceled':
-        case 'order_review':
+        case 'friend_added':
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyFriends(
+                user: widget.user,
+              ),
+            ),
+          );
           break;
         default:
-          Navigator.pop(context);
+        // Navigator.pop(context);
       }
     } on Exception {
-      Navigator.pop(context);
+      // Navigator.pop(context);
       notification.reference.delete();
     }
   }

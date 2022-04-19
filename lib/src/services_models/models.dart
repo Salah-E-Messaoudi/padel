@@ -7,5 +7,6 @@ export 'models/firebase_models/booking_min.dart';
 export 'models/firebase_models/fbnotification.dart';
 export 'models/firebase_models/friend.dart';
 export 'models/firebase_models/pending_invitation.dart';
+export 'models/firebase_models/cf_exception.dart';
 export 'models/api_models/stadium_max.dart';
 export './models/api_models/stadium_min.dart';

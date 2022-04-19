@@ -2,6 +2,8 @@
   "ar": [
     "pick_image",
     "pick_gender",
+    "invalid_request",
+    "already_friends",
     "kdw_hour",
     "price_kdw",
     "type_match",
@@ -9,6 +11,7 @@
     "invite_friends",
     "save_profile",
     "number_joined",
+    "friend_added",
     "confirmation",
     "alert_accept_invit_subtitle",
     "alert_reject_invit_subtitle",
@@ -20,6 +23,9 @@
     "alert_booking_confirmation_subtitle",
     "alert_invite_friend_title",
     "alert_invite_friend_subtitle",
+    "alert_add_friend_subtitle",
+    "alert_delete_all_notifications_title",
+    "alert_delete_all_notifications_subtitle",
     "cropper",
     "stadiums",
     "bookings",
@@ -28,6 +34,7 @@
     "invitation_sent_successfully",
     "invitation_accepted_successfully",
     "invitation_rejected_successfully",
+    "friend_added_successfully",
     "complete_booking",
     "pick_your_session",
     "empty_bookings",
@@ -39,6 +46,7 @@
     "session_already_taken",
     "invited",
     "added",
-    "invite"
+    "invite",
+    "close"
   ]
 }

@@ -9,76 +9,70 @@ class NotificationTile extends StatelessWidget {
   const NotificationTile({
     Key? key,
     required this.notification,
+    required this.onTap,
   }) : super(key: key);
 
   final FBNotification notification;
+  final Future<void> Function(FBNotification) onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 28.sp,
-                backgroundColor: Theme.of(context).textTheme.headline5!.color,
-                backgroundImage: notification.user.photo,
-              ),
-              SizedBox(width: 10.w),
-              SizedBox(
-                width: 1.sw - 150.w,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: notification.user.displayName,
-                        style: GoogleFonts.poppins(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
+    return InkWell(
+      onTap: () => onTap(notification),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 28.sp,
+              backgroundColor: Theme.of(context).textTheme.headline5!.color,
+              backgroundImage: notification.photo,
+            ),
+            SizedBox(width: 10.w),
+            SizedBox(
+              width: 1.sw - 150.w,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: notification.displayName,
+                      style: GoogleFonts.poppins(
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
                       ),
-                      TextSpan(
-                        text: getNotificationText(context),
-                        style: GoogleFonts.poppins(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).textTheme.headline1!.color,
-                        ),
+                    ),
+                    TextSpan(
+                      text: getNotificationText(context),
+                      style: GoogleFonts.poppins(
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).textTheme.headline1!.color,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              const Spacer(),
-              Text(
-                DateFormat('HH:mm').format(notification.createdAt) + '\n',
-                style: GoogleFonts.poppins(
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).textTheme.headline3!.color,
-                ),
+            ),
+            const Spacer(),
+            Text(
+              DateFormat('HH:mm').format(notification.createdAt) + '\n',
+              style: GoogleFonts.poppins(
+                fontSize: 11.sp,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).textTheme.headline3!.color,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Divider(
-            thickness: 1.5,
-            color: Theme.of(context).textTheme.headline5!.color!,
-          ),
-        )
-      ],
+      ),
     );
   }
 
   String getNotificationText(BuildContext context) {
     switch (notification.key) {
-      case 'order_preparing':
-        return AppLocalizations.of(context)!.unknown_error;
+      case 'friend_added':
+        return AppLocalizations.of(context)!.friend_added;
       default:
         return notification.key;
     }

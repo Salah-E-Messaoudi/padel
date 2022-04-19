@@ -5,3 +5,4 @@ export './widget_models/custom_radio_button.dart';
 export './widget_models/empty_listview.dart';
 export './widget_models/appbar_title.dart';
 export './widget_models/custom_silver_app_bar.dart';
+export './widget_models/custom_seperator.dart';

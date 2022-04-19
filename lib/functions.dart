@@ -59,6 +59,11 @@ String? getError(BuildContext context, String? code) {
       return AppLocalizations.of(context)!.user_not_found;
     case 'app-not-authorized':
       return AppLocalizations.of(context)!.app_not_authorized;
+    case 'invalid-body':
+    case 'invalid-owner-data':
+      return AppLocalizations.of(context)!.invalid_request;
+    case 'already-friends':
+      return AppLocalizations.of(context)!.already_friends;
     default:
       return code;
   }
@@ -83,6 +88,21 @@ String? validateNotNull({
     return AppLocalizations.of(context)!.field_required;
   }
   return null;
+}
+
+String? validatePhone({
+  required String? value,
+  required BuildContext context,
+}) {
+  String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+  RegExp regExp = RegExp(pattern);
+  if (value == null || value.isEmpty) {
+    return AppLocalizations.of(context)!.field_required;
+  } else if (!regExp.hasMatch(value)) {
+    return AppLocalizations.of(context)!.invalid_phone_number;
+  } else {
+    return null;
+  }
 }
 
 void showSnackBarMessage({

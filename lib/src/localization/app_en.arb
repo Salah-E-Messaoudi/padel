@@ -46,6 +46,8 @@
   "location_services_disabled":"Location services are disabled.",
   "pick_image":"Pick your profile picture!",
   "pick_gender":"Pick your gender!",
+  "invalid_request":"Invalid request",
+  "already_friends":"Your are already friends",
 
   "didnt_receive_code":"Didn't receive your code ?",
   "resend":" Resend",
@@ -167,6 +169,8 @@
     }
   },
 
+  "friend_added":" added you to his friends list, now you can invite each other to matches.",
+
   "confirmation":"Confirmation",
   "alert_accept_invit_subtitle":"Would like to accept this invitation and join the match?",
   "alert_reject_invit_subtitle":"Would like to reject and delete this invitation?",
@@ -178,6 +182,9 @@
   "alert_booking_confirmation_subtitle":"Are you sure you want to book this stadium with selected date and time?",
   "alert_invite_friend_title":"Invite to match",
   "alert_invite_friend_subtitle":"Would like to send this user an invitation to join this match?",
+  "alert_add_friend_subtitle":"Would you like to add this user to your friends list?",
+  "alert_delete_all_notifications_title":"Delete all!",
+  "alert_delete_all_notifications_subtitle":"Are you sure you want to delete all notifications displayed here?",
   "cropper":"Cropper",
   "stadiums":"Stadiums",
   "bookings":"Bookings",
@@ -186,6 +193,7 @@
   "invitation_sent_successfully":"Invitation sent successfully!",
   "invitation_accepted_successfully":"Invitation accepted successfully!",
   "invitation_rejected_successfully":"Invitation rejected successfully!",
+  "friend_added_successfully":"User added to friends list!",
   "complete_booking":"Please select date and a session!",
   "pick_your_session":"Pick your session",
   "empty_bookings":"You have no bookings at this moment. All your future bookings will be listed here.",
@@ -199,5 +207,6 @@
   "invite_from":"Invite From",
   "invited":"Invited",
   "added":"Added",
-  "invite":"Invite"
+  "invite":"Invite",
+  "close":"Close"
 }

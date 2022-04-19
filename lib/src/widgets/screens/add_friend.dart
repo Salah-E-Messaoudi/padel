@@ -5,11 +5,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:padel/functions.dart';
+import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/services_models/services.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 import 'package:phone_number/phone_number.dart';
 
 class AddFriend extends StatefulWidget {
-  const AddFriend({Key? key}) : super(key: key);
+  const AddFriend({
+    Key? key,
+    required this.user,
+    required this.rebuildScreen,
+  }) : super(key: key);
+
+  final UserData user;
+  final void Function() rebuildScreen;
 
   @override
   State<AddFriend> createState() => _AddFriendState();
@@ -90,7 +99,7 @@ class _AddFriendState extends State<AddFriend> {
                     phonenumber = value;
                   },
                   validator: (value) =>
-                      validateNumberInt(value: value, context: context),
+                      validateNotNull(value: value, context: context),
                   errorText: getError(context, _error),
                   width: 0.8.sw,
                   keyboardType: TextInputType.phone,
@@ -131,7 +140,42 @@ class _AddFriendState extends State<AddFriend> {
         });
         _keyA.currentState!.save();
         if (await validatePhoneNumber()) {
-          //
+          showFutureAlertDialog(
+              context: context,
+              title: AppLocalizations.of(context)!.confirmation,
+              content: AppLocalizations.of(context)!.alert_add_friend_subtitle,
+              onYes: () async {
+                await FriendsService.addFriend(
+                  user: widget.user,
+                  phoneNumber: phonenumber!,
+                );
+              },
+              onComplete: () async {
+                widget.rebuildScreen();
+                Navigator.pop(context);
+                showSnackBarMessage(
+                  context: context,
+                  hintMessage:
+                      AppLocalizations.of(context)!.friend_added_successfully,
+                  icon: Icons.info_outline,
+                );
+              },
+              onException: (err) {
+                Navigator.pop(context);
+                if (err is CFException) {
+                  showSnackBarMessage(
+                    context: context,
+                    hintMessage: getError(context, err.code!)!,
+                    icon: Icons.info_outline,
+                  );
+                } else {
+                  showSnackBarMessage(
+                    context: context,
+                    hintMessage: AppLocalizations.of(context)!.unknown_error,
+                    icon: Icons.info_outline,
+                  );
+                }
+              });
         } else {
           setState(() {
             _error = 'invalid-phone-number';
