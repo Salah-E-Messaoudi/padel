@@ -6,6 +6,7 @@
     "price_kdw",
     "type_match",
     "notifications",
+    "invite_friends",
     "save_profile",
     "alert_signout_title",
     "alert_signout_subtitle",
@@ -23,6 +24,11 @@
     "empty_bookings",
     "empty_stadiums",
     "empty_notifications",
-    "session_already_taken"
+    "empty_friends_myfriends",
+    "empty_friends_invite",
+    "session_already_taken",
+    "invited",
+    "added",
+    "invite"
   ]
 }

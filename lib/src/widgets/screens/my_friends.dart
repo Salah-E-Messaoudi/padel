@@ -4,56 +4,123 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:padel/functions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:padel/src/services_models/list_models.dart';
+import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/tiles.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
-class MyFriends extends StatelessWidget {
-  const MyFriends({Key? key, required this.invite}) : super(key: key);
-  final bool invite;
+class MyFriends extends StatefulWidget {
+  const MyFriends({
+    Key? key,
+    required this.user,
+    this.booking,
+  }) : super(key: key);
+
+  final UserData user;
+  final Booking? booking;
+
+  @override
+  State<MyFriends> createState() => _MyFriendsState();
+}
+
+class _MyFriendsState extends State<MyFriends> {
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(() {
+      if (!ListFriends.canGetMore || ListFriends.isLoading) return;
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.offset) {
+        if (mounted) setState(() {});
+        ListFriends.getMore().then((_) {
+          if (mounted) setState(() {});
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: AppBarTitle(
-          title: invite
-              ? 'Invite Friends'
-              : AppLocalizations.of(context)!.my_friends,
-        ),
-        centerTitle: true,
-        actions: [
-          if (!invite)
-            IconButton(
-              onPressed: () => showModalBottomSheet(
-                isScrollControlled: true,
-                isDismissible: true,
-                enableDrag: true,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.sp),
-                    topRight: Radius.circular(10.sp),
+    return FutureBuilder(
+        future: ListFriends.get(),
+        builder: (context, _) {
+          return Scaffold(
+            body: RefreshIndicator(
+              backgroundColor: const Color.fromARGB(245, 245, 245, 255),
+              color: Theme.of(context).primaryColor,
+              onRefresh: onRefresh,
+              child: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScroled) => [
+                  CustomSliverAppBar(
+                    title: widget.booking != null
+                        ? AppLocalizations.of(context)!.invite_friends
+                        : AppLocalizations.of(context)!.my_friends,
+                    actions: widget.booking != null
+                        ? null
+                        : [
+                            IconButton(
+                              onPressed: () => showModalBottomSheet(
+                                isScrollControlled: true,
+                                isDismissible: true,
+                                enableDrag: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.sp),
+                                    topRight: Radius.circular(10.sp),
+                                  ),
+                                ),
+                                context: context,
+                                builder: (context) => const AddFriend(),
+                              ),
+                              icon: Icon(
+                                Icons.add_rounded,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .color,
+                                size: 26.sp,
+                              ),
+                            ),
+                          ],
                   ),
-                ),
-                context: context,
-                builder: (context) => const AddFriend(),
-              ),
-              icon: Icon(
-                Icons.add_rounded,
-                color: Theme.of(context).textTheme.headline1!.color,
-                size: 26.sp,
+                ],
+                body: ListFriends.isNull
+                    ? const LoadingTile()
+                    : ListFriends.isEmpty
+                        ? EmptyListView(
+                            text: widget.booking != null
+                                ? AppLocalizations.of(context)!
+                                    .empty_friends_invite
+                                : AppLocalizations.of(context)!
+                                    .empty_friends_myfriends,
+                            topPadding: 350.h,
+                          )
+                        : RefreshIndicator(
+                            backgroundColor:
+                                const Color.fromARGB(245, 245, 245, 255),
+                            color: Theme.of(context).primaryColor,
+                            onRefresh: onRefresh,
+                            child: ListView.builder(
+                              controller: scrollController,
+                              itemCount: ListFriends.list.length,
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context, index) => MyFriendsTile(
+                                friend: ListFriends.list[index],
+                                booking: widget.booking,
+                              ),
+                            ),
+                          ),
               ),
             ),
-        ],
-      ),
-      body: Column(
-        children: [
-          SizedBox(height: 15.h),
-          MyFriendsTile(invite: invite),
-          MyFriendsTile(invite: invite)
-        ],
-      ),
-    );
+          );
+        });
+  }
+
+  Future<void> onRefresh() async {
+    await ListFriends.refresh();
+    setState(() {});
   }
 }
 
@@ -243,22 +310,5 @@ class _AddFriendState extends State<AddFriend> {
     setState(() {
       verification = !verification;
     });
-    // return;
-    // if (verificationId != null &&
-    //     forceResendingToken != null &&
-    //     pinCode != null) {
-    //   await onComplete(pinCode!);
-    // } else if (!verification) {
-    //   if (_keyA.currentState != null && _keyA.currentState!.validate()) {
-    //     _keyA.currentState!.save();
-    //     if (await validatePhoneNumber()) {
-    //       await verifyPhoneNumber();
-    //     } else {
-    //       setState(() {
-    //         _error = 'invalid-phone-number';
-    //       });
-    //     }
-    //   }
-    // }
   }
 }

@@ -52,6 +52,7 @@ class AuthenticationService {
     ListStadiumsMax.reset();
     ListBookings.reset();
     ListNotifications.reset();
+    ListFriends.reset();
     await _auth.signOut();
   }
 

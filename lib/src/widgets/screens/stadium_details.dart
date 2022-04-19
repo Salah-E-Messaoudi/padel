@@ -365,7 +365,8 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                           Map<String, dynamic> data = {
                             'stadium': widget.stadiummax.stadium.toMap(),
                             'owner': widget.user.toUserMin(),
-                            'list_uid': [widget.user.uid],
+                            'list_added': [widget.user.uid],
+                            'list_invited': [],
                             'list_photoURL': [widget.user.photoUrl],
                             'createdAt': FieldValue.serverTimestamp(),
                             'startAt': selectedTime!.getStartAt(selectedDate!),

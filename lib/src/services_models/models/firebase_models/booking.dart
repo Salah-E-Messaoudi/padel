@@ -12,6 +12,8 @@ class Booking {
     required this.startAt,
     required this.endAt,
     required this.active,
+    required this.listAdded,
+    required this.listInvited,
     required this.listphotoURL,
     required this.reference,
   });
@@ -22,6 +24,8 @@ class Booking {
   final DateTime startAt;
   final DateTime endAt;
   final bool active;
+  final List<String> listAdded;
+  List<String> listInvited;
   final List<ImageProvider<Object>> listphotoURL;
   final DocumentReference reference;
 
@@ -37,6 +41,8 @@ class Booking {
       startAt: getDateTime(json['startAt'])!,
       endAt: getDateTime(json['endAt'])!,
       active: getDateTime(json['endAt'])!.isAfter(now),
+      listAdded: List<String>.from(json['list_added']),
+      listInvited: List<String>.from(json['list_invited']),
       listphotoURL: List<String>.from(json['list_photoURL'])
           .map((e) => CachedNetworkImageProvider(e))
           .toList(),
@@ -47,4 +53,19 @@ class Booking {
   int get teamCount => listphotoURL.length;
 
   bool get isFull => stadium.type == 'padel' ? teamCount >= 4 : teamCount == 11;
+
+  bool isAdded(String uid) => listAdded.contains(uid);
+
+  bool isInvited(String uid) => listInvited.contains(uid);
+
+  bool hasUser(String uid) =>
+      listAdded.contains(uid) || listInvited.contains(uid);
+
+  void inviteUser(String uid) {
+    listInvited.add(uid);
+  }
+
+  void undoInviteUser(String uid) {
+    listInvited.remove(uid);
+  }
 }

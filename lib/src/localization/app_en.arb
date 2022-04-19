@@ -135,6 +135,7 @@
   "profile":"Profile",
   "notifications":"Notifications",
   "my_friends":"My Friends",
+  "invite_friends":"Invite Friends",
   "pending_invitation":"Pending Invitation",
   "play_system":"Play System",
   "logout":"Log Out",
@@ -170,5 +171,11 @@
   "empty_bookings":"You have no bookings at this moment. All your future bookings will be listed here.",
   "empty_stadiums":"At this moment there are no stadiums for selected option, try another option or try later.",
   "empty_notifications":"You have no notfications for now, a red circle will be displayed on top of the notification button on the mainscreen to notify you.",
-  "session_already_taken":"Session already taken!"
+  "empty_friends_myfriends":"You have no friends at this moment. Add a friend to Padel Life platforme using his/her phone number.",
+  "empty_friends_invite":"You have no friends at this moment. From the side menu, on my friends option, add users to your friends list using phone number.",
+  "session_already_taken":"Session already taken!",
+
+  "invited":"Invited",
+  "added":"Added",
+  "invite":"Invite"
 }

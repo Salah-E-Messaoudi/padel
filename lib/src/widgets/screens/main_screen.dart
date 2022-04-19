@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,6 +30,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     ListBookings.uid = widget.user.uid;
     ListNotifications.uid = widget.user.uid;
+    ListFriends.uid = widget.user.uid;
     _bookingsController.addListener(() {
       if (!ListBookings.canGetMore || ListBookings.isLoading) return;
       if (_bookingsController.position.maxScrollExtent ==

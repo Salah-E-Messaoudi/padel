@@ -317,8 +317,8 @@ class BookingDetails extends StatelessWidget {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MyFriends(invite: true),
-                  ),
+                      builder: (context) =>
+                          MyFriends(user: user, booking: booking)),
                 ),
                 child: Row(
                   children: [
