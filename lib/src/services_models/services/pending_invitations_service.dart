@@ -50,4 +50,12 @@ class PendingInvitationsService {
       resultquery.docs.isEmpty ? null : resultquery.docs.last,
     );
   }
+
+  static Stream<int> getInvitationBadge({required String uid}) {
+    return fb
+        .collection(FirestorePath.bookings())
+        .where('list_invited', arrayContains: uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
+  }
 }

@@ -12,6 +12,8 @@
     "save_profile",
     "number_joined",
     "friend_added",
+    "new_invitation",
+    "invitation_accepted",
     "confirmation",
     "alert_accept_invit_subtitle",
     "alert_reject_invit_subtitle",

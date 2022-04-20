@@ -18,7 +18,7 @@ class FBNotification {
   final String displayName;
   final String key;
   final DateTime createdAt;
-  final bool seen;
+  bool seen;
   final ImageProvider<Object> photo;
   final DocumentReference reference;
 
@@ -39,5 +39,11 @@ class FBNotification {
 
   Future<void> delete() async {
     await reference.delete();
+  }
+
+  Future<void> markAsSeen() async {
+    if (seen) return;
+    seen = true;
+    reference.update({'seen': true});
   }
 }

@@ -73,6 +73,11 @@ class NotificationTile extends StatelessWidget {
     switch (notification.key) {
       case 'friend_added':
         return AppLocalizations.of(context)!.friend_added;
+      case 'new_invitation':
+        return AppLocalizations.of(context)!.new_invitation;
+      case 'invitation_accepted':
+        return AppLocalizations.of(context)!.invitation_accepted;
+
       default:
         return notification.key;
     }

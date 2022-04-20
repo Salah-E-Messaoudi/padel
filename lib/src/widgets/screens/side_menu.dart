@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -104,15 +105,26 @@ class SideMenu extends StatelessWidget {
                     ),
                   ),
                 ),
-                CustomListTile(
-                  text: AppLocalizations.of(context)!.pending_invitation,
-                  icon: Icons.person_add_alt_outlined,
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PendingInvitations(
-                                user: user,
-                              ))),
+                StreamBuilder<int>(
+                  stream: PendingInvitationsService.getInvitationBadge(
+                      uid: user.uid),
+                  builder: (context, snapshot) {
+                    return Builder(builder: (context) {
+                      return CustomListTile(
+                        text: AppLocalizations.of(context)!.pending_invitation,
+                        icon: Icons.person_add_alt_outlined,
+                        badge: snapshot.data,
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PendingInvitations(
+                              user: user,
+                            ),
+                          ),
+                        ),
+                      );
+                    });
+                  },
                 ),
                 CustomListTile(
                   text: AppLocalizations.of(context)!.play_system,
@@ -150,11 +162,13 @@ class CustomListTile extends StatelessWidget {
     Key? key,
     required this.text,
     required this.icon,
+    this.badge,
     required this.onPressed,
   }) : super(key: key);
 
   final String text;
   final IconData icon;
+  final int? badge;
   final void Function() onPressed;
 
   @override
@@ -178,14 +192,30 @@ class CustomListTile extends StatelessWidget {
               color: Theme.of(context).textTheme.headline1!.color,
             ),
             SizedBox(width: 15.w),
-            Text(
-              text,
-              style: GoogleFonts.poppins(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).textTheme.headline1!.color,
+            Expanded(
+              child: Text(
+                text,
+                style: GoogleFonts.poppins(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).textTheme.headline1!.color,
+                ),
               ),
             ),
+            if (badge != null && badge != 0)
+              Badge(
+                padding: EdgeInsets.all(5.sp),
+                badgeColor: Theme.of(context).primaryColor,
+                position: BadgePosition.topEnd(top: 10.sp, end: 10.sp),
+                badgeContent: Text(
+                  badge.toString(),
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              )
           ],
         ),
       ),

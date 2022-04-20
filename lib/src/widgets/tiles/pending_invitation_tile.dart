@@ -232,10 +232,14 @@ class PendingInvitationTile extends StatelessWidget {
                   child: Text(
                     AppLocalizations.of(context)!.reject,
                     style: GoogleFonts.poppins(
+                      height: 1.2,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFFFC1111),
                     ),
+                  ),
+                  style: const ButtonStyle(
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                 ),
                 VerticalDivider(
@@ -274,10 +278,14 @@ class PendingInvitationTile extends StatelessWidget {
                   child: Text(
                     AppLocalizations.of(context)!.accept,
                     style: GoogleFonts.poppins(
+                      height: 1.2,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF278E67),
                     ),
+                  ),
+                  style: const ButtonStyle(
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                 ),
               ],

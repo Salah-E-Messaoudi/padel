@@ -12,9 +12,11 @@ class Notifications extends StatefulWidget {
   const Notifications({
     Key? key,
     required this.user,
+    required this.changeTab,
   }) : super(key: key);
 
   final UserData user;
+  final void Function(int) changeTab;
 
   @override
   State<Notifications> createState() => _NotificationsState();
@@ -125,6 +127,7 @@ class _NotificationsState extends State<Notifications> {
   }
 
   Future<void> onClickNotification(FBNotification notification) async {
+    notification.markAsSeen();
     // showLoadingWidget(context);
     try {
       // String id = notification.id;
@@ -134,6 +137,26 @@ class _NotificationsState extends State<Notifications> {
             context,
             MaterialPageRoute(
               builder: (context) => MyFriends(
+                user: widget.user,
+              ),
+            ),
+          );
+          break;
+        case 'new_invitation':
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PendingInvitations(
+                user: widget.user,
+              ),
+            ),
+          );
+          break;
+        case 'invitation_accepted':
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PendingInvitations(
                 user: widget.user,
               ),
             ),
