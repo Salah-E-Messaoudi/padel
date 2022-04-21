@@ -1,7 +1,8 @@
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'dart:developer';
+import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,10 +13,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'src/app.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
+// ignore: implementation_imports
+import 'package:flutter_cache_manager/src/cache_managers/default_cache_manager.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  log('Handling a background message ${message.messageId}');
+  dev.log('Handling a background message ${message.messageId}');
 }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -33,6 +36,10 @@ void main() async {
   final settingsController = SettingsController(SettingsService());
   await settingsController.loadSettings();
   WidgetsFlutterBinding.ensureInitialized();
+  if (Random().nextInt(3) == 0) {
+    await DefaultCacheManager().emptyCache();
+    dev.log('cached empty');
+  }
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

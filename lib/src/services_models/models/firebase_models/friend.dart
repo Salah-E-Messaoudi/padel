@@ -31,6 +31,8 @@ class Friend {
       phoneNumber: json['phoneNumber'],
       photoUrl: json['photoURL'],
       token: json['token'],
+      // photo: Image.network(json['photoURL']).image,
+      // photo: CachedNetworkImage(imageUrl: json['photoURL']),
       photo: CachedNetworkImageProvider(json['photoURL']),
       reference: doc.reference,
     );

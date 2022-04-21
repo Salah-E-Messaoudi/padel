@@ -66,39 +66,15 @@ class _WrapperState extends State<Wrapper> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      log('onMessageOpenedApp.listen called');
-      callAlertDialog('onMessageOpenedApp.listen called');
-    });
-  }
-
-  void callAlertDialog(String content) {
-    Future.delayed(Duration.zero, () {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                contentPadding: EdgeInsets.fromLTRB(20.sp, 15.sp, 20.sp, 0.0),
-                title: Text('Notification Opened',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16.sp,
-                      color: Theme.of(context).textTheme.headline1!.color,
-                      fontWeight: FontWeight.bold,
-                    )),
-                content: Text(content,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
-                      color: Theme.of(context).textTheme.headline1!.color,
-                    )),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(AppLocalizations.of(context)!.close,
-                          style: GoogleFonts.poppins(
-                            fontSize: 14.sp,
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                          )))
-                ],
-              ));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Notifications(
+            user: userStream!,
+            changeTab: (index) {},
+          ),
+        ),
+      );
     });
   }
 

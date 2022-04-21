@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
+    displayName = widget.user.displayName;
+    age = widget.user.age;
     gender = widget.user.gender;
   }
 
@@ -81,7 +84,7 @@ class _ProfileState extends State<Profile> {
             ProfileInfo(
               icon: Icons.badge_outlined,
               label: AppLocalizations.of(context)!.full_name,
-              value: widget.user.displayName!,
+              value: displayName!,
               enabled: isEditing,
               validator: (value) =>
                   validateNotNull(value: value, context: context),
@@ -106,7 +109,7 @@ class _ProfileState extends State<Profile> {
             ProfileInfo(
               icon: Icons.person_outline_rounded,
               label: AppLocalizations.of(context)!.age,
-              value: widget.user.age!.toString(),
+              value: age!.toString(),
               enabled: isEditing,
               width: 80.w,
               validator: (value) =>
@@ -130,6 +133,14 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> toggleState() async {
+    log('image isNotNull:' + (image != null).toString());
+    log('displayName changed ? ' +
+        (widget.user.displayName.toString() != displayName.toString())
+            .toString());
+    log('age changed ? ' +
+        (widget.user.age.toString() != age.toString()).toString());
+    log('gender changed ? ' +
+        (widget.user.gender.toString() != gender.toString()).toString());
     bool changed = image != null ||
         widget.user.displayName != displayName ||
         widget.user.age != age ||

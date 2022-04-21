@@ -153,14 +153,8 @@ class _NotificationsState extends State<Notifications> {
           );
           break;
         case 'invitation_accepted':
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PendingInvitations(
-                user: widget.user,
-              ),
-            ),
-          );
+          Navigator.pop(context);
+          widget.changeTab(1);
           break;
         default:
         // Navigator.pop(context);

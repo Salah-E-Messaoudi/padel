@@ -134,12 +134,12 @@ class _AddFriendState extends State<AddFriend> {
     if (loading) return;
     try {
       if (_keyA.currentState != null && _keyA.currentState!.validate()) {
-        setState(() {
-          loading = true;
-          _error = null;
-        });
         _keyA.currentState!.save();
         if (await validatePhoneNumber()) {
+          setState(() {
+            loading = true;
+            _error = null;
+          });
           showFutureAlertDialog(
               context: context,
               title: AppLocalizations.of(context)!.confirmation,
