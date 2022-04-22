@@ -26,9 +26,9 @@ class AddFriend extends StatefulWidget {
 
 class _AddFriendState extends State<AddFriend> {
   final GlobalKey<FormState> _keyA = GlobalKey();
-  String phoneCode = '+213'; //'+965';
-  String countryCode = 'DZ'; //'KW';
-  String countryName = 'Algeria'; //'Kuwait';
+  String phoneCode = '+965';
+  String countryCode = 'KW';
+  String countryName = 'Kuwait';
   bool loading = false;
   bool verification = false;
   String? phonenumber;

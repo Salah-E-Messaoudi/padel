@@ -24,11 +24,10 @@ class _PhoneAuthState extends State<PhoneAuth> {
   String? phonenumber;
   String? _error;
   bool loading = false;
-  String phoneCode = '+213'; //'+965';
-  String countryCode = 'DZ'; //'KW';
-  String countryName = 'Algeria'; //'Kuwait';
+  String phoneCode = '+965';
+  String countryCode = 'KW';
+  String countryName = 'Kuwait';
   final GlobalKey<FormState> _keyA = GlobalKey();
-  // ConfirmationResult? result;
   String? verificationId;
   int? forceResendingToken;
   String? pinCode;
@@ -45,163 +44,160 @@ class _PhoneAuthState extends State<PhoneAuth> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 80.h),
-              SizedBox(
-                child: Column(
-                  children: [
-                    CustomImageTextHeader(
-                      title: AppLocalizations.of(context)!.auth_title,
-                      subtitle: AppLocalizations.of(context)!.auth_subtitle,
-                    ),
-                    SizedBox(
-                      height: 0.2.sh,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (otpSent)
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 35.w),
-                              child: PinCodeTextField(
-                                enabled: !loading,
-                                appContext: context,
-                                length: 6,
-                                onChanged: (value) {},
-                                onCompleted: onComplete,
-                                keyboardType: TextInputType.number,
-                                textStyle: GoogleFonts.montserrat(
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headline1!
-                                      .color,
-                                ),
-                                pinTheme: PinTheme(
-                                  borderWidth: 2.sp,
-                                  shape: PinCodeFieldShape.box,
-                                  borderRadius: BorderRadius.circular(20.sp),
-                                  fieldHeight: 50.w,
-                                  fieldWidth: 50.w,
-                                  inactiveColor: Theme.of(context).primaryColor,
-                                  activeColor: Theme.of(context).primaryColor,
-                                  selectedColor: Theme.of(context).primaryColor,
-                                ),
+              Column(
+                children: [
+                  CustomImageTextHeader(
+                    title: AppLocalizations.of(context)!.auth_title,
+                    subtitle: AppLocalizations.of(context)!.auth_subtitle,
+                  ),
+                  SizedBox(
+                    height: 0.2.sh,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (otpSent)
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 35.w),
+                            child: PinCodeTextField(
+                              enabled: !loading,
+                              appContext: context,
+                              length: 6,
+                              onChanged: (value) {},
+                              onCompleted: onComplete,
+                              keyboardType: TextInputType.number,
+                              textStyle: GoogleFonts.montserrat(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .color,
+                              ),
+                              pinTheme: PinTheme(
+                                borderWidth: 2.sp,
+                                shape: PinCodeFieldShape.box,
+                                borderRadius: BorderRadius.circular(20.sp),
+                                fieldHeight: 50.w,
+                                fieldWidth: 50.w,
+                                inactiveColor: Theme.of(context).primaryColor,
+                                activeColor: Theme.of(context).primaryColor,
+                                selectedColor: Theme.of(context).primaryColor,
                               ),
                             ),
-                          if (otpNotSent)
-                            SizedBox(
-                              width: 0.8.sw,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    AppLocalizations.of(context)!.phone_number,
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                          ),
+                        if (otpNotSent)
+                          SizedBox(
+                            width: 0.8.sw,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.phone_number,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  Form(
-                                    key: _keyA,
-                                    autovalidateMode: AutovalidateMode.disabled,
-                                    child: CustomTextFormField(
-                                      hint: AppLocalizations.of(context)!
-                                          .phone_number_hint,
-                                      prefix: CountryCodePicker(
-                                        onChanged: (code) {
-                                          countryCode = code.code ?? 'KW';
-                                          phoneCode = code.dialCode ?? '+965';
-                                          countryName = code.name ?? 'Kuwait';
-                                        },
-                                        initialSelection: countryCode,
-                                        enabled: false,
-                                        comparator: (a, b) =>
-                                            b.name!.compareTo(a.name!),
-                                        boxDecoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .color,
-                                          borderRadius:
-                                              BorderRadius.circular(10.sp),
-                                        ),
-                                        textStyle: GoogleFonts.poppins(
-                                          height: 1,
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline3!
-                                              .color,
-                                          fontSize: 16.sp,
-                                        ),
-                                        padding: EdgeInsets.zero,
-                                        flagWidth: 26.sp,
-                                      ),
-                                      style: GoogleFonts.poppins(
-                                          height: 1,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline1!
-                                              .color,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold),
-                                      onSaved: (value) {
-                                        phonenumber = value;
+                                ),
+                                Form(
+                                  key: _keyA,
+                                  autovalidateMode: AutovalidateMode.disabled,
+                                  child: CustomTextFormField(
+                                    hint: AppLocalizations.of(context)!
+                                        .phone_number_hint,
+                                    prefix: CountryCodePicker(
+                                      onChanged: (code) {
+                                        countryCode = code.code ?? 'KW';
+                                        phoneCode = code.dialCode ?? '+965';
+                                        countryName = code.name ?? 'Kuwait';
                                       },
-                                      validator: (value) => validateNumberInt(
-                                          value: value, context: context),
-                                      errorText: getError(context, _error),
-                                      width: 0.8.sw,
-                                      keyboardType: TextInputType.phone,
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 16.sp),
-                                      fontSize: 16,
-                                      enabled: !loading,
-                                      onEditingComplete: next,
+                                      initialSelection: countryCode,
+                                      enabled: false,
+                                      comparator: (a, b) =>
+                                          b.name!.compareTo(a.name!),
+                                      boxDecoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline4!
+                                            .color,
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp),
+                                      ),
+                                      textStyle: GoogleFonts.poppins(
+                                        height: 1,
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline3!
+                                            .color,
+                                        fontSize: 16.sp,
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      flagWidth: 26.sp,
                                     ),
+                                    style: GoogleFonts.poppins(
+                                        height: 1,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline1!
+                                            .color,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold),
+                                    onSaved: (value) {
+                                      phonenumber = value;
+                                    },
+                                    validator: (value) => validateNumberInt(
+                                        value: value, context: context),
+                                    errorText: getError(context, _error),
+                                    width: 0.8.sw,
+                                    keyboardType: TextInputType.phone,
+                                    contentPadding:
+                                        EdgeInsets.symmetric(vertical: 16.sp),
+                                    fontSize: 16,
+                                    enabled: !loading,
+                                    onEditingComplete: next,
                                   ),
-                                ],
-                              ),
-                            ),
-                          if (otpSent)
-                            SizedBox(
-                              width: 1.sw - 40.sp,
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 20.sp),
-                                child: TextButton(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)!
-                                            .didnt_receive_code,
-                                        style: GoogleFonts.montserrat(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline1!
-                                              .color,
-                                          fontSize: 10.sp,
-                                        ),
-                                      ),
-                                      Text(
-                                        AppLocalizations.of(context)!.resend,
-                                        style: GoogleFonts.montserrat(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  onPressed: verifyPhoneNumber,
                                 ),
+                              ],
+                            ),
+                          ),
+                        if (otpSent)
+                          SizedBox(
+                            width: 1.sw - 40.sp,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                              child: TextButton(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!
+                                          .didnt_receive_code,
+                                      style: GoogleFonts.montserrat(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline1!
+                                            .color,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
+                                    Text(
+                                      AppLocalizations.of(context)!.resend,
+                                      style: GoogleFonts.montserrat(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                onPressed: verifyPhoneNumber,
                               ),
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
