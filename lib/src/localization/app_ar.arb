@@ -127,5 +127,83 @@
   "team":"فريق",
   "accept":"قبول",
   "reject":"رفض",
-  "joined":"انضم"
+  "joined":"انضم",
+
+  "pick_image" : "اختر صورة ملفك الشخصي!",
+  "pick_gender" : "اختر جنسك!",
+  "invalid_request" : "طلب غير صحيح",
+  "already_friends" : "أنتم أصدقاء بالفعل",
+  "kdw_hour":"/ساعة",
+  "price_kdw":"{price} KDW",
+  "@price_kdw": {
+    "description": "120 KDW",
+    "placeholders":{
+      "price":{
+        "type":"String",
+        "example":"120"
+      }
+    }
+  },
+  "type_match":"{type} مباراة",
+  "@type_match": {
+    "description": "مباراة بادل",
+    "placeholders":{
+      "type":{
+        "type":"String",
+        "example":"بادل"
+      }
+    }
+  },
+  "notifications" : "اشعارات",
+  "invite_friends" : "دعوة الأصدقاء",
+  "save_profile" : "احفظ الملف الشخصي",
+  "number_joined":"{number} انضم",
+  "@number_joined": {
+    "description": "مباراة بادل",
+    "placeholders":{
+      "number":{
+        "type":"String",
+        "example":"بادل"
+      }
+    }
+  },
+  "friend_added" : "أضافك إلى قائمة أصدقائه، والآن يمكنك دعوة بعضكما البعض إلى المباريات.",
+  "new_invitation" : "دعاك لإكمال فريقه في مباراة.",
+  "invitation_accepted" : "قبلت دعوتك وانضمت إلى فريقك.",
+  "confirmation" : "تأكيد",
+  "alert_accept_invit_subtitle" : "هل ترغب في قبول هذه الدعوة والانضمام إلى المباراة ؟",
+  "alert_reject_invit_subtitle" : "هل ترغب في رفض وحذف هذه الدعوة ؟",
+  "alert_signout_title" : "تسجيل خروج!",
+  "alert_signout_subtitle" : "هل أنت متأكد من أنك تريد تسجيل الخروج وإغلاق حسابك ؟",
+  "alert_updateprofile_title" : "تحديث الملف الشخصي!",
+  "alert_updateprofile_subtitle" : "هل أنت متأكد من أنك تريد تحديث معلومات الموظفين الخاصة بك ؟",
+  "alert_booking_confirmation_title" : "تأكيد الحجز الخاص بك",
+  "alert_booking_confirmation_subtitle" : "هل أنت متأكد من أنك تريد حجز هذا الملعب بتاريخ ووقت محددين ؟",
+  "alert_invite_friend_title" : "دعوة للمباراة",
+  "alert_invite_friend_subtitle" : "هل ترغب في إرسال دعوة لهذا المستخدم للانضمام إلى هذه المباراة ؟",
+  "alert_add_friend_subtitle" : "هل ترغب في إضافة هذا المستخدم إلى قائمة أصدقائك ؟",
+  "alert_delete_all_notifications_title" : "حذف الكل!",
+  "alert_delete_all_notifications_subtitle" : "هل أنت متأكد من أنك تريد حذف جميع الإشعارات المعروضة هنا ؟",
+  "cropper" : "قطع الصورة",
+  "stadiums" : "الملاعب",
+  "bookings" : "الحجوزات",
+  "update_completed" : "اكتمل التحديث!",
+  "session_booked_successfully" : "حجزت الجلسة بنجاح!",
+  "invitation_sent_successfully" : "الدعوة أرسلت بنجاح!",
+  "invitation_accepted_successfully" : "قُبلت الدعوة بنجاح!",
+  "invitation_rejected_successfully" : "تم رفض الدعوة بنجاح!",
+  "friend_added_successfully" : "تمت إضافة المستخدم إلى قائمة الأصدقاء!",
+  "complete_booking" : "الرجاء تحديد التاريخ والجلسة!",
+  "pick_your_session" : "اختر جلستك",
+  "empty_bookings" : "ليس لديك حجوزات في هذه اللحظة. سيتم سرد جميع حجوزاتك المستقبلية هنا.",
+  "empty_stadiums" : "في هذه اللحظة، لا توجد ملاعب لخيار محدد، جرب خيارًا آخر أو جرب لاحقًا.",
+  "empty_notifications" : "ليس لديك ملاحظات في الوقت الحالي، سيتم عرض دائرة حمراء فوق زر الإشعار الموجود على الشاشة الرئيسية لإعلامك.",
+  "empty_friends_myfriends" : "ليس لديك أصدقاء في هذه اللحظة. أضف صديقًا إلى منصة Padel Life باستخدام رقم هاتفه.",
+  "empty_pending_invitations" : "يمكن لأصدقائك الاستحمام في الملاعب ودعوتك للانضمام إلى مباراتهم. سيتم عرض دعواتك هنا.",
+  "empty_friends_invite" : "ليس لديك أصدقاء في هذه اللحظة. من القائمة الجانبية، في خيار أصدقائي، أضف مستخدمين إلى قائمة أصدقائك باستخدام رقم الهاتف.",
+  "session_already_taken" : "الجلسة اتخذت بالفعل!",
+  "invited" : "مدعو",
+  "added" : "مضاف",
+  "invite" : "دعوة",
+  "close" : "إغلاق"
 }
