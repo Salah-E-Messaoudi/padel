@@ -38,8 +38,8 @@ class PendingInvitation {
 
   bool get isFull => stadium.type == 'padel' ? teamCount >= 4 : teamCount == 11;
 
-  String get countText =>
-      details.listphotoURL.length.toString() +
-      '/' +
-      (stadium.type == 'padel' ? '4' : '11');
+  String get countText => details.listphotoURL.length.toString();
+  //  +
+  // '/' +
+  // (stadium.type == 'padel' ? '4' : '11');
 }
