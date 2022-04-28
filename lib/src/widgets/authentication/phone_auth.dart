@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +26,9 @@ class _PhoneAuthState extends State<PhoneAuth> {
   String? phonenumber;
   String? _error;
   bool loading = false;
-  String phoneCode = '+965';
-  String countryCode = 'KW';
-  String countryName = 'Kuwait';
+  String phoneCode = '+213'; //'+965';
+  String countryCode = 'DZ'; //'KW';
+  String countryName = 'Algeria'; //Kuwait';
   final GlobalKey<FormState> _keyA = GlobalKey();
   String? verificationId;
   int? forceResendingToken;

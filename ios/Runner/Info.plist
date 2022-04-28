@@ -37,6 +37,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Padel Life requires access to your photo library so you pick a profile picture</string>
+	<key>NSContactsUsageDescription</key>
+     <string>Padel Life requires access to your contacts. Selected contacts will be added to friends list.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -11,3 +11,4 @@ export './screens/stadium_details.dart';
 export './screens/stadiums.dart';
 export './screens/splash_screen.dart';
 export './screens/add_friend.dart';
+export './screens/pick_contact.dart';

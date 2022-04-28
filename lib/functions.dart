@@ -131,6 +131,53 @@ void showSnackBarMessage({
       )));
 }
 
+void showOneButtonDialog({
+  required BuildContext context,
+  required String title,
+  required String content,
+}) {
+  showDialog(
+    context: context,
+    builder: Platform.isIOS
+        ? (context) => CupertinoAlertDialog(
+              title: Text(
+                title,
+              ),
+              content: Text(
+                content,
+              ),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: Text(AppLocalizations.of(context)!.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            )
+        : (context) => AlertDialog(
+              title: Text(
+                title,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: Text(
+                content,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.close),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+  );
+}
+
 void showAlertDialog({
   required BuildContext context,
   required String title,
@@ -151,11 +198,11 @@ void showAlertDialog({
               ),
               actions: <Widget>[
                 CupertinoDialogAction(
-                  child: Text(noLabel ?? 'Cancel'),
+                  child: Text(noLabel ?? AppLocalizations.of(context)!.cancel),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 CupertinoDialogAction(
-                  child: Text(yesLabel ?? 'Yes'),
+                  child: Text(yesLabel ?? AppLocalizations.of(context)!.yes),
                   onPressed: () {
                     Navigator.of(context).pop();
                     onYes();
@@ -176,11 +223,11 @@ void showAlertDialog({
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text(noLabel ?? 'Cancel'),
+                  child: Text(noLabel ?? AppLocalizations.of(context)!.close),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 TextButton(
-                  child: Text(yesLabel ?? 'Yes'),
+                  child: Text(yesLabel ?? AppLocalizations.of(context)!.close),
                   onPressed: () async {
                     Navigator.of(context).pop();
                     await onYes();

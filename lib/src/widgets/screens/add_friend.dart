@@ -7,6 +7,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:padel/functions.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
+import 'package:padel/src/widgets/screens.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:share_plus/share_plus.dart';
@@ -27,6 +28,7 @@ class AddFriend extends StatefulWidget {
 
 class _AddFriendState extends State<AddFriend> {
   final GlobalKey<FormState> _keyA = GlobalKey();
+  TextEditingController controller = TextEditingController();
   String phoneCode = '+213'; //'+965';
   String countryCode = 'DZ'; //'KW';
   String countryName = 'Algeria'; //'Kuwait';
@@ -38,11 +40,20 @@ class _AddFriendState extends State<AddFriend> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
+      padding: EdgeInsets.fromLTRB(20.w, 5.sp, 20.w, 20.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 10.sp),
+            width: 120.w,
+            height: 4.h,
+            decoration: BoxDecoration(
+              color: Theme.of(context).textTheme.headline2!.color!,
+              borderRadius: BorderRadius.circular(10.sp),
+            ),
+          ),
           Text(
             AppLocalizations.of(context)!.add_new_friend,
             style: GoogleFonts.poppins(
@@ -55,12 +66,12 @@ class _AddFriendState extends State<AddFriend> {
             AppLocalizations.of(context)!.add_new_friend_subtitle,
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-              fontSize: 11.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).textTheme.headline4!.color,
             ),
           ),
-          SizedBox(height: 30.h),
+          SizedBox(height: 10.h),
           Form(
             key: _keyA,
             autovalidateMode: AutovalidateMode.disabled,
@@ -68,7 +79,25 @@ class _AddFriendState extends State<AddFriend> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomTextFormField(
-                  hint: AppLocalizations.of(context)!.phone_number_hint,
+                  suffixIcon: Icons.contacts,
+                  suffixOnTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      isDismissible: true,
+                      enableDrag: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.sp),
+                          topRight: Radius.circular(10.sp),
+                        ),
+                      ),
+                      context: context,
+                      builder: (context) => PickContact(
+                        onPick: (value) => controller.text = value,
+                      ),
+                    );
+                  },
+                  controller: controller,
                   prefix: CountryCodePicker(
                     onChanged: (code) {
                       countryCode = code.code ?? 'KW';
@@ -92,17 +121,18 @@ class _AddFriendState extends State<AddFriend> {
                     flagWidth: 26.sp,
                   ),
                   style: GoogleFonts.poppins(
-                      height: 1,
-                      color: Theme.of(context).textTheme.headline1!.color,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold),
+                    height: 1,
+                    color: Theme.of(context).textTheme.headline1!.color,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                   onSaved: (value) {
                     phonenumber = value;
                   },
                   validator: (value) =>
                       validateNotNull(value: value, context: context),
                   errorText: getError(context, _error),
-                  width: 0.8.sw,
+                  width: 0.7.sw,
                   keyboardType: TextInputType.phone,
                   contentPadding: EdgeInsets.symmetric(vertical: 16.sp),
                   fontSize: 16,
@@ -112,7 +142,7 @@ class _AddFriendState extends State<AddFriend> {
               ],
             ),
           ),
-          SizedBox(height: 30.h),
+          SizedBox(height: 10.h),
           CustomIconTextButton(
             label: AppLocalizations.of(context)!.add_friends,
             color: Theme.of(context).primaryColor,
@@ -162,9 +192,11 @@ class _AddFriendState extends State<AddFriend> {
                 );
               },
               onException: (err) {
-                Navigator.pop(context);
                 if (err is CFException) {
                   if (err.code == 'user-not-found') {
+                    setState(() {
+                      loading = false;
+                    });
                     showAlertDialog(
                       context: context,
                       title: AppLocalizations.of(context)!
@@ -179,6 +211,7 @@ class _AddFriendState extends State<AddFriend> {
                       },
                     );
                   } else {
+                    Navigator.pop(context);
                     showSnackBarMessage(
                       context: context,
                       hintMessage: getError(context, err.code!)!,

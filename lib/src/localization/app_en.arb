@@ -150,7 +150,8 @@
   "save_profile":"Save Profile",
 
   "add_new_friend":"Add New Friend",
-  "add_new_friend_subtitle":"Enter Your Friend Phone Number",
+  "add_new_friend_subtitle":"Enter Your Friend Phone Number, or add from your contects list.",
+  "select_contact":"Select a contact from the list bellow to copy his number",
   "add_friends":"Add Friend",
   "invite_from":"Invite From",
   "event":"Event",
@@ -215,5 +216,7 @@
   "invited":"Invited",
   "added":"Added",
   "invite":"Invite",
-  "close":"Close"
+  "close":"Close",
+  "cancel":"cancel",
+  "yes":"Yes"
 }
