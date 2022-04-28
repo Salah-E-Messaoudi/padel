@@ -1,11 +1,8 @@
 import 'dart:developer';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:padel/main.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/settings/preferences.dart';

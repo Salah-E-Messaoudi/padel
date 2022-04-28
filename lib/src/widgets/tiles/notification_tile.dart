@@ -71,8 +71,12 @@ class NotificationTile extends StatelessWidget {
 
   String getNotificationText(BuildContext context) {
     switch (notification.key) {
-      case 'friend_added':
-        return AppLocalizations.of(context)!.friend_added;
+      case 'friend_added_1':
+        return AppLocalizations.of(context)!.friend_added_1;
+      case 'friend_added_2':
+        return AppLocalizations.of(context)!.friend_added_2;
+      case 'friend_added_3':
+        return AppLocalizations.of(context)!.friend_added_3;
       case 'new_invitation':
         return AppLocalizations.of(context)!.new_invitation;
       case 'invitation_accepted':

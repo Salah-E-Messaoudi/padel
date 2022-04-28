@@ -20,6 +20,8 @@ class ListStadiumsMax {
     if (isNotNull || isLoading) return;
     isLoading = true;
     list = await ApiCalls.getListStadiums(type);
+    // await ApiCalls.getAPIListStadiums();
+    // await ApiCalls.getAPIStadium('1');
     isNull = false;
     isLoading = false;
   }

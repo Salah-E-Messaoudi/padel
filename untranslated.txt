@@ -1,1 +1,10 @@
-{}
+{
+  "ar": [
+    "friend_added_1",
+    "friend_added_2",
+    "friend_added_3",
+    "alert_send_invitation_title",
+    "alert_send_invitation_subtitle",
+    "alert_share_invitation"
+  ]
+}

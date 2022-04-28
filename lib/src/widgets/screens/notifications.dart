@@ -132,7 +132,9 @@ class _NotificationsState extends State<Notifications> {
     try {
       // String id = notification.id;
       switch (notification.key) {
-        case 'friend_added':
+        case 'friend_added_1':
+        case 'friend_added_2':
+        case 'friend_added_3':
           Navigator.push(
             context,
             MaterialPageRoute(

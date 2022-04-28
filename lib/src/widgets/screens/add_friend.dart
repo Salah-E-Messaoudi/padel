@@ -9,6 +9,7 @@ import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AddFriend extends StatefulWidget {
   const AddFriend({
@@ -26,9 +27,9 @@ class AddFriend extends StatefulWidget {
 
 class _AddFriendState extends State<AddFriend> {
   final GlobalKey<FormState> _keyA = GlobalKey();
-  String phoneCode = '+965';
-  String countryCode = 'KW';
-  String countryName = 'Kuwait';
+  String phoneCode = '+213'; //'+965';
+  String countryCode = 'DZ'; //'KW';
+  String countryName = 'Algeria'; //'Kuwait';
   bool loading = false;
   bool verification = false;
   String? phonenumber;
@@ -163,11 +164,27 @@ class _AddFriendState extends State<AddFriend> {
               onException: (err) {
                 Navigator.pop(context);
                 if (err is CFException) {
-                  showSnackBarMessage(
-                    context: context,
-                    hintMessage: getError(context, err.code!)!,
-                    icon: Icons.info_outline,
-                  );
+                  if (err.code == 'user-not-found') {
+                    showAlertDialog(
+                      context: context,
+                      title: AppLocalizations.of(context)!
+                          .alert_send_invitation_title,
+                      content: AppLocalizations.of(context)!
+                          .alert_send_invitation_subtitle,
+                      onYes: () async {
+                        Share.share(
+                          AppLocalizations.of(context)!.alert_share_invitation,
+                          subject: 'Download and join Padel Life now',
+                        );
+                      },
+                    );
+                  } else {
+                    showSnackBarMessage(
+                      context: context,
+                      hintMessage: getError(context, err.code!)!,
+                      icon: Icons.info_outline,
+                    );
+                  }
                 } else {
                   showSnackBarMessage(
                     context: context,

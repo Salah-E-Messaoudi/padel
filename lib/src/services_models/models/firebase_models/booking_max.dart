@@ -46,7 +46,8 @@ class BookingMax {
 
   int get teamCount => listAdded.length;
 
-  bool get isFull => stadium.type == 'padel' ? teamCount >= 4 : teamCount == 11;
+  bool get isFull => false;
+  // stadium.type == 'padel' ? teamCount >= 4 : teamCount == 11;
 
   bool isOwner(String uid) => owner.uid == uid;
 

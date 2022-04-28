@@ -6,6 +6,7 @@ import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/screens.dart';
 import 'package:padel/src/widgets/tiles.dart';
 import 'package:padel/src/widgets/widget_models.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MyFriends extends StatefulWidget {
   const MyFriends({
@@ -45,6 +46,31 @@ class _MyFriendsState extends State<MyFriends> {
         future: ListFriends.get(),
         builder: (context, _) {
           return Scaffold(
+            floatingActionButton: widget.booking != null
+                ? null
+                : FloatingActionButton(
+                    onPressed: () => showModalBottomSheet(
+                      isScrollControlled: true,
+                      isDismissible: true,
+                      enableDrag: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.sp),
+                          topRight: Radius.circular(10.sp),
+                        ),
+                      ),
+                      context: context,
+                      builder: (context) => AddFriend(
+                        user: widget.user,
+                        rebuildScreen: () => onRefresh(),
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 26.sp,
+                    ),
+                  ),
             body: RefreshIndicator(
               backgroundColor: const Color.fromARGB(245, 245, 245, 255),
               color: Theme.of(context).primaryColor,
@@ -59,29 +85,18 @@ class _MyFriendsState extends State<MyFriends> {
                         ? null
                         : [
                             IconButton(
-                              onPressed: () => showModalBottomSheet(
-                                isScrollControlled: true,
-                                isDismissible: true,
-                                enableDrag: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10.sp),
-                                    topRight: Radius.circular(10.sp),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) => AddFriend(
-                                  user: widget.user,
-                                  rebuildScreen: () => onRefresh(),
-                                ),
+                              onPressed: () => Share.share(
+                                AppLocalizations.of(context)!
+                                    .alert_share_invitation,
+                                subject: 'Download and join Padel Life now',
                               ),
                               icon: Icon(
-                                Icons.add_rounded,
+                                Icons.share,
                                 color: Theme.of(context)
                                     .textTheme
                                     .headline1!
                                     .color,
-                                size: 26.sp,
+                                size: 24.sp,
                               ),
                             ),
                           ],

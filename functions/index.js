@@ -14,7 +14,6 @@ exports.addFriend = functions.https.onRequest( async (request, response) => {
             'message': 'Invalid body',
         });
     }
-    // console.log(body);
     if (body.friendPhoneNumber == undefined) {
         response.send({
             'result': false,
@@ -38,6 +37,10 @@ exports.addFriend = functions.https.onRequest( async (request, response) => {
     let user = body;
     let friend = await admin.auth().getUserByPhoneNumber(body.friendPhoneNumber)
     .catch((err) => {
+        createInvitationDocument(
+            body.uid,
+            body.friendPhoneNumber,
+        );
         response.send({
             'result': false,
             'code': 'user-not-found',
@@ -46,6 +49,10 @@ exports.addFriend = functions.https.onRequest( async (request, response) => {
     });
     let friendDoc = await admin.firestore().collection('userInfo').doc(friend.uid).get()
     .catch((_) => {
+        createInvitationDocument(
+            body.uid,
+            body.friendPhoneNumber,
+        );
         response.send({
             'result': false,
             'code': 'user-not-found',
@@ -69,7 +76,7 @@ exports.addFriend = functions.https.onRequest( async (request, response) => {
             user.displayName,
             user.photoURL,
             friendDoc.data().token,
-            'friend_added',
+            'friend_added_1',
             'You have a new friend!',
             body,
         );
@@ -151,6 +158,65 @@ exports.onUpdateBooking = functions
         }
     });
 
+exports.onUpdateUserInfo = functions
+.runWith({
+    timeoutSeconds: 300,
+  })
+.firestore
+.document("userInfo/{uid}")
+.onUpdate( async (change, context) => {
+    if (change.before.data().displayName == undefined &&
+    change.after.data().displayName != undefined &&
+    change.after.data().phoneNumber != undefined) {
+        let doc = await admin.firestore().collection('invitations').doc(
+            change.after.data().phoneNumber
+            ).get()
+        .catch((_) => {
+            console.log('no invitations were found for user uid:',context.params.uid);
+        });
+        if (doc == undefined) return;
+        
+        doc.data().friends.forEach(async friendUID => {
+            console.log(friendUID);
+            let friendDoc = await admin.firestore().collection('userInfo').doc(friendUID).get();
+            await admin.firestore().collection('userInfo').doc(friendDoc.data().uid)
+            .collection('friends').doc(change.after.data().uid)
+            .set(
+                getUserDataMin(change.after.data()),
+            );
+            let body;
+            body = change.after.data().displayName+' added to your friends list, now you can invite each other to matches to complete your team.';
+            await createNotification(
+                friendDoc.data().uid,
+                change.after.data().displayName,
+                change.after.data().photoURL,
+                friendDoc.data().token,
+                'friend_added_2',
+                'You have a new friend!',
+                body,
+            );
+            await admin.firestore().collection('userInfo').doc(change.after.data().uid)
+            .collection('friends').doc(friendDoc.data().uid)
+            .set(
+                getUserDataMin(friendDoc.data()),
+            );
+            body = friendDoc.data().displayName+' added you to his friends list, now you can invite each other to matches to complete your team.';
+            await createNotification(
+                change.after.data().uid,
+                friendDoc.data().displayName,
+                friendDoc.data().photoURL,
+                change.after.data().token,
+                'friend_added_3',
+                'You have a new friend!',
+                body,
+            );
+        });
+        await admin.firestore().collection('invitations').doc(
+            change.after.data().phoneNumber
+            ).delete();
+    }
+});
+
 /**
  * Adds two numbers together.
  * @param {FirebaseFirestore.DocumentData} data
@@ -199,6 +265,30 @@ function getUserDataMin(data) {
     return before.filter(function(value, index, arr) {
         return !after.includes(value);
     });
+  }
+
+  /**
+   * create an invitation document
+   * @param {String} uid
+   * @param {String} phoneNumber
+   * 
+   */
+  async function createInvitationDocument(
+      uid,
+      phoneNumber,
+  ) {
+    await admin.firestore().collection('invitations').doc(phoneNumber)
+    .set(
+        {
+          'friends': admin.firestore.FieldValue.arrayUnion(
+              uid,
+          ),
+          'updatedAt': admin.firestore.FieldValue.serverTimestamp(),
+        },
+        {
+          'merge': true,
+        }
+    );
   }
 
   /**

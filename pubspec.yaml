@@ -36,6 +36,7 @@ dependencies:
   phone_number: ^0.12.0+2
   pin_code_fields: ^7.4.0
   provider: ^6.0.2
+  share_plus: ^4.0.4
   shared_preferences: ^2.0.13
   smooth_page_indicator: ^1.0.0+2
 
