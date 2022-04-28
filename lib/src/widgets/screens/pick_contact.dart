@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +9,7 @@ import 'package:padel/functions.dart';
 import 'package:padel/src/widgets/tiles.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class PickContact extends StatelessWidget {
   const PickContact({
@@ -15,31 +19,44 @@ class PickContact extends StatelessWidget {
 
   final void Function(String) onPick;
 
-  Future<List<Contact>> getContacts() async {
-    try {
-      return await FlutterContacts.getContacts(
-        withProperties: true,
-        withPhoto: true,
-      );
-    } catch (e) {
+  Future<List<Contact>> getContacts(BuildContext context) async {
+    late PermissionStatus serviceStatus;
+    serviceStatus = await Permission.contacts.status;
+    if (serviceStatus.isPermanentlyDenied) {
+      dontHavePermission(context);
       return [];
-      // throw Exception();
     }
+    if (!serviceStatus.isGranted) {
+      await Permission.contacts.request();
+      serviceStatus = await Permission.contacts.status;
+      if (!serviceStatus.isGranted) {
+        dontHavePermission(context);
+        return [];
+      }
+    }
+    return await FlutterContacts.getContacts(
+      withProperties: true,
+      withPhoto: true,
+    );
+  }
+
+  void dontHavePermission(BuildContext context) {
+    Navigator.pop(context);
+    showOneButtonDialog(
+      context: context,
+      title: 'Need access to your contacts',
+      content:
+          'Give Padel Life permission to access your contacts list in order to activate this feature.',
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Contact>>(
-        future: getContacts(),
+        future: getContacts(context),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            Navigator.pop(context);
-            showOneButtonDialog(
-              context: context,
-              title: 'Need access to your contacts',
-              content:
-                  'Give Padel Life permission to access your contacts list in order to activate this feature.',
-            );
+            dontHavePermission(context);
           }
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
