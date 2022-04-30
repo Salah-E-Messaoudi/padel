@@ -16,29 +16,40 @@ class AuthenticationService {
 
   ///build a UserData object for current [user]
   static Future<UserData?> _userFromFirebaseUser(User? user) async {
-    if (user == null) return null;
-    return FirebaseFirestore.instance
-        .doc(FirestorePath.userInfo(uid: user.uid))
-        .get()
-        .then((doc) async {
-      late UserData userData;
-      ImageProvider<Object>? photo =
-          getCachedNetworkImageProvider(user.photoURL);
-      if (doc.data()!['uid'] == user.uid) {
-        userData = UserData.fromUser(
-          user,
-          doc,
-          photo,
-        );
-      } else {
-        userData = UserData.fromUser(
-          user,
-          null,
-          photo,
-        );
-      }
-      return userData;
-    });
+    try {
+      if (user == null) return null;
+      return FirebaseFirestore.instance
+          .doc(FirestorePath.userInfo(uid: user.uid))
+          .get(
+            const GetOptions(source: Source.server),
+          )
+          .then((doc) async {
+        if (!doc.exists || doc.data() == null) {
+          return null;
+        }
+        late UserData userData;
+        ImageProvider<Object>? photo;
+        if (user.photoURL != null) {
+          photo = getCachedNetworkImageProvider(user.photoURL);
+        }
+        if (doc.data() != null && doc.data()!['uid'] == user.uid) {
+          userData = UserData.fromUser(
+            user,
+            doc,
+            photo,
+          );
+        } else {
+          userData = UserData.fromUser(
+            user,
+            null,
+            photo,
+          );
+        }
+        return userData;
+      });
+    } on Exception catch (e) {
+      return null;
+    }
   }
 
   static ImageProvider<Object>? getCachedNetworkImageProvider(

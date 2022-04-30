@@ -29,9 +29,9 @@ class AddFriend extends StatefulWidget {
 class _AddFriendState extends State<AddFriend> {
   final GlobalKey<FormState> _keyA = GlobalKey();
   TextEditingController controller = TextEditingController();
-  String phoneCode = '+213'; //'+965';
-  String countryCode = 'DZ'; //'KW';
-  String countryName = 'Algeria'; //'Kuwait';
+  String phoneCode = '+965';
+  String countryCode = 'KW';
+  String countryName = 'Kuwait';
   bool loading = false;
   bool verification = false;
   String? phonenumber;
@@ -105,7 +105,8 @@ class _AddFriendState extends State<AddFriend> {
                       countryName = code.name ?? 'Kuwait';
                     },
                     initialSelection: countryCode,
-                    enabled: false,
+                    enabled: true,
+                    favorite: const ['+965'],
                     comparator: (a, b) => b.name!.compareTo(a.name!),
                     boxDecoration: BoxDecoration(
                       color: Theme.of(context).textTheme.headline4!.color,

@@ -16,14 +16,35 @@ class UserInfoService {
     UserCredential userCredential,
   ) async {
     String? token = await FirebaseMessaging.instance.getToken();
-    await fb.doc(FirestorePath.userInfo(uid: userCredential.user!.uid)).set(
-      {
-        'uid': userCredential.user!.uid,
-        'token': token,
-        'phoneNumber': userCredential.user!.phoneNumber,
-      },
-      SetOptions(merge: true),
-    );
+    if (userCredential.user!.photoURL == null) {
+      await fb.doc(FirestorePath.userInfo(uid: userCredential.user!.uid)).set(
+        {
+          'uid': userCredential.user!.uid,
+          'token': token,
+          'phoneNumber': userCredential.user!.phoneNumber,
+        },
+        SetOptions(merge: true),
+      );
+    } else {
+      try {
+        await fb
+            .doc(FirestorePath.userInfo(uid: userCredential.user!.uid))
+            .update(
+          {
+            'token': token,
+          },
+        );
+      } catch (e) {
+        await fb.doc(FirestorePath.userInfo(uid: userCredential.user!.uid)).set(
+          {
+            'uid': userCredential.user!.uid,
+            'token': token,
+            'phoneNumber': userCredential.user!.phoneNumber,
+          },
+          SetOptions(merge: true),
+        );
+      }
+    }
   }
 
   ///create userInfo document with `uid`, `token`, and `phoneNumber`

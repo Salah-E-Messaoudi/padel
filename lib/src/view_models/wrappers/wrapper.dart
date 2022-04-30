@@ -77,6 +77,7 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
+    log('rebuild wrapper');
     userStream = Provider.of<UserData?>(context);
     if (userStream != null && userStream!.init) {
       return const SplashScreen(loading: true);
@@ -92,7 +93,9 @@ class _WrapperState extends State<Wrapper> {
             return Onboarding(setShowOnboarding: hideOnboarding);
           } else {
             if (userStream == null) {
-              return const PhoneAuth();
+              return PhoneAuth(
+                rebuildWrapper: () => setState(() {}),
+              );
             } else {
               if (userStream!.isNotComplete) {
                 return SetupAccount(

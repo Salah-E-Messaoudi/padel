@@ -16,7 +16,10 @@ import 'package:padel/functions.dart';
 class PhoneAuth extends StatefulWidget {
   const PhoneAuth({
     Key? key,
+    required this.rebuildWrapper,
   }) : super(key: key);
+
+  final void Function() rebuildWrapper;
 
   @override
   State<PhoneAuth> createState() => _PhoneAuthState();
@@ -26,9 +29,9 @@ class _PhoneAuthState extends State<PhoneAuth> {
   String? phonenumber;
   String? _error;
   bool loading = false;
-  String phoneCode = '+213'; //'+965';
-  String countryCode = 'DZ'; //'KW';
-  String countryName = 'Algeria'; //Kuwait';
+  String phoneCode = '+965';
+  String countryCode = 'KW';
+  String countryName = 'Kuwait';
   final GlobalKey<FormState> _keyA = GlobalKey();
   String? verificationId;
   int? forceResendingToken;
@@ -113,7 +116,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                         countryName = code.name ?? 'Kuwait';
                                       },
                                       initialSelection: countryCode,
-                                      enabled: false,
+                                      enabled: true,
+                                      favorite: const ['+965'],
                                       comparator: (a, b) =>
                                           b.name!.compareTo(a.name!),
                                       boxDecoration: BoxDecoration(
@@ -353,6 +357,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
         .signInWithCredential(credential)
         .then((userCredential) async {
       await UserInfoService.createUserInfo(userCredential);
+      // await userCredential.user!.reload();
+      // widget.rebuildWrapper();
     });
   }
 }
