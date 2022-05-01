@@ -7,11 +7,16 @@ import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/screens.dart';
 
 class BookingTile extends StatelessWidget {
-  const BookingTile({Key? key, required this.user, required this.booking})
-      : super(key: key);
+  const BookingTile({
+    Key? key,
+    required this.user,
+    required this.booking,
+    required this.rebuildHomeScreen,
+  }) : super(key: key);
 
   final UserData user;
   final BookingMax booking;
+  final void Function() rebuildHomeScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +27,7 @@ class BookingTile extends StatelessWidget {
           builder: (context) => BookingDetails(
             user: user,
             booking: booking,
+            rebuildHomeScreen: rebuildHomeScreen,
           ),
         ),
       ),
@@ -94,6 +100,7 @@ class BookingTile extends StatelessWidget {
                   ),
                   const Spacer(),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Column(
@@ -121,7 +128,6 @@ class BookingTile extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(width: 30.w),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -150,6 +156,20 @@ class BookingTile extends StatelessWidget {
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: 20.sp,
+                        width: 20.sp,
+                        child: user.uid == booking.owner.uid
+                            ? Icon(
+                                Icons.badge_outlined,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .color,
+                                size: 20.sp,
+                              )
+                            : null,
                       ),
                     ],
                   ),

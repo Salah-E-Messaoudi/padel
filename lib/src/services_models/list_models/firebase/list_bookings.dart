@@ -73,7 +73,7 @@ class ListBookings {
   static Future<bool> deleteFromDB(
     BookingMax booking,
   ) async {
-    await booking.reference.delete();
+    await BookingsService.delete(reference: booking.reference);
     return await deleteFromList(booking);
   }
 

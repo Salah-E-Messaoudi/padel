@@ -5,16 +5,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:padel/functions.dart';
+import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/widgets/screens/my_friends.dart';
 import 'package:padel/src/widgets/widget_models.dart';
 
 class BookingDetails extends StatelessWidget {
-  const BookingDetails({Key? key, required this.user, required this.booking})
-      : super(key: key);
+  const BookingDetails({
+    Key? key,
+    required this.user,
+    required this.booking,
+    required this.rebuildHomeScreen,
+  }) : super(key: key);
 
   final UserData user;
   final BookingMax booking;
+  final void Function() rebuildHomeScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +32,43 @@ class BookingDetails extends StatelessWidget {
           title: AppLocalizations.of(context)!.details,
         ),
         centerTitle: true,
+        actions: [
+          if (user.uid == booking.owner.uid)
+            IconButton(
+              onPressed: () async {
+                showFutureAlertDialog(
+                    context: context,
+                    title: AppLocalizations.of(context)!.confirmation,
+                    content: AppLocalizations.of(context)!.alert_cancel_booking,
+                    onYes: () async {
+                      await ListBookings.deleteFromDB(booking);
+                    },
+                    onComplete: () async {
+                      rebuildHomeScreen();
+                      Navigator.pop(context);
+                      showSnackBarMessage(
+                        context: context,
+                        hintMessage: AppLocalizations.of(context)!
+                            .booking_canceled_successfully,
+                        icon: Icons.info_outline,
+                      );
+                    },
+                    onException: (err) {
+                      showSnackBarMessage(
+                        context: context,
+                        hintMessage:
+                            AppLocalizations.of(context)!.unknown_error,
+                        icon: Icons.info_outline,
+                      );
+                    });
+              },
+              icon: Icon(
+                Icons.delete,
+                size: 28.sp,
+                color: Theme.of(context).textTheme.headline1!.color,
+              ),
+            )
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),

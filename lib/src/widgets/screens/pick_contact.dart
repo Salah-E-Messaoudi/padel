@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +8,7 @@ import 'package:padel/src/widgets/widget_models.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class PickContact extends StatelessWidget {
+class PickContact extends StatefulWidget {
   const PickContact({
     Key? key,
     required this.onPick,
@@ -19,25 +16,35 @@ class PickContact extends StatelessWidget {
 
   final void Function(String) onPick;
 
-  Future<List<Contact>> getContacts(BuildContext context) async {
+  @override
+  State<PickContact> createState() => _PickContactState();
+}
+
+class _PickContactState extends State<PickContact> {
+  TextEditingController controller = TextEditingController();
+  List<Contact>? listContacts;
+  List<Contact>? searchContacts;
+
+  Future<void> getContacts(BuildContext context) async {
+    if (listContacts != null && searchContacts != null) return;
     late PermissionStatus serviceStatus;
     serviceStatus = await Permission.contacts.status;
     if (serviceStatus.isPermanentlyDenied) {
       dontHavePermission(context);
-      return [];
     }
     if (!serviceStatus.isGranted) {
       await Permission.contacts.request();
       serviceStatus = await Permission.contacts.status;
       if (!serviceStatus.isGranted) {
         dontHavePermission(context);
-        return [];
       }
     }
-    return await FlutterContacts.getContacts(
+    listContacts = await FlutterContacts.getContacts(
       withProperties: true,
       withPhoto: true,
     );
+    searchContacts = [];
+    searchContacts!.addAll(listContacts!);
   }
 
   void dontHavePermission(BuildContext context) {
@@ -52,7 +59,7 @@ class PickContact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Contact>>(
+    return FutureBuilder<void>(
         future: getContacts(context),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -61,7 +68,7 @@ class PickContact extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: SizedBox(
-              height: 0.7.sh,
+              height: 0.9.sh,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -74,6 +81,28 @@ class PickContact extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.sp),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: CustomTextFormField(
+                      suffixIcon: Icons.close,
+                      suffixOnTap: () {
+                        controller.text = '';
+                      },
+                      controller: controller,
+                      prefixIcon: Icons.search,
+                      style: GoogleFonts.poppins(
+                        height: 1,
+                        color: Theme.of(context).textTheme.headline1!.color,
+                        fontSize: 16.sp,
+                      ),
+                      onChanged: (value) => search(value ?? ''),
+                      keyboardType: TextInputType.phone,
+                      contentPadding: EdgeInsets.symmetric(vertical: 16.sp),
+                      fontSize: 16,
+                      onEditingComplete: () => search(controller.text),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
                   Text(
                     AppLocalizations.of(context)!.add_new_friend,
                     style: GoogleFonts.poppins(
@@ -91,9 +120,9 @@ class PickContact extends StatelessWidget {
                       color: Theme.of(context).textTheme.headline4!.color,
                     ),
                   ),
-                  !snapshot.hasData || snapshot.data == null
+                  searchContacts == null
                       ? const LoadingTile()
-                      : snapshot.data!.isEmpty
+                      : searchContacts!.isEmpty
                           ? EmptyListView(
                               text: AppLocalizations.of(context)!
                                   .empty_friends_myfriends,
@@ -101,11 +130,11 @@ class PickContact extends StatelessWidget {
                             )
                           : Expanded(
                               child: ListView.separated(
-                                itemCount: snapshot.data!.length,
+                                itemCount: searchContacts!.length,
                                 padding: EdgeInsets.only(top: 10.h),
                                 itemBuilder: (context, index) => ContactTile(
-                                  contact: snapshot.data![index],
-                                  onPick: onPick,
+                                  contact: searchContacts![index],
+                                  onPick: widget.onPick,
                                 ),
                                 separatorBuilder: (context, _) =>
                                     const CustomSeperator(),
@@ -116,5 +145,20 @@ class PickContact extends StatelessWidget {
             ),
           );
         });
+  }
+
+  void search(String value) {
+    searchContacts!.clear();
+    if (value.isEmpty) {
+      searchContacts!.addAll(listContacts!);
+    } else {
+      searchContacts!.addAll(listContacts!
+          .where((element) =>
+              element.displayName.toLowerCase().contains(value) ||
+              (element.phones.isNotEmpty &&
+                  element.phones.first.number.contains(value)))
+          .toList());
+    }
+    setState(() {});
   }
 }

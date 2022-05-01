@@ -6,6 +6,12 @@ import 'package:padel/src/services_models/models.dart';
 class BookingsService {
   static final FirebaseFirestore fb = FirebaseFirestore.instance;
 
+  static Future<void> delete({
+    required DocumentReference reference,
+  }) async {
+    await reference.delete();
+  }
+
   static Future<void> book({
     required String id,
     required Map<String, dynamic> data,

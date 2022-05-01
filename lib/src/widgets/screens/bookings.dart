@@ -73,6 +73,7 @@ class _BookingsState extends State<Bookings> {
                   (context, index) => BookingTile(
                     user: widget.user,
                     booking: ListBookings.list[index],
+                    rebuildHomeScreen: () => setState(() {}),
                   ),
                   childCount: ListBookings.list.length,
                 ),

@@ -7,6 +7,8 @@
     "alert_send_invitation_title",
     "alert_send_invitation_subtitle",
     "alert_share_invitation",
+    "alert_cancel_booking",
+    "booking_canceled_successfully",
     "cancel",
     "yes"
   ]

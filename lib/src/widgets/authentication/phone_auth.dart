@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -353,13 +351,33 @@ class _PhoneAuthState extends State<PhoneAuth> {
       verificationId: verificationId!,
       smsCode: pincode,
     );
-    await FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .then((userCredential) async {
-      await UserInfoService.createUserInfo(userCredential);
-      // await userCredential.user!.reload();
-      // widget.rebuildWrapper();
-    });
+    try {
+      await FirebaseAuth.instance
+          .signInWithCredential(credential)
+          .then((userCredential) async {
+        await UserInfoService.createUserInfo(userCredential);
+        // await userCredential.user!.reload();
+        // widget.rebuildWrapper();
+      });
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        loading = false;
+      });
+      showSnackBarMessage(
+        context: context,
+        hintMessage: getError(context, e.code)!,
+        icon: Icons.info_outline,
+      );
+    } on Exception {
+      setState(() {
+        loading = false;
+      });
+      showSnackBarMessage(
+        context: context,
+        hintMessage: 'unknown_error',
+        icon: Icons.info_outline,
+      );
+    }
   }
 }
 
