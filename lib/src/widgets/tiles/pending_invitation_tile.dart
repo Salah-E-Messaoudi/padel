@@ -102,16 +102,17 @@ class PendingInvitationTile extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10.h),
-                Text(
-                  invitation.stadium.address,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w600,
-                    height: 1,
-                    color: Theme.of(context).textTheme.headline3!.color,
+                if (invitation.stadium.address != null)
+                  Text(
+                    invitation.stadium.address!,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w600,
+                      height: 1,
+                      color: Theme.of(context).textTheme.headline3!.color,
+                    ),
                   ),
-                ),
                 SizedBox(height: 10.h),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,

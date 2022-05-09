@@ -17,7 +17,7 @@ class BookingMax {
   });
 
   final String id;
-  final StadiumMin stadium;
+  final Stadium stadium;
   final UserMin owner;
   final DateTime createdAt;
   final BookingMin details;
@@ -33,7 +33,7 @@ class BookingMax {
     Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
     return BookingMax(
       id: doc.id,
-      stadium: StadiumMin.fromMap(json['stadium']),
+      stadium: Stadium.fromMap(json['stadium']),
       owner: UserMin.fromMap(json['owner']),
       createdAt: getDateTime(json['createdAt'])!,
       details: BookingMin.fromMap(json, now),

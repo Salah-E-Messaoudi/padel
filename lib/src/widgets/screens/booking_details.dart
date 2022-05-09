@@ -121,25 +121,26 @@ class BookingDetails extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             Text(
-              booking.stadium.displayName,
+              booking.stadium.name,
               style: GoogleFonts.poppins(
                 fontSize: 17.sp,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).textTheme.headline1!.color,
               ),
             ),
-            Text(
-              booking.stadium.address,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.poppins(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).textTheme.headline3!.color,
+            if (booking.stadium.address != null)
+              Text(
+                booking.stadium.address!,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.poppins(
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).textTheme.headline3!.color,
+                ),
               ),
-            ),
             SizedBox(height: 15.h),
             Text(
-              booking.stadium.description,
+              booking.stadium.note,
               style: GoogleFonts.poppins(
                 fontSize: 11.sp,
                 fontWeight: FontWeight.w600,
@@ -411,13 +412,25 @@ class BookingDetails extends StatelessWidget {
               ),
               child: AspectRatio(
                 aspectRatio: 16 / 10,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.sp),
-                  child: Image(
-                    image: booking.stadium.photo!,
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                child: booking.stadium.photo == null
+                    ? Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(12.sp),
+                        ),
+                        child: Icon(
+                          Icons.photo_size_select_actual_rounded,
+                          size: 34.sp,
+                          color: Colors.white,
+                        ),
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(12.sp),
+                        child: Image(
+                          image: booking.stadium.photo!,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
               ),
             ),
           ],

@@ -165,7 +165,7 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> onRefresh() async {
     switch (currentIndex) {
       case 0:
-        await ListStadiumsMax.refresh();
+        await ListStadiums.refresh();
         break;
       case 1:
         if (ListBookings.isLoading) return;

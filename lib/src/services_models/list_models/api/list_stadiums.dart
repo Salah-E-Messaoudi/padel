@@ -1,8 +1,8 @@
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
 
-class ListStadiumsMax {
-  static List<StadiumMax> list = [];
+class ListStadiums {
+  static List<Stadium> list = [];
   static bool isNull = true;
   static bool isLoading = false;
   static late String selectedType;
@@ -19,9 +19,7 @@ class ListStadiumsMax {
     selectedType = type;
     if (isNotNull || isLoading) return;
     isLoading = true;
-    list = await ApiCalls.getListStadiums(type);
-    // await ApiCalls.getAPIListStadiums();
-    // await ApiCalls.getAPIStadium('1');
+    list = await ApiCalls.getListStadiums();
     isNull = false;
     isLoading = false;
   }

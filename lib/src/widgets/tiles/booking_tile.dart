@@ -51,11 +51,20 @@ class BookingTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.sp),
                 color: Theme.of(context).textTheme.headline5!.color,
-                image: DecorationImage(
-                  image: booking.stadium.photo!,
-                  fit: BoxFit.cover,
-                ),
+                image: booking.stadium.photo == null
+                    ? null
+                    : DecorationImage(
+                        image: booking.stadium.photo!,
+                        fit: BoxFit.cover,
+                      ),
               ),
+              child: booking.stadium.photo == null
+                  ? Icon(
+                      Icons.photo_size_select_actual_rounded,
+                      size: 24.sp,
+                      color: Colors.white,
+                    )
+                  : null,
             ),
             SizedBox(width: 10.w),
             SizedBox(
@@ -66,7 +75,7 @@ class BookingTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    booking.stadium.displayName,
+                    booking.stadium.name,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.poppins(
                       fontSize: 13.sp,
@@ -74,16 +83,17 @@ class BookingTile extends StatelessWidget {
                       color: Theme.of(context).textTheme.headline1!.color,
                     ),
                   ),
-                  Text(
-                    booking.stadium.address,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w600,
-                      height: 1,
-                      color: Theme.of(context).textTheme.headline3!.color,
+                  if (booking.stadium.address != null)
+                    Text(
+                      booking.stadium.address!,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w600,
+                        height: 1,
+                        color: Theme.of(context).textTheme.headline3!.color,
+                      ),
                     ),
-                  ),
                   SizedBox(height: 4.h),
                   Text(
                     booking.stadium.type == 'padel'

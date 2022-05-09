@@ -13,7 +13,7 @@ class PendingInvitation {
   });
 
   final String id;
-  final StadiumMin stadium;
+  final Stadium stadium;
   final UserMin owner;
   final DateTime createdAt;
   final BookingMin details;
@@ -26,7 +26,7 @@ class PendingInvitation {
     Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
     return PendingInvitation(
       id: doc.id,
-      stadium: StadiumMin.fromMap(json['stadium']),
+      stadium: Stadium.fromMap(json['stadium']),
       owner: UserMin.fromMap(json['owner']),
       createdAt: getDateTime(json['createdAt'])!,
       details: BookingMin.fromMap(json, now),

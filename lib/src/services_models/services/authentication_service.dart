@@ -60,7 +60,7 @@ class AuthenticationService {
 
   ///Signs out the current user.
   static Future<void> signOut() async {
-    ListStadiumsMax.reset();
+    ListStadiums.reset();
     ListBookings.reset();
     ListNotifications.reset();
     ListFriends.reset();

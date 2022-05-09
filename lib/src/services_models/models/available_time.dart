@@ -46,8 +46,8 @@ class AvailableTime {
       ' - ' +
       DateFormat('HH:mm').format(endAt);
 
-  String getId(String staduimId, DateTime date) =>
-      staduimId +
+  String getId(int staduimId, DateTime date) =>
+      staduimId.toString() +
       ':' +
       DateFormat('yMMd:').format(date) +
       DateFormat('HH:mm').format(startAt) +

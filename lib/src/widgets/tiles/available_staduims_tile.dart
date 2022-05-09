@@ -15,7 +15,7 @@ class AvailableStadiumsTile extends StatelessWidget {
   }) : super(key: key);
 
   final UserData user;
-  final StadiumMax stadium;
+  final Stadium stadium;
   final void Function(int) changeTab;
 
   @override
@@ -26,7 +26,7 @@ class AvailableStadiumsTile extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => StadiumDetails(
             user: user,
-            stadiummax: stadium,
+            stadium: stadium,
             changeTab: changeTab,
           ),
         ),
@@ -49,9 +49,20 @@ class AvailableStadiumsTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.sp),
                 color: Theme.of(context).textTheme.headline5!.color,
-                image: DecorationImage(
-                    image: stadium.stadium.photo!, fit: BoxFit.cover),
+                image: stadium.photo == null
+                    ? null
+                    : DecorationImage(
+                        image: stadium.photo!,
+                        fit: BoxFit.cover,
+                      ),
               ),
+              child: stadium.photo == null
+                  ? Icon(
+                      Icons.photo_size_select_actual_rounded,
+                      size: 24.sp,
+                      color: Colors.white,
+                    )
+                  : null,
             ),
             SizedBox(width: 10.w),
             SizedBox(
@@ -62,7 +73,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    stadium.stadium.displayName,
+                    stadium.name,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.poppins(
                       fontSize: 13.sp,
@@ -71,7 +82,8 @@ class AvailableStadiumsTile extends StatelessWidget {
                     ),
                   ),
                   const InfoWidget(info: 'Saturday - Thursday'),
-                  InfoWidget(info: stadium.stadium.address),
+                  if (stadium.address != null)
+                    InfoWidget(info: stadium.address!),
                   const Spacer(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -84,7 +96,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                           color: Theme.of(context).textTheme.headline5!.color,
                         ),
                         child: Text(
-                          stadium.stadium.type == 'padel'
+                          stadium.type == 'padel'
                               ? AppLocalizations.of(context)!.padel
                               : AppLocalizations.of(context)!.football,
                           style: GoogleFonts.poppins(
@@ -97,7 +109,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                       const Spacer(),
                       Text(
                         AppLocalizations.of(context)!.price_kdw(
-                          NumberFormat('#0.00').format(stadium.stadium.price),
+                          NumberFormat('#0.00').format(stadium.price),
                         ),
                         style: GoogleFonts.poppins(
                           fontSize: 13.sp,
