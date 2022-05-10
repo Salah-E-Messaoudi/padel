@@ -220,5 +220,6 @@
   "invite":"Invite",
   "close":"Close",
   "cancel":"cancel",
-  "yes":"Yes"
+  "yes":"Yes",
+  "canceled":"Canceled"
 }

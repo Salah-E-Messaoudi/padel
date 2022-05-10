@@ -113,60 +113,88 @@ class BookingTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.team,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w500,
-                              color:
-                                  Theme.of(context).textTheme.headline3!.color,
+                      if (!booking.canceled)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.team,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline3!
+                                    .color,
+                              ),
+                            ),
+                            Text(
+                              booking.countText,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .color,
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (!booking.canceled)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.date_time,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline3!
+                                    .color,
+                              ),
+                            ),
+                            Text(
+                              DateFormat('EEE dd MMM • HH:mm')
+                                      .format(booking.details.startAt) +
+                                  ' - ' +
+                                  DateFormat('HH:mm')
+                                      .format(booking.details.endAt),
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .color,
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (booking.canceled)
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 4.h, horizontal: 10.w),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.sp),
+                              color: const Color(0xFFC21717)),
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(context)!.canceled,
+                              style: GoogleFonts.poppins(
+                                fontSize: 11.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                          Text(
-                            booking.countText,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w600,
-                              color:
-                                  Theme.of(context).textTheme.headline1!.color,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.date_time,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w500,
-                              color:
-                                  Theme.of(context).textTheme.headline3!.color,
-                            ),
-                          ),
-                          Text(
-                            DateFormat('EEE dd MMM • HH:mm')
-                                    .format(booking.details.startAt) +
-                                ' - ' +
-                                DateFormat('HH:mm')
-                                    .format(booking.details.endAt),
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w600,
-                              color:
-                                  Theme.of(context).textTheme.headline1!.color,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
                       SizedBox(
                         height: 20.sp,
                         width: 20.sp,

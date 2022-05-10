@@ -12,8 +12,16 @@ class BookingsService {
     await reference.delete();
   }
 
+  static Future<void> cancel({
+    required DocumentReference reference,
+  }) async {
+    await reference.update({
+      'canceled': true,
+    });
+  }
+
   static Future<void> book({
-    required String id,
+    required String? id,
     required Map<String, dynamic> data,
   }) async {
     await fb
@@ -38,7 +46,8 @@ class BookingsService {
     Query query = fb
         .collection(FirestorePath.bookings())
         .where('list_added', arrayContains: uid)
-        .orderBy('startAt')
+        // .orderBy('startAt')
+        .orderBy('createdAt')
         .limit(length);
     if (afterDocument != null) query = query.startAfterDocument(afterDocument);
     QuerySnapshot resultquery = await query.get();

@@ -395,11 +395,12 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                   'endAt':
                                       selectedTime!.getEndAt(selectedDate!),
                                 };
-                                String id = selectedTime!.getId(
-                                  widget.stadium.id,
-                                  selectedDate!,
-                                );
-                                await BookingsService.book(id: id, data: data);
+                                // String id = selectedTime!.getId(
+                                //   widget.stadium.id,
+                                //   selectedDate!,
+                                // );
+                                await BookingsService.book(
+                                    id: null, data: data);
                               },
                               onComplete: () {
                                 Navigator.pop(context);

@@ -52,7 +52,7 @@ class Stadium {
     return Stadium(
       id: json['id'],
       name: json['name'],
-      address: json['name'],
+      address: json['address'],
       note: json['note'],
       price: json['price'].toDouble(),
       type: json['type'],

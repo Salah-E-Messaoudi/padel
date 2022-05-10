@@ -12,6 +12,7 @@ class BookingMax {
     required this.details,
     required this.listAdded,
     required this.listInvited,
+    required this.canceled,
     required this.listURL,
     required this.reference,
   });
@@ -23,6 +24,7 @@ class BookingMax {
   final BookingMin details;
   final List<String> listAdded;
   List<String> listInvited;
+  bool canceled;
   final List<String> listURL;
   final DocumentReference reference;
 
@@ -39,6 +41,7 @@ class BookingMax {
       details: BookingMin.fromMap(json, now),
       listAdded: List<String>.from(json['list_added']),
       listInvited: List<String>.from(json['list_invited']),
+      canceled: json['canceled'] ?? false,
       listURL: List<String>.from(json['list_photoURL']),
       reference: doc.reference,
     );
@@ -79,4 +82,9 @@ class BookingMax {
         'list_photoURL': listURL,
         'createdAt': FieldValue.serverTimestamp(),
       };
+
+  Future<void> cancelBooking() async {
+    await BookingsService.cancel(reference: reference);
+    canceled = true;
+  }
 }
