@@ -86,7 +86,7 @@ class PendingInvitationTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          invitation.stadium.type == 'padel'
+                          invitation.stadium.type == 'PADEL'
                               ? AppLocalizations.of(context)!.type_match(
                                   AppLocalizations.of(context)!.padel)
                               : AppLocalizations.of(context)!.type_match(

@@ -49,14 +49,14 @@ class AvailableStadiumsTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.sp),
                 color: Theme.of(context).textTheme.headline5!.color,
-                image: stadium.photo == null
+                image: stadium.avatar == null
                     ? null
                     : DecorationImage(
-                        image: stadium.photo!,
+                        image: stadium.avatar!,
                         fit: BoxFit.cover,
                       ),
               ),
-              child: stadium.photo == null
+              child: stadium.avatar == null
                   ? Icon(
                       Icons.photo_size_select_actual_rounded,
                       size: 24.sp,
@@ -96,7 +96,7 @@ class AvailableStadiumsTile extends StatelessWidget {
                           color: Theme.of(context).textTheme.headline5!.color,
                         ),
                         child: Text(
-                          stadium.type == 'padel'
+                          stadium.type == 'PADEL'
                               ? AppLocalizations.of(context)!.padel
                               : AppLocalizations.of(context)!.football,
                           style: GoogleFonts.poppins(

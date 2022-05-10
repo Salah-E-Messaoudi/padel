@@ -33,7 +33,7 @@ class BookingMax {
     Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
     return BookingMax(
       id: doc.id,
-      stadium: Stadium.fromMap(json['stadium']),
+      stadium: Stadium.fromFullMap(json['stadium']),
       owner: UserMin.fromMap(json['owner']),
       createdAt: getDateTime(json['createdAt'])!,
       details: BookingMin.fromMap(json, now),
@@ -47,7 +47,6 @@ class BookingMax {
   int get teamCount => listAdded.length;
 
   bool get isFull => false;
-  // stadium.type == 'padel' ? teamCount >= 4 : teamCount == 11;
 
   bool isOwner(String uid) => owner.uid == uid;
 
@@ -70,7 +69,7 @@ class BookingMax {
   String get countText =>
       details.listphotoURL.length.toString() +
       '/' +
-      (stadium.type == 'padel' ? '4' : '11');
+      (stadium.type == 'PADEL' ? '4' : '11');
 
   Map<String, dynamic> toBookingMinMap() => {
         'stadium': stadium.toMap(),

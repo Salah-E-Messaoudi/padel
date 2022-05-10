@@ -26,7 +26,8 @@ class PendingInvitation {
     Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
     return PendingInvitation(
       id: doc.id,
-      stadium: Stadium.fromMap(json['stadium']),
+      stadium: Stadium.fromMap(
+          json['stadium'], json['stadium']['address'], json['stadium']['type']),
       owner: UserMin.fromMap(json['owner']),
       createdAt: getDateTime(json['createdAt'])!,
       details: BookingMin.fromMap(json, now),
@@ -36,10 +37,7 @@ class PendingInvitation {
 
   int get teamCount => details.teamCount;
 
-  bool get isFull => stadium.type == 'padel' ? teamCount >= 4 : teamCount == 11;
+  bool get isFull => stadium.type == 'PADEL' ? teamCount >= 4 : teamCount == 11;
 
   String get countText => details.listphotoURL.length.toString();
-  //  +
-  // '/' +
-  // (stadium.type == 'padel' ? '4' : '11');
 }

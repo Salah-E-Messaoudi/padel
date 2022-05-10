@@ -14,6 +14,7 @@ class UserData {
     this.token,
     this.age,
     this.photo,
+    this.odooId,
   });
 
   final bool init;
@@ -25,6 +26,7 @@ class UserData {
   final String? token;
   int? age;
   ImageProvider<Object>? photo;
+  String? odooId;
 
   factory UserData.fromUser(
     User user,
@@ -41,6 +43,7 @@ class UserData {
       age: json['age'],
       token: json['token'],
       photo: photo,
+      odooId: json['odooId'],
     );
   }
 
@@ -51,14 +54,16 @@ class UserData {
   ) {
     Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
     return UserData(
-        uid: doc.id,
-        displayName: json['displayName'],
-        phoneNumber: json['phoneNumber'],
-        gender: json['gender'],
-        photoUrl: photoUrl,
-        age: json['age'],
-        token: json['token'],
-        photo: photo);
+      uid: doc.id,
+      displayName: json['displayName'],
+      phoneNumber: json['phoneNumber'],
+      gender: json['gender'],
+      photoUrl: photoUrl,
+      age: json['age'],
+      token: json['token'],
+      photo: photo,
+      odooId: json['odooId'],
+    );
   }
 
   factory UserData.fromMap(

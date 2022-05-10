@@ -9,6 +9,7 @@ class ApiCalls {
       'bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx';
 
   static Future<List<Stadium>> getListStadiums() async {
+    log('getListStadiums');
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -26,7 +27,74 @@ class ApiCalls {
     if (response.statusCode == 200) {
       List<dynamic> results = jsonDecode(await response.stream.bytesToString());
       log('request done...');
-      return results.map((e) => Stadium.fromMap(e)).toList();
+      return results
+          .map((e) => Stadium.fromMap(
+                e,
+                null,
+                'PADEL',
+              ))
+          .toList();
+    } else {
+      log(response.reasonPhrase.toString());
+      throw Exception();
+    }
+  }
+
+  static Future<List<Game>> getListGames() async {
+    log('getListGames');
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
+    };
+    var request = http.Request(
+      'PATCH',
+      Uri.parse(
+        'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/get_game_tree',
+      ),
+    );
+    request.body = json.encode({'args': []});
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      List<dynamic> results = jsonDecode(await response.stream.bytesToString());
+      log('request done...');
+      return results.map((e) => Game.fromMap(e)).toList();
+    } else {
+      log(response.reasonPhrase.toString());
+      throw Exception();
+    }
+  }
+
+  static Future<Stadium> getStadiumById(int id) async {
+    log('getStadiumById');
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
+    };
+    var request = http.Request(
+        'PATCH',
+        Uri.parse(
+            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/get_stadiums'));
+    request.body = json.encode({
+      'args': [id]
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      List<dynamic> results = jsonDecode(await response.stream.bytesToString());
+      log('request done...');
+      return Stadium.fromMap(
+        results.first,
+        null,
+        '',
+      );
     } else {
       log(response.reasonPhrase.toString());
       throw Exception();
@@ -34,7 +102,10 @@ class ApiCalls {
   }
 
   static Future<List<AvailibilitySlot>> getAvailableSlots(
-      int stadiumId, String date) async {
+    int stadiumId,
+    String date,
+  ) async {
+    log('getAvailableSlots');
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

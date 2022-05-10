@@ -25,7 +25,7 @@ class Stadiums extends StatefulWidget {
 }
 
 class _StadiumsState extends State<Stadiums> {
-  String selectedType = 'all';
+  String selectedType = 'ALL';
 
   @override
   Widget build(BuildContext context) {
@@ -75,21 +75,21 @@ class _StadiumsState extends State<Stadiums> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ChoiceCard(
-                        value: 'all',
+                        value: 'ALL',
                         groupValue: selectedType,
                         icon: 'assets/images/both.svg',
                         label: AppLocalizations.of(context)!.all,
                         onTap: onTapCard,
                       ),
                       ChoiceCard(
-                        value: 'padel',
+                        value: 'PADEL',
                         groupValue: selectedType,
                         icon: 'assets/images/padel.svg',
                         label: AppLocalizations.of(context)!.padel,
                         onTap: onTapCard,
                       ),
                       ChoiceCard(
-                        value: 'football',
+                        value: 'FOOTBALL',
                         groupValue: selectedType,
                         icon: 'assets/images/football.svg',
                         label: AppLocalizations.of(context)!.football,
@@ -154,8 +154,8 @@ class _StadiumsState extends State<Stadiums> {
   }
 
   void onTapCard(String value) => setState(() {
-        ListStadiums.reset();
         selectedType = value;
+        ListStadiums.filterListGames(value);
       });
 
   Future<void> getListStadiums() async {

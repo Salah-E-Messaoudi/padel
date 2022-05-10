@@ -51,14 +51,14 @@ class BookingTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.sp),
                 color: Theme.of(context).textTheme.headline5!.color,
-                image: booking.stadium.photo == null
+                image: booking.stadium.avatar == null
                     ? null
                     : DecorationImage(
-                        image: booking.stadium.photo!,
+                        image: booking.stadium.avatar!,
                         fit: BoxFit.cover,
                       ),
               ),
-              child: booking.stadium.photo == null
+              child: booking.stadium.avatar == null
                   ? Icon(
                       Icons.photo_size_select_actual_rounded,
                       size: 24.sp,
@@ -96,7 +96,7 @@ class BookingTile extends StatelessWidget {
                     ),
                   SizedBox(height: 4.h),
                   Text(
-                    booking.stadium.type == 'padel'
+                    booking.stadium.type == 'PADEL'
                         ? AppLocalizations.of(context)!
                             .type_match(AppLocalizations.of(context)!.padel)
                         : AppLocalizations.of(context)!

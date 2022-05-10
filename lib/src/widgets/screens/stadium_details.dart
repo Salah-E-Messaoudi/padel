@@ -45,6 +45,9 @@ class _StadiumDetailsState extends State<StadiumDetails> {
   ).toList();
 
   Future<void> getAvailableSlots() async {
+    if (widget.stadium.image == null && widget.stadium.avatar != null) {
+      await widget.stadium.updateImage();
+    }
     if (availableSlots != null || selectedDate == null) {
       return;
     }
@@ -85,7 +88,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                         ),
                         child: AspectRatio(
                           aspectRatio: 16 / 10,
-                          child: widget.stadium.photo == null
+                          child: widget.stadium.avatar == null
                               ? Icon(
                                   Icons.photo_size_select_actual_rounded,
                                   size: 34.sp,
@@ -96,12 +99,11 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                     bottomLeft: Radius.circular(16.sp),
                                     bottomRight: Radius.circular(16.sp),
                                   ),
-                                  child: widget.stadium.photo == null
-                                      ? null
-                                      : Image(
-                                          image: widget.stadium.photo!,
-                                          fit: BoxFit.fill,
-                                        ),
+                                  child: Image(
+                                    image: widget.stadium.image ??
+                                        widget.stadium.avatar!,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                         ),
                       ),
@@ -131,7 +133,13 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                             ),
                           ),
                         ),
-                      )
+                      ),
+                      if (widget.stadium.image == null &&
+                          widget.stadium.avatar != null)
+                        Positioned.fill(
+                          top: MediaQuery.of(context).viewPadding.top + 40.h,
+                          child: const LoadingTile(),
+                        )
                     ],
                   ),
                   SizedBox(height: 20.h),
@@ -160,14 +168,16 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                             ),
                           ),
                         SizedBox(height: 15.h),
-                        Text(
-                          widget.stadium.note,
-                          style: GoogleFonts.poppins(
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).textTheme.headline2!.color,
+                        if (widget.stadium.note != null)
+                          Text(
+                            widget.stadium.note!,
+                            style: GoogleFonts.poppins(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.headline2!.color,
+                            ),
                           ),
-                        ),
                         SizedBox(height: 20.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 80.w),

@@ -139,14 +139,15 @@ class BookingDetails extends StatelessWidget {
                 ),
               ),
             SizedBox(height: 15.h),
-            Text(
-              booking.stadium.note,
-              style: GoogleFonts.poppins(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).textTheme.headline2!.color,
+            if (booking.stadium.note != null)
+              Text(
+                booking.stadium.note!,
+                style: GoogleFonts.poppins(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).textTheme.headline2!.color,
+                ),
               ),
-            ),
             SizedBox(height: 30.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -243,7 +244,7 @@ class BookingDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          booking.stadium.type == 'padel'
+                          booking.stadium.type == 'PADEL'
                               ? AppLocalizations.of(context)!.padel
                               : AppLocalizations.of(context)!.football,
                           overflow: TextOverflow.ellipsis,
@@ -275,7 +276,7 @@ class BookingDetails extends StatelessWidget {
                     text: '(' +
                         booking.teamCount.toString() +
                         '/' +
-                        (booking.stadium.type == 'padel' ? '4' : '11') +
+                        (booking.stadium.type == 'PADEL' ? '4' : '11') +
                         ')',
                     style: GoogleFonts.poppins(
                       fontSize: 14.sp,
@@ -412,7 +413,7 @@ class BookingDetails extends StatelessWidget {
               ),
               child: AspectRatio(
                 aspectRatio: 16 / 10,
-                child: booking.stadium.photo == null
+                child: booking.stadium.avatar == null
                     ? Container(
                         decoration: BoxDecoration(
                           color: Colors.grey.shade200,
@@ -427,7 +428,7 @@ class BookingDetails extends StatelessWidget {
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(12.sp),
                         child: Image(
-                          image: booking.stadium.photo!,
+                          image: booking.stadium.avatar!,
                           fit: BoxFit.fill,
                         ),
                       ),

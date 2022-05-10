@@ -1,5 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:padel/src/services_models/services.dart';
 
 class Stadium {
   Stadium({
@@ -9,34 +11,55 @@ class Stadium {
     required this.note,
     required this.price,
     required this.type,
-    required this.photoUrl,
-    required this.photo,
+    required this.avatar,
+    required this.avatarBase64,
   });
 
   final int id;
   final String name;
   final String? address;
-  final String note;
+  final String? note;
   final double price;
-  final String? type;
-  final String? photoUrl;
-  final ImageProvider<Object>? photo;
+  final String type;
+  final ImageProvider<Object>? avatar;
+  final String? avatarBase64;
+  ImageProvider<Object>? image;
 
   factory Stadium.fromMap(
     Map<String, dynamic> json,
+    String? address,
+    String type,
   ) {
-    String? url = json['photoURL'] is String ? json['photoURL'] : null;
+    String? avatarBase64 = json['image'] is String ? json['image'] : null;
     return Stadium(
       id: json['id'],
       name: json['name'],
-      address: json['address'],
+      address: address,
+      note: json['note'],
+      price: json['price'].toDouble(),
+      type: type,
+      avatar: avatarBase64 != null
+          ? Image.memory(base64.decode(avatarBase64)).image
+          : null,
+      avatarBase64: avatarBase64,
+    );
+  }
+
+  factory Stadium.fromFullMap(
+    Map<String, dynamic> json,
+  ) {
+    String? avatarBase64 = json['avatar'] is String ? json['avatar'] : null;
+    return Stadium(
+      id: json['id'],
+      name: json['name'],
+      address: json['name'],
       note: json['note'],
       price: json['price'].toDouble(),
       type: json['type'],
-      photoUrl: url,
-      photo: url != null
-          ? CachedNetworkImageProvider(json['photoURL'] as String)
+      avatar: avatarBase64 != null
+          ? Image.memory(base64.decode(avatarBase64)).image
           : null,
+      avatarBase64: avatarBase64,
     );
   }
 
@@ -47,6 +70,16 @@ class Stadium {
         'note': note,
         'price': price,
         'type': type,
-        'photoURL': photoUrl,
+        'avatar': avatarBase64,
       };
+
+  Image imageFromBase64String(String base64String) {
+    return Image.memory(base64.decode(base64String));
+  }
+
+  Future<void> updateImage() async {
+    image = await ApiCalls.getStadiumById(id).then((stadium) {
+      return stadium.avatar;
+    });
+  }
 }

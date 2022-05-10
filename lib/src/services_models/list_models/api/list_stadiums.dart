@@ -2,6 +2,7 @@ import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
 
 class ListStadiums {
+  static List<Game> listGames = [];
   static List<Stadium> list = [];
   static bool isNull = true;
   static bool isLoading = false;
@@ -15,23 +16,50 @@ class ListStadiums {
 
   static int get length => list.length;
 
-  static Future<void> getList(String type) async {
-    selectedType = type;
+  static Future<void> getListGames(bool refresh) async {
+    // if (isNotNull || isLoading) return;
+    // isLoading = true;
+    if (isNull || refresh) {
+      listGames = await ApiCalls.getListGames();
+    }
+    // isNull = false;
+    // isLoading = false;
+  }
+
+  static Future<void> getList(String type, {bool refresh = false}) async {
     if (isNotNull || isLoading) return;
     isLoading = true;
-    list = await ApiCalls.getListStadiums();
+    await getListGames(refresh);
+    filterListGames(type);
     isNull = false;
     isLoading = false;
   }
 
-  static Future<void> refresh() async {
-    isNull = true;
-    await getList(selectedType);
+  static void filterListGames(String type) {
+    selectedType = type;
+    list.clear();
+    Iterable<Game> filterType = listGames.where((element) =>
+        selectedType == 'ALL' ? true : element.type == selectedType);
+    for (var game in filterType) {
+      for (var ground in game.grounds) {
+        for (var stadium in ground.stadiums) {
+          list.add(stadium);
+        }
+      }
+    }
   }
 
-  static void reset() {
+  static Future<void> refresh() async {
+    isNull = true;
+    await getList(selectedType, refresh: true);
+  }
+
+  static void reset([bool resetGames = true]) {
     isNull = true;
     isLoading = false;
     list.clear();
+    if (resetGames) {
+      listGames.clear();
+    }
   }
 }
