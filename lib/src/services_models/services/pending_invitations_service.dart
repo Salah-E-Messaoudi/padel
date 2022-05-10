@@ -35,7 +35,7 @@ class PendingInvitationsService {
     Query query = fb
         .collection(FirestorePath.bookings())
         .where('list_invited', arrayContains: uid)
-        .orderBy('startAt')
+        .orderBy('startAt', descending: true)
         .limit(length);
     if (afterDocument != null) query = query.startAfterDocument(afterDocument);
     QuerySnapshot resultquery = await query.get();

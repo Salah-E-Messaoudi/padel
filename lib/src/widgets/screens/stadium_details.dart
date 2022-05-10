@@ -395,12 +395,15 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                   'endAt':
                                       selectedTime!.getEndAt(selectedDate!),
                                 };
-                                // String id = selectedTime!.getId(
-                                //   widget.stadium.id,
-                                //   selectedDate!,
-                                // );
                                 await BookingsService.book(
-                                    id: null, data: data);
+                                  userId: widget.user.odooId!,
+                                  stadiumId: widget.stadium.id,
+                                  date:
+                                      '${selectedDate!.year}-${NumberFormat('00').format(selectedDate!.month)}-${selectedDate!.day}',
+                                  session:
+                                      selectedTime!.time.replaceAll('-', 'to'),
+                                  data: data,
+                                );
                               },
                               onComplete: () {
                                 Navigator.pop(context);
@@ -417,6 +420,13 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                 if (e is FirebaseException) {
                                   dev.log(e.code);
                                   dev.log(e.message.toString());
+                                  showSnackBarMessage(
+                                    context: context,
+                                    hintMessage: AppLocalizations.of(context)!
+                                        .session_already_taken,
+                                    icon: Icons.info_outline,
+                                  );
+                                } else if (e is APIException) {
                                   showSnackBarMessage(
                                     context: context,
                                     hintMessage: AppLocalizations.of(context)!

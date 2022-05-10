@@ -6,6 +6,7 @@ import 'package:padel/src/services_models/services.dart';
 class BookingMax {
   BookingMax({
     required this.id,
+    required this.odooId,
     required this.stadium,
     required this.owner,
     required this.createdAt,
@@ -18,6 +19,7 @@ class BookingMax {
   });
 
   final String id;
+  final int odooId;
   final Stadium stadium;
   final UserMin owner;
   final DateTime createdAt;
@@ -35,6 +37,7 @@ class BookingMax {
     Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
     return BookingMax(
       id: doc.id,
+      odooId: json['odooId'],
       stadium: Stadium.fromFullMap(json['stadium']),
       owner: UserMin.fromMap(json['owner']),
       createdAt: getDateTime(json['createdAt'])!,
@@ -84,6 +87,7 @@ class BookingMax {
       };
 
   Future<void> cancelBooking() async {
+    await ApiCalls.cancelBooking(bookingId: odooId);
     await BookingsService.cancel(reference: reference);
     canceled = true;
   }
