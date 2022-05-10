@@ -1,12 +1,13 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:padel/functions.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
@@ -26,17 +27,22 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final GlobalKey<FormState> _keyA = GlobalKey();
+  final TextEditingController _controller = TextEditingController();
   File? image;
   bool isEditing = false;
   bool loading = false;
   String? gender, displayName;
-  int? age;
+  String? birthDate;
+  DateTime? selectedDate;
 
   @override
   void initState() {
     super.initState();
     displayName = widget.user.displayName;
-    age = widget.user.age;
+    if (widget.user.birthDate != null) {
+      _controller.text = widget.user.birthDate!;
+      selectedDate = DateTime.parse(widget.user.birthDate!);
+    }
     gender = widget.user.gender;
   }
 
@@ -85,6 +91,7 @@ class _ProfileState extends State<Profile> {
               icon: Icons.badge_outlined,
               label: AppLocalizations.of(context)!.full_name,
               value: displayName!,
+              controller: null,
               enabled: isEditing,
               validator: (value) =>
                   validateNotNull(value: value, context: context),
@@ -94,6 +101,7 @@ class _ProfileState extends State<Profile> {
               icon: Icons.call_outlined,
               label: AppLocalizations.of(context)!.phone_number,
               value: widget.user.phoneNumber!,
+              controller: null,
               enabled: false,
               validator: (value) =>
                   validateNotNull(value: value, context: context),
@@ -109,12 +117,40 @@ class _ProfileState extends State<Profile> {
             ProfileInfo(
               icon: Icons.person_outline_rounded,
               label: AppLocalizations.of(context)!.age,
-              value: age!.toString(),
+              value: null,
+              controller: _controller,
               enabled: isEditing,
               width: 80.w,
               validator: (value) =>
-                  validateNumberInt(value: value, context: context),
-              onSaved: (value) => age = int.parse(value!),
+                  validateNotNull(value: value, context: context),
+              onSaved: (value) => birthDate = value,
+              onTap: () => DatePicker.showDatePicker(
+                context,
+                theme: DatePickerTheme(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  cancelStyle: GoogleFonts.poppins(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).textTheme.headline4!.color,
+                  ),
+                  doneStyle: GoogleFonts.poppins(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  itemStyle: GoogleFonts.poppins(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).textTheme.headline1!.color,
+                  ),
+                ),
+                showTitleActions: true,
+                maxTime:
+                    DateTime.now().subtract(const Duration(days: 365 * 13)),
+                onConfirm: onPickBirthDate,
+                currentTime: selectedDate,
+                locale: LocaleType.en,
+              ),
             ),
           ],
         ),
@@ -132,18 +168,17 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  void onPickBirthDate(DateTime date) {
+    birthDate =
+        '${date.year}-${NumberFormat('00').format(date.month)}-${date.day}';
+    selectedDate = date;
+    _controller.text = birthDate!;
+  }
+
   Future<void> toggleState() async {
-    log('image isNotNull:' + (image != null).toString());
-    log('displayName changed ? ' +
-        (widget.user.displayName.toString() != displayName.toString())
-            .toString());
-    log('age changed ? ' +
-        (widget.user.age.toString() != age.toString()).toString());
-    log('gender changed ? ' +
-        (widget.user.gender.toString() != gender.toString()).toString());
     bool changed = image != null ||
         widget.user.displayName != displayName ||
-        widget.user.age != age ||
+        widget.user.birthDate != birthDate ||
         widget.user.gender != gender;
     try {
       if (isEditing && changed) {
@@ -158,7 +193,7 @@ class _ProfileState extends State<Profile> {
                 user: widget.user,
                 displayName: displayName!,
                 gender: gender!,
-                age: age!,
+                birthDate: birthDate!,
                 image: image,
               );
             },
@@ -228,19 +263,23 @@ class ProfileInfo extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
+    required this.controller,
     required this.enabled,
     this.width,
     this.validator,
     this.onSaved,
+    this.onTap,
   }) : super(key: key);
 
   final IconData icon;
   final String label;
-  final String value;
+  final String? value;
   final bool enabled;
   final double? width;
+  final TextEditingController? controller;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -278,10 +317,13 @@ class ProfileInfo extends StatelessWidget {
                 Expanded(
                   child: CustomTextFormField(
                     initialValue: value,
+                    controller: controller,
                     enabled: enabled,
                     width: width,
                     validator: validator,
                     onSaved: onSaved,
+                    onTap: onTap,
+                    readOnly: onTap != null,
                     textInputAction: TextInputAction.next,
                     contentPadding: EdgeInsets.fromLTRB(0, 15.sp, 0, 8.sp),
                   ),

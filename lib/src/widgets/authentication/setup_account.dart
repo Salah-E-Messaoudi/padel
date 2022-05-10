@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:intl/intl.dart';
 import 'package:padel/functions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:padel/src/services_models/models.dart';
@@ -26,11 +28,13 @@ class SetupAccount extends StatefulWidget {
 
 class _SetupAccountState extends State<SetupAccount> {
   final GlobalKey<FormState> _keyA = GlobalKey();
+  TextEditingController _controller = TextEditingController();
   String? gender;
   String? displayName;
-  int? age;
+  String? birthDate;
   File? image;
   bool loading = false;
+  DateTime? selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +164,7 @@ class _SetupAccountState extends State<SetupAccount> {
                             ),
                           ),
                           CustomTextFormField(
+                            controller: _controller,
                             hint: AppLocalizations.of(context)!.age_hint,
                             keyboardType: TextInputType.number,
                             width: 0.4.sw,
@@ -167,11 +172,45 @@ class _SetupAccountState extends State<SetupAccount> {
                                 validateNotNull(value: value, context: context),
                             textInputAction: TextInputAction.done,
                             onSaved: (value) {
-                              if (value != null) {
-                                age = int.parse(value);
-                              }
+                              birthDate = value;
                             },
                             enabled: !loading,
+                            readOnly: true,
+                            onTap: () {
+                              DatePicker.showDatePicker(
+                                    context,
+                                    theme: DatePickerTheme(
+                                      backgroundColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      cancelStyle: GoogleFonts.poppins(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline4!
+                                            .color,
+                                      ),
+                                      doneStyle: GoogleFonts.poppins(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      itemStyle: GoogleFonts.poppins(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline1!
+                                            .color,
+                                      ),
+                                    ),
+                                    showTitleActions: true,
+                                    maxTime: DateTime.now().subtract(const Duration(days: 365*13)),
+                                    onConfirm: onPickBirthDate,
+                                    currentTime: selectedDate,
+                                    locale: LocaleType.en,
+                                  );
+                            },
                           ),
                           Text(
                             AppLocalizations.of(context)!.gender,
@@ -223,44 +262,52 @@ class _SetupAccountState extends State<SetupAccount> {
                     label: AppLocalizations.of(context)!.confirme,
                     fontColor: Theme.of(context).primaryColor,
                     onPressed: () async {
-                      FocusScope.of(context).unfocus();
-                      if (image == null) {
-                        showSnackBarMessage(
-                          context: context,
-                          hintMessage: getError(
-                            context,
-                            AppLocalizations.of(context)!.pick_image,
-                          )!,
-                          icon: Icons.info_outline,
+                      try {
+                        if (loading) return;
+                        FocusScope.of(context).unfocus();
+                        if (image == null) {
+                          showSnackBarMessage(
+                            context: context,
+                            hintMessage: getError(
+                              context,
+                              AppLocalizations.of(context)!.pick_image,
+                            )!,
+                            icon: Icons.info_outline,
+                          );
+                          return;
+                        }
+                        if (!_keyA.currentState!.validate()) {
+                          return;
+                        }
+                        if (gender == null) {
+                          showSnackBarMessage(
+                            context: context,
+                            hintMessage: getError(
+                              context,
+                              AppLocalizations.of(context)!.pick_gender,
+                            )!,
+                            icon: Icons.info_outline,
+                          );
+                          return;
+                        }
+                        setState(() {
+                          loading = true;
+                        });
+                        _keyA.currentState!.save();
+                        await UserInfoService.completeRegiration(
+                          user: widget.user,
+                          displayName: displayName!,
+                          gender: gender!,
+                          birthDate: birthDate!,
+                          image: image!,
                         );
-                        return;
+                        widget.rebuildWrapper();
+                      } on Exception catch (e) {
+                        showSnackBarMessage(context: context, hintMessage: AppLocalizations.of(context)!.unknown_error,);
+                        setState(() {
+                          loading = false;
+                        });
                       }
-                      if (!_keyA.currentState!.validate()) {
-                        return;
-                      }
-                      if (gender == null) {
-                        showSnackBarMessage(
-                          context: context,
-                          hintMessage: getError(
-                            context,
-                            AppLocalizations.of(context)!.pick_gender,
-                          )!,
-                          icon: Icons.info_outline,
-                        );
-                        return;
-                      }
-                      setState(() {
-                        loading = true;
-                      });
-                      _keyA.currentState!.save();
-                      await UserInfoService.completeRegiration(
-                        user: widget.user,
-                        displayName: displayName!,
-                        gender: gender!,
-                        age: age!,
-                        image: image!,
-                      );
-                      widget.rebuildWrapper();
                     },
                     fontSize: 14.sp,
                     loading: loading,
@@ -272,6 +319,12 @@ class _SetupAccountState extends State<SetupAccount> {
         ),
       ),
     );
+  }
+
+  void onPickBirthDate(DateTime date) {
+    birthDate = '${date.year}-${NumberFormat('00').format(date.month)}-${date.day}';
+    selectedDate = date;
+    _controller.text = birthDate!;
   }
 
   Future<void> imagePicker() async {

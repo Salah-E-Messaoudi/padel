@@ -52,13 +52,13 @@ class UserInfoService {
     required UserData user,
     required String displayName,
     required String gender,
-    required int age,
+    required String birthDate,
     required File? image,
   }) async {
     Map<String, dynamic> data = {
       'displayName': displayName,
       'gender': gender,
-      'age': age,
+      'birthDate': birthDate,
     };
     String? photoURL;
     if (image != null) {
@@ -80,7 +80,7 @@ class UserInfoService {
       displayName,
       photoURL,
       gender,
-      age,
+      birthDate,
     );
   }
 
@@ -88,9 +88,15 @@ class UserInfoService {
     required UserData user,
     required String displayName,
     required String gender,
-    required int age,
+    required String birthDate,
     required File image,
   }) async {
+    int odooId = await ApiCalls.memberCreate(
+      displayName: displayName,
+      gender: gender,
+      phoneNumber: user.phoneNumber!,
+      birthDate: birthDate,
+    );
     String photoURL = await uploadImage(
       root: 'profileImages',
       imagePath: image.path,
@@ -99,8 +105,9 @@ class UserInfoService {
     Map<String, dynamic> data = {
       'displayName': displayName,
       'gender': gender,
-      'age': age,
+      'birthDate': birthDate,
       'photoURL': photoURL,
+      'odooId': odooId,
     };
     await AuthenticationService.updateDisplayName(displayName);
     await AuthenticationService.updatePhotoUrl(photoURL);
@@ -109,7 +116,8 @@ class UserInfoService {
       displayName,
       photoURL,
       gender,
-      age,
+      birthDate,
+      odooId,
     );
   }
 

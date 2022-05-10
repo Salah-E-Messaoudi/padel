@@ -12,7 +12,7 @@ class UserData {
     this.gender,
     this.photoUrl,
     this.token,
-    this.age,
+    this.birthDate,
     this.photo,
     this.odooId,
   });
@@ -24,9 +24,9 @@ class UserData {
   String? gender;
   String? photoUrl;
   final String? token;
-  int? age;
+  String? birthDate;
   ImageProvider<Object>? photo;
-  String? odooId;
+  int? odooId;
 
   factory UserData.fromUser(
     User user,
@@ -40,7 +40,7 @@ class UserData {
       phoneNumber: user.phoneNumber,
       gender: json['gender'],
       photoUrl: user.photoURL,
-      age: json['age'],
+      birthDate: json['birthDate'],
       token: json['token'],
       photo: photo,
       odooId: json['odooId'],
@@ -59,7 +59,7 @@ class UserData {
       phoneNumber: json['phoneNumber'],
       gender: json['gender'],
       photoUrl: photoUrl,
-      age: json['age'],
+      birthDate: json['birthDate'],
       token: json['token'],
       photo: photo,
       odooId: json['odooId'],
@@ -78,7 +78,7 @@ class UserData {
         phoneNumber: json['phoneNumber'],
         gender: json['gender'],
         photoUrl: json['photoURL'],
-        age: json['age'],
+        birthDate: json['birthDate'],
         token: json['token'],
         photo: photo,
       );
@@ -89,7 +89,7 @@ class UserData {
         'phoneNumber': phoneNumber,
         'gender': gender,
         'photoURL': photoUrl,
-        'age': age,
+        'birthDate': birthDate,
         'token': token,
       };
 
@@ -110,18 +110,23 @@ class UserData {
       };
 
   bool get isNotComplete =>
-      displayName == null || photoUrl == null || age == null || gender == null;
+      displayName == null ||
+      photoUrl == null ||
+      birthDate == null ||
+      gender == null;
 
   void completeRegiration(
     String displayName,
     String photoUrl,
     String gender,
-    int age,
+    String birthDate,
+    int odooId,
   ) {
     this.displayName = displayName;
     this.gender = gender;
     this.photoUrl = photoUrl;
-    this.age = age;
+    this.birthDate = birthDate;
+    this.odooId = odooId;
     photo = CachedNetworkImageProvider(photoUrl);
   }
 
@@ -129,7 +134,7 @@ class UserData {
     String displayName,
     String? photoUrl,
     String gender,
-    int age,
+    String birthDate,
   ) {
     this.displayName = displayName;
     this.gender = gender;
@@ -137,6 +142,6 @@ class UserData {
       this.photoUrl = photoUrl;
       photo = CachedNetworkImageProvider(photoUrl);
     }
-    this.age = age;
+    this.birthDate = birthDate;
   }
 }

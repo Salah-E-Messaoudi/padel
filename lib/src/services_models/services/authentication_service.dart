@@ -47,7 +47,7 @@ class AuthenticationService {
         }
         return userData;
       });
-    } on Exception catch (e) {
+    } catch (e) {
       return null;
     }
   }

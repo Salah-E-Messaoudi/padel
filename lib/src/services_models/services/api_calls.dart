@@ -130,4 +130,51 @@ class ApiCalls {
       throw Exception();
     }
   }
+
+  static Future<int> memberCreate({
+    required String displayName,
+    required String gender,
+    required String phoneNumber,
+    required String birthDate,
+  }) async {
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
+    };
+    var request = http.Request(
+        'PATCH',
+        Uri.parse(
+            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/api_member_create'));
+    request.body = json.encode({
+      'args': [
+        displayName,
+        gender,
+        birthDate,
+        phoneNumber,
+        '',
+        {'street': 'street 1', 'zip': '11223', 'city': 'LHR'}
+      ]
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      List<dynamic> results = jsonDecode(await response.stream.bytesToString());
+      log(results.toString());
+      log(results.first.toString());
+      return results.first;
+    } else if (response.statusCode == 500) {
+      log(response.reasonPhrase.toString());
+      log(jsonDecode(await response.stream.bytesToString()).toString());
+      throw APIException.fromJson(
+        jsonDecode(await response.stream.bytesToString()),
+      );
+    } else {
+      throw Exception();
+    }
+  }
 }
