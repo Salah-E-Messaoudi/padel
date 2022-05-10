@@ -36,7 +36,7 @@ void main() async {
   final settingsController = SettingsController(SettingsService());
   await settingsController.loadSettings();
   WidgetsFlutterBinding.ensureInitialized();
-  if (Random().nextInt(3) == 0) {
+  if (Random().nextInt(10) == 0) {
     await DefaultCacheManager().emptyCache();
     dev.log('cached empty');
   }

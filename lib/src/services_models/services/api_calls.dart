@@ -242,4 +242,43 @@ class ApiCalls {
     //   print(response.reasonPhrase);
     // }
   }
+
+  static Future<void> updateProfile({
+    required int userId,
+    required String displayName,
+    required String gender,
+    required String birthDate,
+  }) async {
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
+    };
+    var request = http.Request(
+        'PATCH',
+        Uri.parse(
+            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/api_update_profile'));
+    request.body = json.encode({
+      'args': [
+        {
+          'id': userId.toString(),
+          'name': displayName,
+          'gender': gender,
+          'birthday': birthDate
+        }
+      ]
+    });
+    request.headers.addAll(headers);
+
+    // http.StreamedResponse response =
+    await request.send();
+
+    // if (response.statusCode == 200) {
+    //   print(await response.stream.bytesToString());
+    // } else {
+    //   print(response.reasonPhrase);
+    // }
+  }
 }

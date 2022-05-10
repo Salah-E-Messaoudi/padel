@@ -82,6 +82,12 @@ class UserInfoService {
       gender,
       birthDate,
     );
+    await ApiCalls.updateProfile(
+      userId: user.odooId!,
+      displayName: displayName,
+      gender: gender,
+      birthDate: birthDate,
+    );
   }
 
   static Future<void> completeRegiration({

@@ -170,7 +170,7 @@ class _ProfileState extends State<Profile> {
 
   void onPickBirthDate(DateTime date) {
     birthDate =
-        '${date.year}-${NumberFormat('00').format(date.month)}-${date.day}';
+        '${date.year}-${NumberFormat('00').format(date.month)}-${NumberFormat('00').format(date.day)}';
     selectedDate = date;
     _controller.text = birthDate!;
   }

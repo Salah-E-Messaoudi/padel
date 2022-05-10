@@ -28,7 +28,7 @@ class SetupAccount extends StatefulWidget {
 
 class _SetupAccountState extends State<SetupAccount> {
   final GlobalKey<FormState> _keyA = GlobalKey();
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   String? gender;
   String? displayName;
   String? birthDate;
@@ -302,7 +302,7 @@ class _SetupAccountState extends State<SetupAccount> {
                           image: image!,
                         );
                         widget.rebuildWrapper();
-                      } on Exception catch (e) {
+                      } catch (e) {
                         showSnackBarMessage(context: context, hintMessage: AppLocalizations.of(context)!.unknown_error,);
                         setState(() {
                           loading = false;
@@ -322,7 +322,7 @@ class _SetupAccountState extends State<SetupAccount> {
   }
 
   void onPickBirthDate(DateTime date) {
-    birthDate = '${date.year}-${NumberFormat('00').format(date.month)}-${date.day}';
+    birthDate = '${date.year}-${NumberFormat('00').format(date.month)}-${NumberFormat('00').format(date.day)}';
     selectedDate = date;
     _controller.text = birthDate!;
   }

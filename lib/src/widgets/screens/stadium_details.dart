@@ -399,7 +399,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                   userId: widget.user.odooId!,
                                   stadiumId: widget.stadium.id,
                                   date:
-                                      '${selectedDate!.year}-${NumberFormat('00').format(selectedDate!.month)}-${selectedDate!.day}',
+                                      '${selectedDate!.year}-${NumberFormat('00').format(selectedDate!.month)}-${NumberFormat('00').format(selectedDate!.day)}',
                                   session:
                                       selectedTime!.time.replaceAll('-', 'to'),
                                   data: data,
