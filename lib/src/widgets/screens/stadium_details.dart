@@ -1,4 +1,3 @@
-import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,7 +31,7 @@ class StadiumDetails extends StatefulWidget {
 
 class _StadiumDetailsState extends State<StadiumDetails> {
   DateTime? customDate;
-  DateTime? selectedDate;
+  DateTime? selectedDate = DateTime.now();
   AvailableTime? selectedTime;
   List<AvailibilitySlot>? availableSlots;
 
@@ -418,8 +417,6 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                               },
                               onException: (e) {
                                 if (e is FirebaseException) {
-                                  dev.log(e.code);
-                                  dev.log(e.message.toString());
                                   showSnackBarMessage(
                                     context: context,
                                     hintMessage: AppLocalizations.of(context)!

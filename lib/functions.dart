@@ -227,7 +227,7 @@ void showAlertDialog({
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 TextButton(
-                  child: Text(yesLabel ?? AppLocalizations.of(context)!.close),
+                  child: Text(yesLabel ?? AppLocalizations.of(context)!.yes),
                   onPressed: () async {
                     Navigator.of(context).pop();
                     await onYes();

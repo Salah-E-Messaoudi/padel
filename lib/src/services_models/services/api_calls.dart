@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:padel/src/services_models/models.dart';
 import 'package:http/http.dart' as http;
@@ -248,7 +249,13 @@ class ApiCalls {
     required String displayName,
     required String gender,
     required String birthDate,
+    required File? image,
   }) async {
+    String? imageBase64;
+    if (image != null) {
+      List<int> imageBytes = image.readAsBytesSync();
+      imageBase64 = base64Encode(imageBytes);
+    }
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -266,7 +273,9 @@ class ApiCalls {
           'id': userId.toString(),
           'name': displayName,
           'gender': gender,
-          'birthday': birthDate
+          'birthday': birthDate,
+          //TODO test update image
+          if (imageBase64 != null) 'image_1920': imageBase64,
         }
       ]
     });

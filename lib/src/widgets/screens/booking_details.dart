@@ -43,7 +43,7 @@ class BookingDetails extends StatelessWidget {
               centerTitle: true,
               actions: [
                 if (user.uid == booking.owner.uid && !booking.canceled)
-                  IconButton(
+                  TextButton(
                     onPressed: () async {
                       showFutureAlertDialog(
                           context: context,
@@ -72,10 +72,13 @@ class BookingDetails extends StatelessWidget {
                             );
                           });
                     },
-                    icon: Icon(
-                      Icons.free_cancellation,
-                      size: 28.sp,
-                      color: Theme.of(context).textTheme.headline1!.color,
+                    child: Text(
+                      AppLocalizations.of(context)!.cancel,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14.sp,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   )
               ],
