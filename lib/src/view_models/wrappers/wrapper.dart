@@ -3,8 +3,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:padel/main.dart';
 import 'package:padel/src/services_models/models.dart';
+import 'package:padel/src/services_models/services.dart';
 import 'package:padel/src/settings/preferences.dart';
 import 'package:padel/src/settings/settings_controller.dart';
 import 'package:padel/src/widgets/authentication.dart';
@@ -76,7 +78,6 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
-    log('rebuild wrapper');
     userStream = Provider.of<UserData?>(context);
     if (userStream != null && userStream!.init) {
       return const SplashScreen(loading: true);
@@ -88,24 +89,37 @@ class _WrapperState extends State<Wrapper> {
               snapshot.connectionState == ConnectionState.waiting) {
             return const SplashScreen(loading: true);
           }
-          if (showOnboarding == true) {
-            return Onboarding(setShowOnboarding: hideOnboarding);
-          } else {
-            if (userStream == null) {
-              return PhoneAuth(
-                rebuildWrapper: () => setState(() {}),
-              );
-            } else {
-              if (userStream!.isNotComplete) {
-                return SetupAccount(
-                  user: userStream!,
-                  rebuildWrapper: () => setState(() {}),
-                );
-              } else {
-                return MainScreen(user: userStream!);
-              }
-            }
-          }
+          return FutureBuilder<bool>(
+              future: RemoteConfigService.setup(context),
+              builder: (context, configSnapshot) {
+                if (!configSnapshot.hasData) {
+                  return const SplashScreen(loading: true);
+                }
+                if (configSnapshot.data == true) {
+                  return SplashScreen(
+                    loading: true,
+                    topPadding: 200.h,
+                  );
+                }
+                if (showOnboarding == true) {
+                  return Onboarding(setShowOnboarding: hideOnboarding);
+                } else {
+                  if (userStream == null) {
+                    return PhoneAuth(
+                      rebuildWrapper: () => setState(() {}),
+                    );
+                  } else {
+                    if (userStream!.isNotComplete) {
+                      return SetupAccount(
+                        user: userStream!,
+                        rebuildWrapper: () => setState(() {}),
+                      );
+                    } else {
+                      return MainScreen(user: userStream!);
+                    }
+                  }
+                }
+              });
         });
   }
 

@@ -9,9 +9,14 @@
     "alert_send_invitation_subtitle",
     "alert_share_invitation",
     "alert_cancel_booking",
+    "alert_maintenance_title",
+    "alert_maintenance_subtitle",
+    "alert_update_title",
+    "alert_update_subtitle",
     "booking_canceled_successfully",
     "cancel",
     "yes",
-    "canceled"
+    "canceled",
+    "update"
   ]
 }

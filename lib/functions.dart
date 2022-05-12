@@ -135,6 +135,8 @@ void showOneButtonDialog({
   required BuildContext context,
   required String title,
   required String content,
+  String? label,
+  void Function()? onClick,
 }) {
   showDialog(
     context: context,
@@ -148,10 +150,8 @@ void showOneButtonDialog({
               ),
               actions: <Widget>[
                 CupertinoDialogAction(
-                  child: Text(AppLocalizations.of(context)!.close),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  child: Text(label ?? AppLocalizations.of(context)!.close),
+                  onPressed: onClick ?? () => Navigator.pop(context),
                 ),
               ],
             )
@@ -168,10 +168,8 @@ void showOneButtonDialog({
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text(AppLocalizations.of(context)!.close),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  },
+                  child: Text(label ?? AppLocalizations.of(context)!.close),
+                  onPressed: onClick ?? () => Navigator.of(context).pop(),
                 ),
               ],
             ),

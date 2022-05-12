@@ -8,10 +8,12 @@ class SplashScreen extends StatelessWidget {
     Key? key,
     required this.loading,
     this.isOverlayed = false,
+    this.topPadding,
   }) : super(key: key);
 
   final bool loading;
   final bool isOverlayed;
+  final double? topPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +36,15 @@ class SplashScreen extends StatelessWidget {
                   height: 0.3.sh,
                 ),
               ),
-              SpinKitSpinningLines(
-                color: Theme.of(context).primaryColor,
-                size: 50.sp,
+              Padding(
+                padding: EdgeInsets.only(top: topPadding ?? 0),
+                child: SpinKitSpinningLines(
+                  color: Theme.of(context).primaryColor,
+                  size: 50.sp,
+                ),
               ),
               const Spacer(),
+              if (topPadding != null) const Spacer(),
             ],
           ),
         ),

@@ -58,33 +58,6 @@ class BookingDetails extends StatelessWidget {
                               Navigator.pop(context);
                             }
                           });
-                      // return;
-                      // showFutureAlertDialog(
-                      //     context: context,
-                      //     title: AppLocalizations.of(context)!.confirmation,
-                      //     content: AppLocalizations.of(context)!
-                      //         .alert_cancel_booking,
-                      //     onYes: () async {
-                      //       await booking.cancelBooking('');
-                      //     },
-                      //     onComplete: () async {
-                      //       rebuildHomeScreen();
-                      //       Navigator.pop(context);
-                      //       showSnackBarMessage(
-                      //         context: context,
-                      //         hintMessage: AppLocalizations.of(context)!
-                      //             .booking_canceled_successfully,
-                      //         icon: Icons.info_outline,
-                      //       );
-                      //     },
-                      //     onException: (err) {
-                      //       showSnackBarMessage(
-                      //         context: context,
-                      //         hintMessage:
-                      //             AppLocalizations.of(context)!.unknown_error,
-                      //         icon: Icons.info_outline,
-                      //       );
-                      //     });
                     },
                     child: Text(
                       AppLocalizations.of(context)!.cancel,

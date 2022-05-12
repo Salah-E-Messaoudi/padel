@@ -194,6 +194,10 @@
   "alert_send_invitation_subtitle":"No user with this phone number has been found. Would you like to tell your friend about Padel Life ?",
   "alert_share_invitation":"Hi, come check this amazing app Padel Life, we can book sessions and invite friends to complete our team. Download from the store using the link bellow.\nhttps://example.com.",
   "alert_cancel_booking":"Why would you like to cancel your booking?",
+  "alert_maintenance_title":"Maintenance underway!",
+  "alert_maintenance_subtitle":"Currently our platform is under maintenance, please come back later.",
+  "alert_update_title":"Update available!",
+  "alert_update_subtitle":"A new version of Padel Life is available. Download and install the new update and benefit from new features.",
   "cropper":"Cropper",
   "stadiums":"Stadiums",
   "bookings":"Bookings",
@@ -221,5 +225,6 @@
   "close":"Close",
   "cancel":"Cancel",
   "yes":"Yes",
-  "canceled":"Canceled"
+  "canceled":"Canceled",
+  "update":"Update"
 }
