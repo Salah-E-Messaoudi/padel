@@ -356,8 +356,6 @@ class _PhoneAuthState extends State<PhoneAuth> {
           .signInWithCredential(credential)
           .then((userCredential) async {
         await UserInfoService.createUserInfo(userCredential);
-        // await userCredential.user!.reload();
-        // widget.rebuildWrapper();
       });
     } on FirebaseAuthException catch (e) {
       setState(() {

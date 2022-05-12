@@ -59,7 +59,6 @@ class ApiCalls {
       List<dynamic> results = jsonDecode(await response.stream.bytesToString());
       return results.map((e) => Game.fromMap(e)).toList();
     } else {
-      // log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -90,7 +89,6 @@ class ApiCalls {
         '',
       );
     } else {
-      // log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -119,7 +117,6 @@ class ApiCalls {
       List<dynamic> results = jsonDecode(await response.stream.bytesToString());
       return results.map((e) => AvailibilitySlot.fromMap(e)).toList();
     } else {
-      // log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -161,8 +158,6 @@ class ApiCalls {
       List<dynamic> results = jsonDecode(await response.stream.bytesToString());
       return results.first;
     } else if (response.statusCode == 500) {
-      // log(response.reasonPhrase.toString());
-      // log(jsonDecode(await response.stream.bytesToString()).toString());
       throw APIException.fromJson(
         jsonDecode(await response.stream.bytesToString()),
       );
@@ -205,8 +200,6 @@ class ApiCalls {
           jsonDecode(await response.stream.bytesToString());
       return result['id'];
     } else if (response.statusCode == 500) {
-      // log(response.reasonPhrase.toString());
-      // log(jsonDecode(await response.stream.bytesToString()).toString());
       throw APIException.fromJson(
         jsonDecode(await response.stream.bytesToString()),
       );
@@ -217,6 +210,7 @@ class ApiCalls {
 
   static Future<void> cancelBooking({
     required int bookingId,
+    required String why,
   }) async {
     var headers = {
       'Accept': 'application/json',
@@ -232,16 +226,11 @@ class ApiCalls {
     request.body = json.encode({
       'args': [
         bookingId,
+        why,
       ]
     });
     request.headers.addAll(headers);
-    // http.StreamedResponse response =
     await request.send();
-    // if (response.statusCode == 200) {
-    //   print(await response.stream.bytesToString());
-    // } else {
-    //   print(response.reasonPhrase);
-    // }
   }
 
   static Future<void> updateProfile({
@@ -274,20 +263,11 @@ class ApiCalls {
           'name': displayName,
           'gender': gender,
           'birthday': birthDate,
-          //TODO test update image
           if (imageBase64 != null) 'image_1920': imageBase64,
         }
       ]
     });
     request.headers.addAll(headers);
-
-    // http.StreamedResponse response =
     await request.send();
-
-    // if (response.statusCode == 200) {
-    //   print(await response.stream.bytesToString());
-    // } else {
-    //   print(response.reasonPhrase);
-    // }
   }
 }

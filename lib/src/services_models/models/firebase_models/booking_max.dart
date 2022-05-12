@@ -86,9 +86,9 @@ class BookingMax {
         'createdAt': FieldValue.serverTimestamp(),
       };
 
-  Future<void> cancelBooking() async {
-    await ApiCalls.cancelBooking(bookingId: odooId);
-    await BookingsService.cancel(reference: reference);
+  Future<void> cancelBooking(String why) async {
+    await ApiCalls.cancelBooking(bookingId: odooId, why: why);
+    await BookingsService.cancel(reference: reference, why: why);
     canceled = true;
   }
 }

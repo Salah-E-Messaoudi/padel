@@ -82,7 +82,6 @@ class UserInfoService {
       gender,
       birthDate,
     );
-    //TODO remove await
     await ApiCalls.updateProfile(
       userId: user.odooId!,
       displayName: displayName,

@@ -259,7 +259,7 @@ class _SetupAccountState extends State<SetupAccount> {
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderColor: Theme.of(context).primaryColor,
                     shadowColor: Colors.transparent,
-                    label: AppLocalizations.of(context)!.confirme,
+                    label: (AppLocalizations.of(context)!.confirm).toUpperCase(),
                     fontColor: Theme.of(context).primaryColor,
                     onPressed: () async {
                       try {

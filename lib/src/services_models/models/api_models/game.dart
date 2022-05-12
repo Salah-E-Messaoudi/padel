@@ -52,29 +52,3 @@ class Ground {
         ),
       );
 }
-
-// class PlayField {
-//   PlayField({
-//     required this.id,
-//     required this.name,
-//     required this.image,
-//     required this.price,
-//     required this.note,
-//   });
-
-//   final int id;
-//   final String name;
-//   final ImageProvider<Object>? image;
-//   final double price;
-//   final String note;
-
-//   factory PlayField.fromMap(Map<String, dynamic> json) => PlayField(
-//         id: json['id'],
-//         name: json['name'],
-//         image: json['image'] != null
-//             ? Image.memory(base64.decode(json['image'])).image
-//             : null,
-//         price: json['price'],
-//         note: json['note'],
-//       );
-// }

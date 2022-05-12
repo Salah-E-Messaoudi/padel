@@ -1,4 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:padel/src/widgets/widget_models.dart';
 
 import 'src/widgets/tiles.dart';
 
@@ -299,4 +299,112 @@ DateTime? getDateTime(dynamic value, [bool init = true]) {
   } else {
     return DateTime.parse(value);
   }
+}
+
+void showTextFormDialog({
+  required BuildContext context,
+  required String title,
+  required String content,
+  required Future<void> Function(String) onYes,
+}) {
+  final GlobalKey<FormState> _keyA = GlobalKey();
+  TextEditingController _controller = TextEditingController();
+  // ignore: prefer_function_declarations_over_variables
+  void Function() onComplete = () async {
+    if (!_keyA.currentState!.validate()) {
+      return;
+    }
+    FocusScope.of(context).unfocus();
+    Navigator.pop(context);
+    await onYes(_controller.text);
+  };
+  showDialog(
+    context: context,
+    builder: Platform.isIOS
+        ? (context) => Form(
+              key: _keyA,
+              autovalidateMode: AutovalidateMode.disabled,
+              child: CupertinoAlertDialog(
+                title: Text(
+                  title,
+                ),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(content),
+                    SizedBox(height: 10.h),
+                    CupertinoTextFormFieldRow(
+                      controller: _controller,
+                      maxLength: 100,
+                      padding: EdgeInsets.zero,
+                      onEditingComplete: onComplete,
+                      style: GoogleFonts.poppins(
+                          height: 1,
+                          color: Theme.of(context).textTheme.headline1!.color,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500),
+                      validator: (value) =>
+                          validateNotNull(value: value, context: context),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 0.5,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text(AppLocalizations.of(context)!.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  CupertinoDialogAction(
+                    child: Text(AppLocalizations.of(context)!.confirm),
+                    onPressed: onComplete,
+                  ),
+                ],
+              ),
+            )
+        : (context) => AlertDialog(
+              title: Text(
+                title,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(content),
+                  SizedBox(height: 10.h),
+                  CustomTextFormField(
+                    controller: _controller,
+                    maxLength: 100,
+                    onEditingComplete: onComplete,
+                    style: GoogleFonts.poppins(
+                        height: 1,
+                        color: Theme.of(context).textTheme.headline1!.color,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500),
+                    validator: (value) =>
+                        validateNotNull(value: value, context: context),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.confirm),
+                  onPressed: onComplete,
+                ),
+              ],
+            ),
+  );
 }

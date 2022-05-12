@@ -35,7 +35,6 @@ class _WrapperState extends State<Wrapper> {
         .then((RemoteMessage? message) {
       if (message == null) return;
       log('getInitialMessage called');
-      // callAlertDialog('getInitialMessage called');
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {

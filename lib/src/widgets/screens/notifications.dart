@@ -128,9 +128,7 @@ class _NotificationsState extends State<Notifications> {
 
   Future<void> onClickNotification(FBNotification notification) async {
     notification.markAsSeen();
-    // showLoadingWidget(context);
     try {
-      // String id = notification.id;
       switch (notification.key) {
         case 'friend_added_1':
         case 'friend_added_2':
@@ -159,10 +157,8 @@ class _NotificationsState extends State<Notifications> {
           widget.changeTab(1);
           break;
         default:
-        // Navigator.pop(context);
       }
     } on Exception {
-      // Navigator.pop(context);
       notification.reference.delete();
     }
   }

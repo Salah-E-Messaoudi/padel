@@ -21,7 +21,6 @@ class LoadingTile extends StatelessWidget {
               alignment: Alignment.center,
               decoration: const BoxDecoration(
                 color: Color.fromARGB(245, 245, 245, 255),
-                // color: Theme.of(context).primaryColor.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: SpinKitRing(

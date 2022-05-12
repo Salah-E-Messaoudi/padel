@@ -45,32 +45,46 @@ class BookingDetails extends StatelessWidget {
                 if (user.uid == booking.owner.uid && !booking.canceled)
                   TextButton(
                     onPressed: () async {
-                      showFutureAlertDialog(
+                      showTextFormDialog(
                           context: context,
                           title: AppLocalizations.of(context)!.confirmation,
                           content: AppLocalizations.of(context)!
                               .alert_cancel_booking,
-                          onYes: () async {
-                            await booking.cancelBooking();
-                          },
-                          onComplete: () async {
-                            rebuildHomeScreen();
-                            Navigator.pop(context);
-                            showSnackBarMessage(
-                              context: context,
-                              hintMessage: AppLocalizations.of(context)!
-                                  .booking_canceled_successfully,
-                              icon: Icons.info_outline,
-                            );
-                          },
-                          onException: (err) {
-                            showSnackBarMessage(
-                              context: context,
-                              hintMessage:
-                                  AppLocalizations.of(context)!.unknown_error,
-                              icon: Icons.info_outline,
-                            );
+                          onYes: (why) async {
+                            try {
+                              showLoadingWidget(context);
+                              await booking.cancelBooking(why);
+                            } finally {
+                              Navigator.pop(context);
+                            }
                           });
+                      // return;
+                      // showFutureAlertDialog(
+                      //     context: context,
+                      //     title: AppLocalizations.of(context)!.confirmation,
+                      //     content: AppLocalizations.of(context)!
+                      //         .alert_cancel_booking,
+                      //     onYes: () async {
+                      //       await booking.cancelBooking('');
+                      //     },
+                      //     onComplete: () async {
+                      //       rebuildHomeScreen();
+                      //       Navigator.pop(context);
+                      //       showSnackBarMessage(
+                      //         context: context,
+                      //         hintMessage: AppLocalizations.of(context)!
+                      //             .booking_canceled_successfully,
+                      //         icon: Icons.info_outline,
+                      //       );
+                      //     },
+                      //     onException: (err) {
+                      //       showSnackBarMessage(
+                      //         context: context,
+                      //         hintMessage:
+                      //             AppLocalizations.of(context)!.unknown_error,
+                      //         icon: Icons.info_outline,
+                      //       );
+                      //     });
                     },
                     child: Text(
                       AppLocalizations.of(context)!.cancel,
@@ -484,10 +498,7 @@ class BookingDetails extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             )
-                          :
-                          // Stack(
-                          //     children: [
-                          ClipRRect(
+                          : ClipRRect(
                               borderRadius: BorderRadius.circular(12.sp),
                               child: Container(
                                 decoration: BoxDecoration(
@@ -505,13 +516,6 @@ class BookingDetails extends StatelessWidget {
                                     : null,
                               ),
                             ),
-                      // Container(
-                      //   width: double.infinity,
-                      //   height: double.infinity,
-                      //   color: Colors.red,
-                      // ),
-                      // ],
-                      // ),
                     ),
                   ),
                 ],

@@ -15,9 +15,11 @@ class BookingsService {
 
   static Future<void> cancel({
     required DocumentReference reference,
+    required String why,
   }) async {
     await reference.update({
       'canceled': true,
+      'why': why,
     });
   }
 

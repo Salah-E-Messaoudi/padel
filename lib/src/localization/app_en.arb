@@ -67,7 +67,7 @@
   "male":"Male",
   "female":"Female",
 
-  "confirme":"CONFIRME",
+  "confirm":"Confirm",
   "field_required":"Field required",
 
   "hi":"Hi {name}",
@@ -193,7 +193,7 @@
   "alert_send_invitation_title":"Share your invitation",
   "alert_send_invitation_subtitle":"No user with this phone number has been found. Would you like to tell your friend about Padel Life ?",
   "alert_share_invitation":"Hi, come check this amazing app Padel Life, we can book sessions and invite friends to complete our team. Download from the store using the link bellow.\nhttps://example.com.",
-  "alert_cancel_booking":"Would you like to cancel this booking?",
+  "alert_cancel_booking":"Why would you like to cancel your booking?",
   "cropper":"Cropper",
   "stadiums":"Stadiums",
   "bookings":"Bookings",
@@ -219,7 +219,7 @@
   "added":"Added",
   "invite":"Invite",
   "close":"Close",
-  "cancel":"cancel",
+  "cancel":"Cancel",
   "yes":"Yes",
   "canceled":"Canceled"
 }

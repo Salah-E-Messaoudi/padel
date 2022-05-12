@@ -1,5 +1,6 @@
 {
   "ar": [
+    "confirm",
     "select_contact",
     "friend_added_1",
     "friend_added_2",
