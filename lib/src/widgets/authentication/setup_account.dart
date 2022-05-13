@@ -178,38 +178,39 @@ class _SetupAccountState extends State<SetupAccount> {
                             readOnly: true,
                             onTap: () {
                               DatePicker.showDatePicker(
-                                    context,
-                                    theme: DatePickerTheme(
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      cancelStyle: GoogleFonts.poppins(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .color,
-                                      ),
-                                      doneStyle: GoogleFonts.poppins(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      itemStyle: GoogleFonts.poppins(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline1!
-                                            .color,
-                                      ),
-                                    ),
-                                    showTitleActions: true,
-                                    maxTime: DateTime.now().subtract(const Duration(days: 365*13)),
-                                    onConfirm: onPickBirthDate,
-                                    currentTime: selectedDate,
-                                    locale: LocaleType.en,
-                                  );
+                                context,
+                                theme: DatePickerTheme(
+                                  backgroundColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  cancelStyle: GoogleFonts.poppins(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline4!
+                                        .color,
+                                  ),
+                                  doneStyle: GoogleFonts.poppins(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  itemStyle: GoogleFonts.poppins(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .color,
+                                  ),
+                                ),
+                                showTitleActions: true,
+                                maxTime: DateTime.now()
+                                    .subtract(const Duration(days: 365 * 13)),
+                                onConfirm: onPickBirthDate,
+                                currentTime: selectedDate,
+                                locale: LocaleType.en,
+                              );
                             },
                           ),
                           Text(
@@ -259,7 +260,8 @@ class _SetupAccountState extends State<SetupAccount> {
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderColor: Theme.of(context).primaryColor,
                     shadowColor: Colors.transparent,
-                    label: (AppLocalizations.of(context)!.confirm).toUpperCase(),
+                    label:
+                        (AppLocalizations.of(context)!.confirm).toUpperCase(),
                     fontColor: Theme.of(context).primaryColor,
                     onPressed: () async {
                       try {
@@ -303,7 +305,11 @@ class _SetupAccountState extends State<SetupAccount> {
                         );
                         widget.rebuildWrapper();
                       } catch (e) {
-                        showSnackBarMessage(context: context, hintMessage: AppLocalizations.of(context)!.unknown_error,);
+                        showSnackBarMessage(
+                          context: context,
+                          hintMessage:
+                              AppLocalizations.of(context)!.unknown_error,
+                        );
                         setState(() {
                           loading = false;
                         });
@@ -322,7 +328,8 @@ class _SetupAccountState extends State<SetupAccount> {
   }
 
   void onPickBirthDate(DateTime date) {
-    birthDate = '${date.year}-${NumberFormat('00').format(date.month)}-${NumberFormat('00').format(date.day)}';
+    birthDate =
+        '${date.year}-${NumberFormat('00').format(date.month)}-${NumberFormat('00').format(date.day)}';
     selectedDate = date;
     _controller.text = birthDate!;
   }
@@ -342,7 +349,7 @@ class _SetupAccountState extends State<SetupAccount> {
           ],
           androidUiSettings: AndroidUiSettings(
               activeControlsWidgetColor: Theme.of(context).primaryColor,
-              toolbarTitle: AppLocalizations.of(context)!.cropper
+              toolbarTitle: AppLocalizations.of(context)!.cropper,
               toolbarColor: Theme.of(context).primaryColor,
               toolbarWidgetColor: Colors.white,
               initAspectRatio: CropAspectRatioPreset.square,

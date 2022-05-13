@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
                   ],
                   child: MaterialApp(
                     restorationScopeId: 'app',
+                    debugShowCheckedModeBanner: false,
                     localizationsDelegates: const [
                       AppLocalizations.delegate,
                       CountryLocalizations.delegate,

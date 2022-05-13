@@ -23,7 +23,7 @@ class Stadium {
   final String type;
   final ImageProvider<Object>? avatar;
   final String? avatarBase64;
-  ImageProvider<Object>? image;
+  Set<ImageProvider<Object>>? images;
 
   factory Stadium.fromMap(
     Map<String, dynamic> json,
@@ -78,8 +78,6 @@ class Stadium {
   }
 
   Future<void> updateImage() async {
-    image = await ApiCalls.getStadiumById(id).then((stadium) {
-      return stadium.avatar;
-    });
+    images = await ApiCalls.getImagesForStadiumById(id);
   }
 }

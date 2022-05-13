@@ -366,43 +366,51 @@ void showTextFormDialog({
                 ],
               ),
             )
-        : (context) => AlertDialog(
-              title: Text(
-                title,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w600,
+        : (context) => Form(
+              key: _keyA,
+              autovalidateMode: AutovalidateMode.disabled,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(content),
-                  SizedBox(height: 10.h),
-                  CustomTextFormField(
-                    controller: _controller,
-                    maxLength: 100,
-                    onEditingComplete: onComplete,
-                    style: GoogleFonts.poppins(
-                        height: 1,
-                        color: Theme.of(context).textTheme.headline1!.color,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500),
-                    validator: (value) =>
-                        validateNotNull(value: value, context: context),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(content),
+                    SizedBox(height: 10.h),
+                    SizedBox(
+                      height: 30.sp,
+                      child: CustomTextFormField(
+                        controller: _controller,
+                        maxLength: 100,
+                        onEditingComplete: onComplete,
+                        style: GoogleFonts.poppins(
+                            height: 1,
+                            color: Theme.of(context).textTheme.headline1!.color,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500),
+                        validator: (value) =>
+                            validateNotNull(value: value, context: context),
+                      ),
+                    ),
+                  ],
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text(AppLocalizations.of(context)!.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  TextButton(
+                    child: Text(AppLocalizations.of(context)!.confirm),
+                    onPressed: onComplete,
                   ),
                 ],
               ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.close),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.confirm),
-                  onPressed: onComplete,
-                ),
-              ],
             ),
   );
 }

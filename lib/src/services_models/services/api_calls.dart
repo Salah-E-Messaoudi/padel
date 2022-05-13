@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:http/http.dart' as http;
 
@@ -90,6 +92,58 @@ class ApiCalls {
       );
     } else {
       throw Exception();
+    }
+  }
+
+  static Future<Set<ImageProvider<Object>>> getImagesForStadiumById(
+      int id) async {
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
+    };
+    var request = http.Request(
+        'PATCH',
+        Uri.parse(
+            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/get_stadiums'));
+    request.body = json.encode({
+      'args': [id]
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      List<dynamic> results = jsonDecode(await response.stream.bytesToString());
+      if (results.isEmpty) return {};
+      Set<ImageProvider<Object>> images = {};
+      Map<String, dynamic> json = results.first;
+      addImageToSet(images, json['image']);
+      if (json['image_ids'] is List<dynamic>) {
+        var listImages = json['image_ids'] as List<dynamic>;
+        for (var element in listImages) {
+          addImageToSet(images, element['image_1920']);
+        }
+      }
+      return images;
+    } else {
+      throw Exception();
+    }
+  }
+
+  static ImageProvider<Object>? getImageFromDynamic(dynamic imageBase64) {
+    return imageBase64 is String
+        ? Image.memory(base64.decode(imageBase64)).image
+        : null;
+  }
+
+  static void addImageToSet(
+    Set<ImageProvider<Object>?> set,
+    dynamic imageBase64,
+  ) {
+    ImageProvider<Object>? image = getImageFromDynamic(imageBase64);
+    if (image != null) {
+      set.add(image);
     }
   }
 

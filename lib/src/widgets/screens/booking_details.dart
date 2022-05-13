@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,7 +25,7 @@ class BookingDetails extends StatelessWidget {
   final void Function() rebuildHomeScreen;
 
   Future<void> updateImage() async {
-    if (booking.stadium.image == null && booking.stadium.avatar != null) {
+    if (booking.stadium.images == null && booking.stadium.avatar != null) {
       await booking.stadium.updateImage();
     }
   }
@@ -475,18 +476,30 @@ class BookingDetails extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12.sp),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: booking.stadium.image ??
-                                        booking.stadium.avatar!,
-                                    fit: BoxFit.fill,
-                                  ),
+                                  image: booking.stadium.images != null &&
+                                          booking.stadium.images!.isNotEmpty
+                                      ? null
+                                      : DecorationImage(
+                                          image: booking.stadium.avatar!,
+                                          fit: BoxFit.fill,
+                                        ),
                                 ),
-                                child: booking.stadium.image == null
+                                child: booking.stadium.images == null
                                     ? Padding(
                                         padding: EdgeInsets.only(top: 50.h),
                                         child: const LoadingTile(),
                                       )
-                                    : null,
+                                    : booking.stadium.images!.isNotEmpty
+                                        ? ImageSlideshow(
+                                            indicatorColor:
+                                                Theme.of(context).primaryColor,
+                                            // isLoop: true,
+                                            children: booking.stadium.images!
+                                                .map((image) =>
+                                                    Image(image: image))
+                                                .toList(),
+                                          )
+                                        : null,
                               ),
                             ),
                     ),

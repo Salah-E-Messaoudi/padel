@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -44,7 +45,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
   ).toList();
 
   Future<void> getAvailableSlots() async {
-    if (widget.stadium.image == null && widget.stadium.avatar != null) {
+    if (widget.stadium.images == null && widget.stadium.avatar != null) {
       await widget.stadium.updateImage();
     }
     if (availableSlots != null || selectedDate == null) {
@@ -98,11 +99,23 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                                     bottomLeft: Radius.circular(16.sp),
                                     bottomRight: Radius.circular(16.sp),
                                   ),
-                                  child: Image(
-                                    image: widget.stadium.image ??
-                                        widget.stadium.avatar!,
-                                    fit: BoxFit.fill,
-                                  ),
+                                  child: widget.stadium.images != null &&
+                                          widget.stadium.images!.isNotEmpty
+                                      ? ImageSlideshow(
+                                          indicatorColor:
+                                              Theme.of(context).primaryColor,
+                                          // isLoop: true,
+                                          children: widget.stadium.images!
+                                              .map((image) => Image(
+                                                    image: image,
+                                                    fit: BoxFit.fill,
+                                                  ))
+                                              .toList(),
+                                        )
+                                      : Image(
+                                          image: widget.stadium.avatar!,
+                                          fit: BoxFit.fill,
+                                        ),
                                 ),
                         ),
                       ),
@@ -133,7 +146,7 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                           ),
                         ),
                       ),
-                      if (widget.stadium.image == null &&
+                      if (widget.stadium.images == null &&
                           widget.stadium.avatar != null)
                         Positioned.fill(
                           top: MediaQuery.of(context).viewPadding.top + 40.h,
