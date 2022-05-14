@@ -78,67 +78,70 @@ class _AddFriendState extends State<AddFriend> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomTextFormField(
-                  suffixIcon: Icons.contacts,
-                  suffixOnTap: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      isDismissible: true,
-                      enableDrag: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.sp),
-                          topRight: Radius.circular(10.sp),
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: CustomTextFormField(
+                    suffixIcon: Icons.contacts,
+                    suffixOnTap: () {
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        isDismissible: true,
+                        enableDrag: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.sp),
+                            topRight: Radius.circular(10.sp),
+                          ),
                         ),
-                      ),
-                      context: context,
-                      builder: (context) => PickContact(
-                        onPick: (value) => controller.text = value,
-                      ),
-                    );
-                  },
-                  controller: controller,
-                  prefix: CountryCodePicker(
-                    onChanged: (code) {
-                      countryCode = code.code ?? 'KW';
-                      phoneCode = code.dialCode ?? '+965';
-                      countryName = code.name ?? 'Kuwait';
+                        context: context,
+                        builder: (context) => PickContact(
+                          onPick: (value) => controller.text = value,
+                        ),
+                      );
                     },
-                    initialSelection: countryCode,
-                    enabled: true,
-                    favorite: const ['+965'],
-                    comparator: (a, b) => b.name!.compareTo(a.name!),
-                    boxDecoration: BoxDecoration(
-                      color: Theme.of(context).textTheme.headline4!.color,
-                      borderRadius: BorderRadius.circular(10.sp),
+                    controller: controller,
+                    prefix: CountryCodePicker(
+                      onChanged: (code) {
+                        countryCode = code.code ?? 'KW';
+                        phoneCode = code.dialCode ?? '+965';
+                        countryName = code.name ?? 'Kuwait';
+                      },
+                      initialSelection: countryCode,
+                      enabled: true,
+                      favorite: const ['+965'],
+                      comparator: (a, b) => b.name!.compareTo(a.name!),
+                      boxDecoration: BoxDecoration(
+                        color: Theme.of(context).textTheme.headline4!.color,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      textStyle: GoogleFonts.poppins(
+                        height: 1,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).textTheme.headline3!.color,
+                        fontSize: 16.sp,
+                      ),
+                      padding: EdgeInsets.zero,
+                      flagWidth: 26.sp,
                     ),
-                    textStyle: GoogleFonts.poppins(
+                    style: GoogleFonts.poppins(
                       height: 1,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).textTheme.headline3!.color,
+                      color: Theme.of(context).textTheme.headline1!.color,
                       fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
                     ),
-                    padding: EdgeInsets.zero,
-                    flagWidth: 26.sp,
+                    onSaved: (value) {
+                      phonenumber = value;
+                    },
+                    validator: (value) =>
+                        validateNotNull(value: value, context: context),
+                    errorText: getError(context, _error),
+                    width: 0.7.sw,
+                    keyboardType: TextInputType.phone,
+                    contentPadding: EdgeInsets.symmetric(vertical: 16.sp),
+                    fontSize: 16,
+                    enabled: !loading,
+                    onEditingComplete: next,
                   ),
-                  style: GoogleFonts.poppins(
-                    height: 1,
-                    color: Theme.of(context).textTheme.headline1!.color,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  onSaved: (value) {
-                    phonenumber = value;
-                  },
-                  validator: (value) =>
-                      validateNotNull(value: value, context: context),
-                  errorText: getError(context, _error),
-                  width: 0.7.sw,
-                  keyboardType: TextInputType.phone,
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.sp),
-                  fontSize: 16,
-                  enabled: !loading,
-                  onEditingComplete: next,
                 ),
               ],
             ),

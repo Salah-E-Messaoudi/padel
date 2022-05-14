@@ -61,30 +61,33 @@ class _PhoneAuthState extends State<PhoneAuth> {
                         if (otpSent)
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 35.w),
-                            child: PinCodeTextField(
-                              enabled: !loading,
-                              appContext: context,
-                              length: 6,
-                              onChanged: (value) {},
-                              onCompleted: onComplete,
-                              keyboardType: TextInputType.number,
-                              textStyle: GoogleFonts.montserrat(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline1!
-                                    .color,
-                              ),
-                              pinTheme: PinTheme(
-                                borderWidth: 2.sp,
-                                shape: PinCodeFieldShape.box,
-                                borderRadius: BorderRadius.circular(20.sp),
-                                fieldHeight: 50.w,
-                                fieldWidth: 50.w,
-                                inactiveColor: Theme.of(context).primaryColor,
-                                activeColor: Theme.of(context).primaryColor,
-                                selectedColor: Theme.of(context).primaryColor,
+                            child: Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: PinCodeTextField(
+                                enabled: !loading,
+                                appContext: context,
+                                length: 6,
+                                onChanged: (value) {},
+                                onCompleted: onComplete,
+                                keyboardType: TextInputType.number,
+                                textStyle: GoogleFonts.montserrat(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .color,
+                                ),
+                                pinTheme: PinTheme(
+                                  borderWidth: 2.sp,
+                                  shape: PinCodeFieldShape.box,
+                                  borderRadius: BorderRadius.circular(20.sp),
+                                  fieldHeight: 50.w,
+                                  fieldWidth: 50.w,
+                                  inactiveColor: Theme.of(context).primaryColor,
+                                  activeColor: Theme.of(context).primaryColor,
+                                  selectedColor: Theme.of(context).primaryColor,
+                                ),
                               ),
                             ),
                           ),
@@ -104,61 +107,64 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                 Form(
                                   key: _keyA,
                                   autovalidateMode: AutovalidateMode.disabled,
-                                  child: CustomTextFormField(
-                                    hint: AppLocalizations.of(context)!
-                                        .phone_number_hint,
-                                    prefix: CountryCodePicker(
-                                      onChanged: (code) {
-                                        countryCode = code.code ?? 'KW';
-                                        phoneCode = code.dialCode ?? '+965';
-                                        countryName = code.name ?? 'Kuwait';
+                                  child: Directionality(
+                                    textDirection: TextDirection.ltr,
+                                    child: CustomTextFormField(
+                                      hint: AppLocalizations.of(context)!
+                                          .phone_number_hint,
+                                      prefix: CountryCodePicker(
+                                        onChanged: (code) {
+                                          countryCode = code.code ?? 'KW';
+                                          phoneCode = code.dialCode ?? '+965';
+                                          countryName = code.name ?? 'Kuwait';
+                                        },
+                                        initialSelection: countryCode,
+                                        enabled: true,
+                                        favorite: const ['+965'],
+                                        comparator: (a, b) =>
+                                            b.name!.compareTo(a.name!),
+                                        boxDecoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .headline4!
+                                              .color,
+                                          borderRadius:
+                                              BorderRadius.circular(10.sp),
+                                        ),
+                                        textStyle: GoogleFonts.poppins(
+                                          height: 1,
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .headline3!
+                                              .color,
+                                          fontSize: 16.sp,
+                                        ),
+                                        padding: EdgeInsets.zero,
+                                        flagWidth: 26.sp,
+                                      ),
+                                      style: GoogleFonts.poppins(
+                                          height: 1,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .headline1!
+                                              .color,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.bold),
+                                      onSaved: (value) {
+                                        phonenumber = value;
                                       },
-                                      initialSelection: countryCode,
-                                      enabled: true,
-                                      favorite: const ['+965'],
-                                      comparator: (a, b) =>
-                                          b.name!.compareTo(a.name!),
-                                      boxDecoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .color,
-                                        borderRadius:
-                                            BorderRadius.circular(10.sp),
-                                      ),
-                                      textStyle: GoogleFonts.poppins(
-                                        height: 1,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline3!
-                                            .color,
-                                        fontSize: 16.sp,
-                                      ),
-                                      padding: EdgeInsets.zero,
-                                      flagWidth: 26.sp,
+                                      validator: (value) => validateNumberInt(
+                                          value: value, context: context),
+                                      errorText: getError(context, _error),
+                                      width: 0.8.sw,
+                                      keyboardType: TextInputType.phone,
+                                      contentPadding:
+                                          EdgeInsets.symmetric(vertical: 16.sp),
+                                      fontSize: 16,
+                                      enabled: !loading,
+                                      onEditingComplete: next,
                                     ),
-                                    style: GoogleFonts.poppins(
-                                        height: 1,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline1!
-                                            .color,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold),
-                                    onSaved: (value) {
-                                      phonenumber = value;
-                                    },
-                                    validator: (value) => validateNumberInt(
-                                        value: value, context: context),
-                                    errorText: getError(context, _error),
-                                    width: 0.8.sw,
-                                    keyboardType: TextInputType.phone,
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 16.sp),
-                                    fontSize: 16,
-                                    enabled: !loading,
-                                    onEditingComplete: next,
                                   ),
                                 ),
                               ],

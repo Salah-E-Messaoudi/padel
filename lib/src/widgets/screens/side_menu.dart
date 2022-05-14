@@ -62,12 +62,15 @@ class SideMenu extends StatelessWidget {
                     color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ),
-                Text(
-                  user.phoneNumber!,
-                  style: GoogleFonts.poppins(
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).textTheme.headline3!.color,
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Text(
+                    user.phoneNumber!,
+                    style: GoogleFonts.poppins(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).textTheme.headline3!.color,
+                    ),
                   ),
                 ),
               ],

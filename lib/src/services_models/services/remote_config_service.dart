@@ -10,9 +10,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RemoteConfigService {
-  static Uri APP_STORE_URL =
+  static Uri appSTOREURL =
       Uri.parse('https://apps.apple.com/dz/app/praticpower/id1606012558');
-  static Uri PLAY_STORE_URL = Uri.parse(
+  static Uri playSTOREURL = Uri.parse(
       'https://play.google.com/store/apps/details?id=com.optasoft.praticpower');
   static String? _version;
   static bool? _maintenanceBreak;
@@ -82,7 +82,7 @@ class RemoteConfigService {
             content: AppLocalizations.of(context)!.alert_update_subtitle,
             label: AppLocalizations.of(context)!.update,
             onClick: () =>
-                launchUrl(Platform.isIOS ? APP_STORE_URL : PLAY_STORE_URL));
+                launchUrl(Platform.isIOS ? appSTOREURL : playSTOREURL));
         setDone(true);
         return true;
       }

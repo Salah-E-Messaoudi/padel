@@ -52,6 +52,7 @@ class ContactTile extends StatelessWidget {
                   if (contact.phones.isNotEmpty)
                     Text(
                       contact.phones.first.number,
+                      textDirection: TextDirection.ltr,
                       style: GoogleFonts.poppins(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w500,

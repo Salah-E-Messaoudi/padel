@@ -100,7 +100,7 @@ class _ProfileState extends State<Profile> {
             ProfileInfo(
               icon: Icons.call_outlined,
               label: AppLocalizations.of(context)!.phone_number,
-              value: widget.user.phoneNumber!,
+              value: widget.user.phoneNumber!.replaceAll('+', ''),
               controller: null,
               enabled: false,
               validator: (value) =>
@@ -162,7 +162,7 @@ class _ProfileState extends State<Profile> {
         onPressed: toggleState,
         fontColor: Colors.white,
         icon: isEditing ? Icons.save_outlined : Icons.edit_outlined,
-        fixedSize: Size(0.45.sw, 40.sp),
+        fixedSize: Size(0.5.sw, 40.sp),
         loading: loading,
       ),
     );

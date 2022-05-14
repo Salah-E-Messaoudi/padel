@@ -96,7 +96,7 @@ class _PickContactState extends State<PickContact> {
                         fontSize: 16.sp,
                       ),
                       onChanged: (value) => search(value ?? ''),
-                      keyboardType: TextInputType.phone,
+                      keyboardType: TextInputType.name,
                       contentPadding: EdgeInsets.symmetric(vertical: 16.sp),
                       fontSize: 16,
                       onEditingComplete: () => search(controller.text),
