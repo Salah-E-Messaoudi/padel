@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:padel/functions.dart';
+import 'package:padel/src/app.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
+import 'package:padel/src/settings/preferences.dart';
 import 'package:padel/src/widgets/screens.dart';
 
 class SideMenu extends StatelessWidget {
@@ -129,13 +131,30 @@ class SideMenu extends StatelessWidget {
                     });
                   },
                 ),
+                // CustomListTile(
+                //   text: AppLocalizations.of(context)!.play_system,
+                //   icon: Icons.assignment_outlined,
+                //   onPressed: () => Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => const PlaySystem())),
+                // ),
                 CustomListTile(
-                  text: AppLocalizations.of(context)!.play_system,
-                  icon: Icons.assignment_outlined,
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PlaySystem())),
+                  text: Localizations.localeOf(context).languageCode == 'en'
+                      ? 'English'
+                      : 'العربية',
+                  icon: Icons.language,
+                  trailingIcon: Icons.sync_alt_outlined,
+                  onPressed: () {
+                    late Locale locale;
+                    if (Localizations.localeOf(context).languageCode == 'en') {
+                      locale = const Locale('ar');
+                    } else {
+                      locale = const Locale('en');
+                    }
+                    Preferences().setLocale(locale);
+                    MyApp.setLocale(context, locale);
+                  },
                 ),
                 CustomListTile(
                   text: AppLocalizations.of(context)!.logout,
@@ -166,12 +185,14 @@ class CustomListTile extends StatelessWidget {
     required this.text,
     required this.icon,
     this.badge,
+    this.trailingIcon,
     required this.onPressed,
   }) : super(key: key);
 
   final String text;
   final IconData icon;
   final int? badge;
+  final IconData? trailingIcon;
   final void Function() onPressed;
 
   @override
@@ -218,7 +239,13 @@ class CustomListTile extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-              )
+              ),
+            if (trailingIcon != null)
+              Icon(
+                trailingIcon,
+                size: 24.sp,
+                color: Theme.of(context).textTheme.headline1!.color,
+              ),
           ],
         ),
       ),

@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'settings/settings_controller.dart';
 
 /// The Widget that configures your application.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({
     Key? key,
     required this.settingsController,
@@ -18,12 +18,40 @@ class MyApp extends StatelessWidget {
 
   final SettingsController settingsController;
 
+  static void setLocale(BuildContext context, Locale locale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    if (state != null) state.setLocal(locale);
+  }
+
+  static Locale? getLocale(BuildContext context) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    if (state != null) return state.locale;
+    return null;
+  }
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  Locale? get locale {
+    return _locale;
+  }
+
+  void setLocal(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: const Size(392.7, 834.9),
         builder: () => AnimatedBuilder(
-              animation: settingsController,
+              animation: widget.settingsController,
               builder: (BuildContext context, Widget? child) {
                 return MultiProvider(
                   providers: [
@@ -35,6 +63,7 @@ class MyApp extends StatelessWidget {
                   child: MaterialApp(
                     restorationScopeId: 'app',
                     debugShowCheckedModeBanner: false,
+                    locale: _locale,
                     localizationsDelegates: const [
                       AppLocalizations.delegate,
                       CountryLocalizations.delegate,
@@ -95,7 +124,8 @@ class MyApp extends StatelessWidget {
                           ),
                     ),
                     home: Wrapper(
-                      settingsController: settingsController,
+                      locale: locale,
+                      settingsController: widget.settingsController,
                     ),
                   ),
                 );

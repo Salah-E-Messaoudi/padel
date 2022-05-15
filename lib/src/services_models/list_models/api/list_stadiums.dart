@@ -27,7 +27,7 @@ class ListStadiums {
   }
 
   static Future<void> getList(String type, {bool refresh = false}) async {
-    if (isNotNull || isLoading) return;
+    if (isNotNull) return;
     isLoading = true;
     await getListGames(refresh);
     filterListGames(type);
