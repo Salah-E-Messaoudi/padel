@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,7 +8,9 @@ import 'package:http/http.dart' as http;
 
 class ApiCalls {
   static const String _token =
-      'bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx';
+      'cHJvZHVjdGlvbjo3NTdiY2FmMy03M2U3LTQzZjktYjdiZi1jOTE5Y2E5ZmY2NGI=';
+  static const String _baseurl = 'https://mla3b-q8.alhayat.sa';
+  // 'https://mla3b-q8-test.alhayat.sa';
 
   static Future<List<Stadium>> getListStadiums() async {
     var headers = {
@@ -16,10 +19,8 @@ class ApiCalls {
       'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
-    var request = http.Request(
-        'PATCH',
-        Uri.parse(
-            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/get_stadiums'));
+    var request = http.Request('PATCH',
+        Uri.parse('$_baseurl/api/v1/booking/fms.booking/call/get_stadiums'));
     request.body = json.encode({'args': []});
     request.headers.addAll(headers);
 
@@ -34,7 +35,7 @@ class ApiCalls {
               ))
           .toList();
     } else {
-      // log(response.reasonPhrase.toString());
+      log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -43,14 +44,13 @@ class ApiCalls {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization':
-          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
     var request = http.Request(
       'PATCH',
       Uri.parse(
-        'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/get_game_tree',
+        '$_baseurl/api/v1/booking/fms.booking/call/get_game_tree',
       ),
     );
     request.body = json.encode({'args': []});
@@ -60,6 +60,7 @@ class ApiCalls {
       List<dynamic> results = jsonDecode(await response.stream.bytesToString());
       return results.map((e) => Game.fromMap(e)).toList();
     } else {
+      log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -68,14 +69,11 @@ class ApiCalls {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization':
-          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
-    var request = http.Request(
-        'PATCH',
-        Uri.parse(
-            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/get_stadiums'));
+    var request = http.Request('PATCH',
+        Uri.parse('$_baseurl/api/v1/booking/fms.booking/call/get_stadiums'));
     request.body = json.encode({
       'args': [id]
     });
@@ -90,6 +88,7 @@ class ApiCalls {
         '',
       );
     } else {
+      log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -99,14 +98,11 @@ class ApiCalls {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization':
-          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
-    var request = http.Request(
-        'PATCH',
-        Uri.parse(
-            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/get_stadiums'));
+    var request = http.Request('PATCH',
+        Uri.parse('$_baseurl/api/v1/booking/fms.booking/call/get_stadiums'));
     request.body = json.encode({
       'args': [id]
     });
@@ -126,6 +122,7 @@ class ApiCalls {
       }
       return images;
     } else {
+      log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -156,10 +153,8 @@ class ApiCalls {
       'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
-    var request = http.Request(
-        'PATCH',
-        Uri.parse(
-            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/available_slots'));
+    var request = http.Request('PATCH',
+        Uri.parse('$_baseurl/api/v1/booking/fms.booking/call/available_slots'));
     request.body = json.encode({
       'args': [stadiumId, date]
     });
@@ -170,6 +165,7 @@ class ApiCalls {
       List<dynamic> results = jsonDecode(await response.stream.bytesToString());
       return results.map((e) => AvailibilitySlot.fromMap(e)).toList();
     } else {
+      log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -183,14 +179,13 @@ class ApiCalls {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization':
-          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
     var request = http.Request(
       'PATCH',
       Uri.parse(
-        'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/api_member_create',
+        '$_baseurl/api/v1/booking/fms.booking/call/api_member_create',
       ),
     );
     request.body = json.encode({
@@ -211,10 +206,12 @@ class ApiCalls {
       List<dynamic> results = jsonDecode(await response.stream.bytesToString());
       return results.first;
     } else if (response.statusCode == 500) {
+      log(response.reasonPhrase.toString());
       throw APIException.fromJson(
         jsonDecode(await response.stream.bytesToString()),
       );
     } else {
+      log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -228,14 +225,13 @@ class ApiCalls {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization':
-          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
     var request = http.Request(
       'PATCH',
       Uri.parse(
-        'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/api_create',
+        '$_baseurl/api/v1/booking/fms.booking/call/api_create',
       ),
     );
     request.body = json.encode({
@@ -253,10 +249,12 @@ class ApiCalls {
           jsonDecode(await response.stream.bytesToString());
       return result['id'];
     } else if (response.statusCode == 500) {
+      log(response.reasonPhrase.toString());
       throw APIException.fromJson(
         jsonDecode(await response.stream.bytesToString()),
       );
     } else {
+      log(response.reasonPhrase.toString());
       throw Exception();
     }
   }
@@ -268,14 +266,13 @@ class ApiCalls {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization':
-          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
     var request = http.Request(
         'PATCH',
         Uri.parse(
-            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/api_cancel_booking'));
+            '$_baseurl/api/v1/booking/fms.booking/call/api_cancel_booking'));
     request.body = json.encode({
       'args': [
         bookingId,
@@ -301,14 +298,13 @@ class ApiCalls {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization':
-          'Basic bWxhM2ItcTgtdGVzdC1hcGk6Zjc4YzQ2MzItYTMwMS00YjQwLTg4NmQtMDZhZmIyOWU2ODQx',
+      'Authorization': 'Basic $_token',
       'Cookie': 'session_id=92779ab806956e60b21d00448287f84af02c921f'
     };
     var request = http.Request(
         'PATCH',
         Uri.parse(
-            'https://mla3b-q8-test.alhayat.sa/api/v1/booking/fms.booking/call/api_update_profile'));
+            '$_baseurl/api/v1/booking/fms.booking/call/api_update_profile'));
     request.body = json.encode({
       'args': [
         {

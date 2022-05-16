@@ -37,7 +37,6 @@ class _WrapperState extends State<Wrapper> {
   @override
   void initState() {
     WidgetsFlutterBinding.ensureInitialized();
-    log(widget.locale?.languageCode ?? 'null');
     locale = widget.locale;
     initializeDateFormatting(locale?.languageCode);
     super.initState();
@@ -109,13 +108,10 @@ class _WrapperState extends State<Wrapper> {
           return FutureBuilder<bool>(
               future: RemoteConfigService.setup(context),
               builder: (context, configSnapshot) {
-                if (!configSnapshot.hasData) {
-                  return const SplashScreen(loading: true);
-                }
-                if (configSnapshot.data == true) {
+                if (!configSnapshot.hasData || configSnapshot.data == true) {
                   return SplashScreen(
                     loading: true,
-                    topPadding: 200.h,
+                    topPadding: configSnapshot.data == true ? 200.h : 0,
                   );
                 }
                 if (showOnboarding == true) {
