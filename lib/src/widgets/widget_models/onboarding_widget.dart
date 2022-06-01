@@ -22,7 +22,7 @@ class OnboardingWidget extends StatelessWidget {
         Center(
           child: Image(
             image: AssetImage(imagePath),
-            width: 0.85.sw,
+            width: 0.75.sw,
           ),
         ),
         SizedBox(height: 60.h),
@@ -34,6 +34,7 @@ class OnboardingWidget extends StatelessWidget {
               color: Theme.of(context).textTheme.headline1!.color,
               fontSize: 22.sp,
               fontWeight: FontWeight.bold,
+              height: 1.2,
             ),
           ),
         ),
@@ -46,6 +47,7 @@ class OnboardingWidget extends StatelessWidget {
               color: Theme.of(context).textTheme.headline2!.color,
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
+              height: 1.2,
             ),
           ),
         ),

@@ -67,6 +67,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextStyle? hintStyle;
   final EdgeInsetsGeometry? contentPadding;
   final void Function()? onEditingComplete;
+
   @override
   Widget build(BuildContext context) {
     InputBorder customBorder = border ??
@@ -168,7 +169,7 @@ class CustomTextFormField extends StatelessWidget {
       alignment: Alignment.topCenter,
       height: keyboardType == TextInputType.multiline || validator == null
           ? null
-          : 70.sp,
+          : 50.sp,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

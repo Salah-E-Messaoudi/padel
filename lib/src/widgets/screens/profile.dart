@@ -59,100 +59,102 @@ class _ProfileState extends State<Profile> {
       body: Form(
         key: _keyA,
         autovalidateMode: AutovalidateMode.disabled,
-        child: Column(
-          children: [
-            SizedBox(height: 50.h),
-            InkWell(
-              onTap: loading || !isEditing ? null : imagePicker,
-              child: Container(
-                height: 120.sp,
-                width: 120.sp,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: Theme.of(context).primaryColor, width: 3),
-                ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 50.h),
+              InkWell(
+                onTap: loading || !isEditing ? null : imagePicker,
                 child: Container(
-                  padding: const EdgeInsets.all(3),
-                  decoration: const BoxDecoration(
+                  height: 120.sp,
+                  width: 120.sp,
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
+                    border: Border.all(
+                        color: Theme.of(context).primaryColor, width: 3),
                   ),
-                  child: CircleAvatar(
-                    backgroundColor:
-                        Theme.of(context).textTheme.headline5!.color,
-                    backgroundImage:
-                        image != null ? FileImage(image!) : widget.user.photo,
+                  child: Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatar(
+                      backgroundColor:
+                          Theme.of(context).textTheme.headline5!.color,
+                      backgroundImage:
+                          image != null ? FileImage(image!) : widget.user.photo,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 60.h),
-            ProfileInfo(
-              icon: Icons.badge_outlined,
-              label: AppLocalizations.of(context)!.full_name,
-              value: displayName!,
-              controller: null,
-              enabled: isEditing,
-              validator: (value) =>
-                  validateNotNull(value: value, context: context),
-              onSaved: (value) => displayName = value,
-            ),
-            ProfileInfo(
-              icon: Icons.call_outlined,
-              label: AppLocalizations.of(context)!.phone_number,
-              value: widget.user.phoneNumber!.replaceAll('+', ''),
-              controller: null,
-              enabled: false,
-              validator: (value) =>
-                  validateNotNull(value: value, context: context),
-            ),
-            DropDownGender(
-                icon: Icons.male,
-                label: AppLocalizations.of(context)!.gender,
-                groupValue: gender,
+              SizedBox(height: 60.h),
+              ProfileInfo(
+                icon: Icons.badge_outlined,
+                label: AppLocalizations.of(context)!.full_name,
+                value: displayName!,
+                controller: null,
                 enabled: isEditing,
-                onChanged: (value) => setState(() {
-                      gender = value;
-                    })),
-            ProfileInfo(
-              icon: Icons.person_outline_rounded,
-              label: AppLocalizations.of(context)!.age,
-              value: null,
-              controller: _controller,
-              enabled: isEditing,
-              width: 80.w,
-              validator: (value) =>
-                  validateNotNull(value: value, context: context),
-              onSaved: (value) => birthDate = value,
-              onTap: () => DatePicker.showDatePicker(
-                context,
-                theme: DatePickerTheme(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  cancelStyle: GoogleFonts.poppins(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).textTheme.headline4!.color,
-                  ),
-                  doneStyle: GoogleFonts.poppins(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  itemStyle: GoogleFonts.poppins(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).textTheme.headline1!.color,
-                  ),
-                ),
-                showTitleActions: true,
-                maxTime:
-                    DateTime.now().subtract(const Duration(days: 365 * 13)),
-                onConfirm: onPickBirthDate,
-                currentTime: selectedDate,
-                locale: LocaleType.en,
+                validator: (value) =>
+                    validateNotNull(value: value, context: context),
+                onSaved: (value) => displayName = value,
               ),
-            ),
-          ],
+              ProfileInfo(
+                icon: Icons.call_outlined,
+                label: AppLocalizations.of(context)!.phone_number,
+                value: widget.user.phoneNumber!.replaceAll('+', ''),
+                controller: null,
+                enabled: false,
+                validator: (value) =>
+                    validateNotNull(value: value, context: context),
+              ),
+              DropDownGender(
+                  icon: Icons.male,
+                  label: AppLocalizations.of(context)!.gender,
+                  groupValue: gender,
+                  enabled: isEditing,
+                  onChanged: (value) => setState(() {
+                        gender = value;
+                      })),
+              ProfileInfo(
+                icon: Icons.person_outline_rounded,
+                label: AppLocalizations.of(context)!.age,
+                value: null,
+                controller: _controller,
+                enabled: isEditing,
+                width: 80.w,
+                validator: (value) =>
+                    validateNotNull(value: value, context: context),
+                onSaved: (value) => birthDate = value,
+                onTap: () => DatePicker.showDatePicker(
+                  context,
+                  theme: DatePickerTheme(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    cancelStyle: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).textTheme.headline4!.color,
+                    ),
+                    doneStyle: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    itemStyle: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).textTheme.headline1!.color,
+                    ),
+                  ),
+                  showTitleActions: true,
+                  maxTime:
+                      DateTime.now().subtract(const Duration(days: 365 * 13)),
+                  onConfirm: onPickBirthDate,
+                  currentTime: selectedDate,
+                  locale: LocaleType.en,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: CustomIconTextButton(
@@ -285,7 +287,7 @@ class ProfileInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 60.w),
-        height: 90.sp,
+        // height: 90.h,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -325,7 +327,7 @@ class ProfileInfo extends StatelessWidget {
                     onTap: onTap,
                     readOnly: onTap != null,
                     textInputAction: TextInputAction.next,
-                    contentPadding: EdgeInsets.fromLTRB(0, 15.sp, 0, 8.sp),
+                    contentPadding: EdgeInsets.fromLTRB(0, 5.sp, 0, 5.sp),
                   ),
                 ),
               ],
@@ -355,7 +357,7 @@ class DropDownGender extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 60.w),
-        height: 90.sp,
+        // height: 90.sp,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

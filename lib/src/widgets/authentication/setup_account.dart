@@ -44,9 +44,9 @@ class _SetupAccountState extends State<SetupAccount> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 100.h),
+              SizedBox(height: 50.h),
               SizedBox(
-                height: 0.75.sh,
+                height: 0.85.sh,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
