@@ -31,11 +31,13 @@ class Stadium {
     String type,
   ) {
     String? avatarBase64 = json['image'] is String ? json['image'] : null;
+    String pattern = r'^(<p>)|(</p>)|(<br>)';
+    RegExp regExp = RegExp(pattern);
     return Stadium(
       id: json['id'],
       name: json['name'],
       address: address,
-      note: json['note'],
+      note: ((json['note'] ?? '') as String).replaceAll(regExp, ''),
       price: json['price'].toDouble(),
       type: type,
       avatar: avatarBase64 != null

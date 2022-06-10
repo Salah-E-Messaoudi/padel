@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>422129557503-23sss7acit7u85dmnbnbg9estcera4kc.apps.googleusercontent.com</string>
+	<string>422129557503-fsh57u4pm4qd90ajl2453v0r3639pgdb.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.422129557503-23sss7acit7u85dmnbnbg9estcera4kc</string>
+	<string>com.googleusercontent.apps.422129557503-fsh57u4pm4qd90ajl2453v0r3639pgdb</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>422129557503-qrtsdi8gncgm5i6udrc26m2f4ftcu1ci.apps.googleusercontent.com</string>
+	<string>422129557503-528fchk0hvoapvi3sfv8vspkq4jn4ber.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAicoajWZkPvIJTIIJHVMAM0uuOVjULNIM</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.padel.life</string>
+	<string>com.alhayat.padel</string>
 	<key>PROJECT_ID</key>
 	<string>padel-life</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:422129557503:ios:23b6f67adc7c7feeb951ca</string>
+	<string>1:422129557503:ios:08c81e8096197cb3b951ca</string>
 </dict>
 </plist>

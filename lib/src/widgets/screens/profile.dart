@@ -164,7 +164,7 @@ class _ProfileState extends State<Profile> {
         onPressed: toggleState,
         fontColor: Colors.white,
         icon: isEditing ? Icons.save_outlined : Icons.edit_outlined,
-        fixedSize: Size(0.5.sw, 40.sp),
+        fixedSize: Size(0.55.sw, 40.sp),
         loading: loading,
       ),
     );
