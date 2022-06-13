@@ -16,7 +16,7 @@ class Stadiums extends StatefulWidget {
     required this.changeTab,
   }) : super(key: key);
 
-  final UserData user;
+  final UserData? user;
   final ScrollController? controller;
   final void Function(int) changeTab;
 
@@ -35,16 +35,17 @@ class _StadiumsState extends State<Stadiums> {
           return CustomScrollView(
             controller: widget.controller,
             slivers: [
-              SliverToBoxAdapter(
-                child: Text(
-                  AppLocalizations.of(context)!.hi(widget.user.displayName!),
-                  style: GoogleFonts.poppins(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).textTheme.headline1!.color,
+              if (widget.user != null)
+                SliverToBoxAdapter(
+                  child: Text(
+                    AppLocalizations.of(context)!.hi(widget.user!.displayName!),
+                    style: GoogleFonts.poppins(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.headline1!.color,
+                    ),
                   ),
                 ),
-              ),
               SliverToBoxAdapter(
                 child: Text(
                   AppLocalizations.of(context)!.stadiums_subtitle,

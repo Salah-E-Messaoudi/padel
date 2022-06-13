@@ -46,7 +46,7 @@ class _SetupAccountState extends State<SetupAccount> {
             children: [
               SizedBox(height: 50.h),
               SizedBox(
-                height: 0.85.sh,
+                height: 0.80.sh,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

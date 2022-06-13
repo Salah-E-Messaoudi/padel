@@ -37,7 +37,9 @@ class Stadium {
       id: json['id'],
       name: json['name'],
       address: address,
-      note: ((json['note'] ?? '') as String).replaceAll(regExp, ''),
+      note: json['note'] is String
+          ? ((json['note'] ?? '') as String).replaceAll(regExp, '')
+          : null,
       price: json['price'].toDouble(),
       type: type,
       avatar: avatarBase64 != null

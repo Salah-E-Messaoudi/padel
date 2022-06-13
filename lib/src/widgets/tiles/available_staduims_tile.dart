@@ -14,7 +14,7 @@ class AvailableStadiumsTile extends StatelessWidget {
     required this.changeTab,
   }) : super(key: key);
 
-  final UserData user;
+  final UserData? user;
   final Stadium stadium;
   final void Function(int) changeTab;
 

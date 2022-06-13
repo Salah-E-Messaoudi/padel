@@ -17,7 +17,7 @@ class Bookings extends StatefulWidget {
     required this.currentIndex,
   }) : super(key: key);
 
-  final UserData user;
+  final UserData? user;
   final ScrollController controller;
   final int currentIndex;
 
@@ -67,11 +67,13 @@ class _BookingsState extends State<Bookings> {
                         : const SizedBox.shrink(),
               ),
             ),
-            if (ListBookings.isNotNull && ListBookings.isNotEmpty)
+            if (ListBookings.isNotNull &&
+                ListBookings.isNotEmpty &&
+                widget.user != null)
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => BookingTile(
-                    user: widget.user,
+                    user: widget.user!,
                     booking: ListBookings.list[index],
                     rebuildHomeScreen: () => setState(() {}),
                   ),

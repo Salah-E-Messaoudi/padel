@@ -14,6 +14,8 @@
   "get_started":"البدء",
   "auth_title":"دعنا نسجل دخولك",
   "auth_subtitle":"سجّل الدخول باستخدام رقم هاتفك \n سنرسل لك رمز تحقق مكونًا من 5 أرقام",
+  "register":"تسجيل",
+  "register_dialog":"سجل الآن للحصول على الوصول الكامل إلى جميع ميزات ووظائف Padel Life.",
 
   "authentication_failed":"فشلت عملية المصادقة",
   "credential_already_in_use":"بيانات التسجيل قيد الاستخدام بالفعل",

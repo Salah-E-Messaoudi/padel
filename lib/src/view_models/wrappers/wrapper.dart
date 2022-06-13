@@ -118,9 +118,10 @@ class _WrapperState extends State<Wrapper> {
                   return Onboarding(setShowOnboarding: hideOnboarding);
                 } else {
                   if (userStream == null) {
-                    return PhoneAuth(
-                      rebuildWrapper: () => setState(() {}),
-                    );
+                    return MainScreen(user: userStream);
+                    // return PhoneAuth(
+                    //   rebuildWrapper: () => setState(() {}),
+                    // );
                   } else {
                     if (userStream!.isNotComplete) {
                       return SetupAccount(

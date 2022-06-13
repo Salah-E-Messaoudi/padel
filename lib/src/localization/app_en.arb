@@ -14,6 +14,8 @@
   "get_started":"Get Started",
   "auth_title":"Let's sign you in",
   "auth_subtitle":"Sign in with your phone number\nWe will send you a 5 digits verification code",
+  "register":"Register",
+  "register_dialog":"Register now to get access full access to all features and functionalities of Padel Life.",
 
   "authentication_failed":"Authentication failed",
   "credential_already_in_use":"Credential already in use",

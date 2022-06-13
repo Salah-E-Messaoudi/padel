@@ -14,9 +14,12 @@ class SideMenu extends StatelessWidget {
   const SideMenu({
     Key? key,
     required this.user,
+    required this.signup,
   }) : super(key: key);
 
-  final UserData user;
+  final UserData? user;
+
+  final void Function() signup;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +32,17 @@ class SideMenu extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Profile(user: user)));
+              if (user == null) {
+                signup();
+                return;
+              }
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Profile(user: user!),
+                ),
+              );
             },
             child: Column(
               children: [
@@ -45,36 +57,40 @@ class SideMenu extends StatelessWidget {
                     ),
                   ),
                   child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: CircleAvatar(
-                        backgroundImage: user.photo,
-                        backgroundColor:
-                            Theme.of(context).textTheme.headline4!.color!,
-                      )),
-                ),
-                SizedBox(height: 15.h),
-                Text(
-                  user.displayName!,
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).textTheme.headline1!.color,
-                  ),
-                ),
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: Text(
-                    user.phoneNumber!,
-                    style: GoogleFonts.poppins(
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).textTheme.headline3!.color,
+                    padding: const EdgeInsets.all(2),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatar(
+                      backgroundImage: user?.photo ??
+                          const AssetImage('assets/images/profile.png'),
+                      backgroundColor:
+                          Theme.of(context).textTheme.headline4!.color!,
                     ),
                   ),
                 ),
+                SizedBox(height: 15.h),
+                if (user != null)
+                  Text(
+                    user!.displayName!,
+                    style: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).textTheme.headline1!.color,
+                    ),
+                  ),
+                if (user != null)
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Text(
+                      user!.phoneNumber!,
+                      style: GoogleFonts.poppins(
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).textTheme.headline3!.color,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -91,54 +107,71 @@ class SideMenu extends StatelessWidget {
                 CustomListTile(
                   text: AppLocalizations.of(context)!.profile,
                   icon: Icons.person_outline_rounded,
-                  onPressed: () => Navigator.push(
+                  onPressed: () {
+                    if (user == null) {
+                      signup();
+                      return;
+                    }
+
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Profile(
-                                user: user,
-                              ))),
+                        builder: (context) => Profile(
+                          user: user!,
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 CustomListTile(
                   text: AppLocalizations.of(context)!.my_friends,
                   icon: Icons.people_outline_rounded,
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyFriends(
-                        user: user,
+                  onPressed: () {
+                    if (user == null) {
+                      signup();
+                      return;
+                    }
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyFriends(
+                          user: user!,
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
                 StreamBuilder<int>(
-                  stream: PendingInvitationsService.getInvitationBadge(
-                      uid: user.uid),
+                  stream: user == null
+                      ? defaultStream()
+                      : PendingInvitationsService.getInvitationBadge(
+                          uid: user!.uid),
                   builder: (context, snapshot) {
                     return Builder(builder: (context) {
                       return CustomListTile(
                         text: AppLocalizations.of(context)!.pending_invitation,
                         icon: Icons.person_add_alt_outlined,
                         badge: snapshot.data,
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PendingInvitations(
-                              user: user,
+                        onPressed: () {
+                          if (user == null) {
+                            signup();
+                            return;
+                          }
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PendingInvitations(
+                                user: user!,
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
                     });
                   },
                 ),
-                // CustomListTile(
-                //   text: AppLocalizations.of(context)!.play_system,
-                //   icon: Icons.assignment_outlined,
-                //   onPressed: () => Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => const PlaySystem())),
-                // ),
                 CustomListTile(
                   text: Localizations.localeOf(context).languageCode == 'en'
                       ? 'English'
@@ -156,19 +189,27 @@ class SideMenu extends StatelessWidget {
                     MyApp.setLocale(context, locale);
                   },
                 ),
-                CustomListTile(
-                  text: AppLocalizations.of(context)!.logout,
-                  icon: Icons.logout_rounded,
-                  onPressed: () {
-                    showAlertDialog(
-                      context: context,
-                      title: AppLocalizations.of(context)!.alert_signout_title,
-                      content:
-                          AppLocalizations.of(context)!.alert_signout_subtitle,
-                      onYes: () => AuthenticationService.signOut(),
-                    );
-                  },
-                ),
+                if (user != null)
+                  CustomListTile(
+                    text: AppLocalizations.of(context)!.logout,
+                    icon: Icons.logout_rounded,
+                    onPressed: () {
+                      showAlertDialog(
+                        context: context,
+                        title:
+                            AppLocalizations.of(context)!.alert_signout_title,
+                        content: AppLocalizations.of(context)!
+                            .alert_signout_subtitle,
+                        onYes: () => AuthenticationService.signOut(),
+                      );
+                    },
+                  ),
+                if (user == null)
+                  CustomListTile(
+                    text: AppLocalizations.of(context)!.register,
+                    icon: Icons.how_to_reg_rounded,
+                    onPressed: () => signup(),
+                  ),
               ],
             ),
           ),
@@ -176,6 +217,10 @@ class SideMenu extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Stream<int> defaultStream() async* {
+    yield 0;
   }
 }
 

@@ -14,10 +14,7 @@ import 'package:padel/functions.dart';
 class PhoneAuth extends StatefulWidget {
   const PhoneAuth({
     Key? key,
-    required this.rebuildWrapper,
   }) : super(key: key);
-
-  final void Function() rebuildWrapper;
 
   @override
   State<PhoneAuth> createState() => _PhoneAuthState();
@@ -362,6 +359,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
           .signInWithCredential(credential)
           .then((userCredential) async {
         await UserInfoService.createUserInfo(userCredential);
+        Navigator.pop(context);
       });
     } on FirebaseAuthException catch (e) {
       setState(() {

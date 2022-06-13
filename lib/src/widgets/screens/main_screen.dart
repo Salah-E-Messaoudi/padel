@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:padel/functions.dart';
 import 'package:padel/src/services_models/list_models.dart';
 import 'package:padel/src/services_models/models.dart';
 import 'package:padel/src/services_models/services.dart';
+import 'package:padel/src/widgets/authentication.dart';
 import 'package:padel/src/widgets/screens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -15,7 +19,7 @@ class MainScreen extends StatefulWidget {
     required this.user,
   }) : super(key: key);
 
-  final UserData user;
+  final UserData? user;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -28,10 +32,12 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    ListBookings.uid = widget.user.uid;
-    ListNotifications.uid = widget.user.uid;
-    ListFriends.uid = widget.user.uid;
-    ListPendingInvitations.uid = widget.user.uid;
+    if (widget.user != null) {
+      ListBookings.uid = widget.user!.uid;
+      ListNotifications.uid = widget.user!.uid;
+      ListFriends.uid = widget.user!.uid;
+      ListPendingInvitations.uid = widget.user!.uid;
+    }
     _bookingsController.addListener(() {
       if (!ListBookings.canGetMore || ListBookings.isLoading) return;
       if (_bookingsController.position.maxScrollExtent ==
@@ -44,44 +50,62 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void signup() {
+    showAlertDialog(
+      context: context,
+      title: AppLocalizations.of(context)!.register,
+      content: AppLocalizations.of(context)!.register_dialog,
+      onYes: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PhoneAuth(),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    log('rebuildt...');
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         actions: [
-          StreamBuilder<bool>(
-            stream:
-                NotificationsService.getNotificationBadge(uid: widget.user.uid),
-            builder: (context, snapshot) {
-              return Badge(
-                padding: snapshot.hasData && snapshot.data == true
-                    ? EdgeInsets.all(5.sp)
-                    : EdgeInsets.zero,
-                badgeColor: Theme.of(context).primaryColor,
-                position: BadgePosition.topEnd(top: 10.sp, end: 10.sp),
-                child: IconButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Notifications(
-                        user: widget.user,
-                        changeTab: updateCurrentIndex,
+          if (widget.user != null)
+            StreamBuilder<bool>(
+              stream: NotificationsService.getNotificationBadge(
+                  uid: widget.user!.uid),
+              builder: (context, snapshot) {
+                return Badge(
+                  padding: snapshot.hasData && snapshot.data == true
+                      ? EdgeInsets.all(5.sp)
+                      : EdgeInsets.zero,
+                  badgeColor: Theme.of(context).primaryColor,
+                  position: BadgePosition.topEnd(top: 10.sp, end: 10.sp),
+                  child: IconButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Notifications(
+                          user: widget.user!,
+                          changeTab: updateCurrentIndex,
+                        ),
                       ),
                     ),
+                    icon: Icon(
+                      Icons.notifications_outlined,
+                      color: Theme.of(context).textTheme.headline1!.color,
+                      size: 26.sp,
+                    ),
                   ),
-                  icon: Icon(
-                    Icons.notifications_outlined,
-                    color: Theme.of(context).textTheme.headline1!.color,
-                    size: 26.sp,
-                  ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
         ],
       ),
-      drawer: SideMenu(user: widget.user),
+      drawer: SideMenu(user: widget.user, signup: signup),
       body: RefreshIndicator(
         backgroundColor: const Color.fromARGB(245, 245, 245, 255),
         color: Theme.of(context).primaryColor,
@@ -109,7 +133,11 @@ class _MainScreenState extends State<MainScreen> {
           elevation: 30,
           currentIndex: currentIndex,
           onTap: (index) {
-            setState(() => currentIndex = index);
+            if (index == 1 && widget.user == null) {
+              signup();
+            } else {
+              setState(() => currentIndex = index);
+            }
           },
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           selectedLabelStyle: GoogleFonts.poppins(

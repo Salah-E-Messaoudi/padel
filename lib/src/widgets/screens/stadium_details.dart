@@ -22,7 +22,7 @@ class StadiumDetails extends StatefulWidget {
     required this.changeTab,
   }) : super(key: key);
 
-  final UserData user;
+  final UserData? user;
   final Stadium stadium;
   final void Function(int) changeTab;
 
@@ -384,86 +384,87 @@ class _StadiumDetailsState extends State<StadiumDetails> {
                       ),
                     ),
                     const Spacer(),
-                    CustomIconTextButton(
-                      label: AppLocalizations.of(context)!.book_now,
-                      onPressed: () {
-                        if (isValide) {
-                          showFutureAlertDialog(
+                    if (widget.user != null)
+                      CustomIconTextButton(
+                        label: AppLocalizations.of(context)!.book_now,
+                        onPressed: () {
+                          if (isValide) {
+                            showFutureAlertDialog(
+                                context: context,
+                                title: AppLocalizations.of(context)!
+                                    .alert_booking_confirmation_title,
+                                content: AppLocalizations.of(context)!
+                                    .alert_booking_confirmation_subtitle,
+                                onYes: () async {
+                                  Map<String, dynamic> data = {
+                                    'stadium': widget.stadium.toMap(),
+                                    'owner': widget.user!.toUserMin(),
+                                    'list_added': [widget.user!.uid],
+                                    'list_invited': [],
+                                    'list_photoURL': [widget.user!.photoUrl],
+                                    'createdAt': FieldValue.serverTimestamp(),
+                                    'startAt':
+                                        selectedTime!.getStartAt(selectedDate!),
+                                    'endAt':
+                                        selectedTime!.getEndAt(selectedDate!),
+                                  };
+                                  await BookingsService.book(
+                                    userId: widget.user!.odooId!,
+                                    stadiumId: widget.stadium.id,
+                                    date:
+                                        '${selectedDate!.year}-${NumberFormat('00').format(selectedDate!.month)}-${NumberFormat('00').format(selectedDate!.day)}',
+                                    session: selectedTime!.time
+                                        .replaceAll('-', 'to'),
+                                    data: data,
+                                  );
+                                },
+                                onComplete: () {
+                                  Navigator.pop(context);
+                                  showSnackBarMessage(
+                                    context: context,
+                                    fontSize: 14.sp,
+                                    hintMessage: AppLocalizations.of(context)!
+                                        .session_booked_successfully,
+                                    icon: Icons.check_circle_outline_outlined,
+                                  );
+                                  widget.changeTab(1);
+                                },
+                                onException: (e) {
+                                  if (e is FirebaseException) {
+                                    showSnackBarMessage(
+                                      context: context,
+                                      hintMessage: AppLocalizations.of(context)!
+                                          .session_already_taken,
+                                      icon: Icons.info_outline,
+                                    );
+                                  } else if (e is APIException) {
+                                    showSnackBarMessage(
+                                      context: context,
+                                      hintMessage: AppLocalizations.of(context)!
+                                          .session_already_taken,
+                                      icon: Icons.info_outline,
+                                    );
+                                  } else {
+                                    showSnackBarMessage(
+                                      context: context,
+                                      hintMessage: AppLocalizations.of(context)!
+                                          .unknown_error,
+                                      icon: Icons.info_outline,
+                                    );
+                                  }
+                                });
+                          } else {
+                            showSnackBarMessage(
                               context: context,
-                              title: AppLocalizations.of(context)!
-                                  .alert_booking_confirmation_title,
-                              content: AppLocalizations.of(context)!
-                                  .alert_booking_confirmation_subtitle,
-                              onYes: () async {
-                                Map<String, dynamic> data = {
-                                  'stadium': widget.stadium.toMap(),
-                                  'owner': widget.user.toUserMin(),
-                                  'list_added': [widget.user.uid],
-                                  'list_invited': [],
-                                  'list_photoURL': [widget.user.photoUrl],
-                                  'createdAt': FieldValue.serverTimestamp(),
-                                  'startAt':
-                                      selectedTime!.getStartAt(selectedDate!),
-                                  'endAt':
-                                      selectedTime!.getEndAt(selectedDate!),
-                                };
-                                await BookingsService.book(
-                                  userId: widget.user.odooId!,
-                                  stadiumId: widget.stadium.id,
-                                  date:
-                                      '${selectedDate!.year}-${NumberFormat('00').format(selectedDate!.month)}-${NumberFormat('00').format(selectedDate!.day)}',
-                                  session:
-                                      selectedTime!.time.replaceAll('-', 'to'),
-                                  data: data,
-                                );
-                              },
-                              onComplete: () {
-                                Navigator.pop(context);
-                                showSnackBarMessage(
-                                  context: context,
-                                  fontSize: 14.sp,
-                                  hintMessage: AppLocalizations.of(context)!
-                                      .session_booked_successfully,
-                                  icon: Icons.check_circle_outline_outlined,
-                                );
-                                widget.changeTab(1);
-                              },
-                              onException: (e) {
-                                if (e is FirebaseException) {
-                                  showSnackBarMessage(
-                                    context: context,
-                                    hintMessage: AppLocalizations.of(context)!
-                                        .session_already_taken,
-                                    icon: Icons.info_outline,
-                                  );
-                                } else if (e is APIException) {
-                                  showSnackBarMessage(
-                                    context: context,
-                                    hintMessage: AppLocalizations.of(context)!
-                                        .session_already_taken,
-                                    icon: Icons.info_outline,
-                                  );
-                                } else {
-                                  showSnackBarMessage(
-                                    context: context,
-                                    hintMessage: AppLocalizations.of(context)!
-                                        .unknown_error,
-                                    icon: Icons.info_outline,
-                                  );
-                                }
-                              });
-                        } else {
-                          showSnackBarMessage(
-                            context: context,
-                            hintMessage:
-                                AppLocalizations.of(context)!.complete_booking,
-                            icon: Icons.info_outline_rounded,
-                          );
-                        }
-                      },
-                      fontColor: Colors.white,
-                      fontSize: 15.sp,
-                    ),
+                              hintMessage: AppLocalizations.of(context)!
+                                  .complete_booking,
+                              icon: Icons.info_outline_rounded,
+                            );
+                          }
+                        },
+                        fontColor: Colors.white,
+                        fontSize: 15.sp,
+                      ),
                   ],
                 ),
               ),
