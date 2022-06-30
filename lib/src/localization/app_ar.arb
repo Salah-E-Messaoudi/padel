@@ -1,5 +1,5 @@
 {
-  "appTitle": "Padel Life",
+  "appTitle": "Padel Park",
   "@appTitle": {
     "description": "The title of the application"
   },
@@ -15,7 +15,7 @@
   "auth_title":"دعنا نسجل دخولك",
   "auth_subtitle":"سجّل الدخول باستخدام رقم هاتفك \n سنرسل لك رمز تحقق مكونًا من 5 أرقام",
   "register":"تسجيل",
-  "register_dialog":"سجل الآن للحصول على الوصول الكامل إلى جميع ميزات ووظائف Padel Life.",
+  "register_dialog":"سجل الآن للحصول على الوصول الكامل إلى جميع ميزات ووظائف Padel Park.",
 
   "authentication_failed":"فشلت عملية المصادقة",
   "credential_already_in_use":"بيانات التسجيل قيد الاستخدام بالفعل",
@@ -186,13 +186,13 @@
   "alert_delete_all_notifications_title":"حذف الكل",
   "alert_delete_all_notifications_subtitle":"هل تريد بالتأكيد حذف جميع الإشعارات المعروضة هنا؟",
   "alert_send_invitation_title":"مشاركة دعوتك",
-  "alert_send_invitation_subtitle":"لم يتم العثور على مستخدم برقم الهاتف هذا. هل ترغب في إخبار صديقك عن Padel Life؟",
-  "alert_share_invitation":"مرحبًا، تعال وتحقق من هذا التطبيق المذهل Padel Life، يمكننا حجز الجلسات ودعوة الأصدقاء لإكمال فريقنا. قم بالتنزيل من المتجر باستخدام الرابط أدناه. https://padellife.co.",
+  "alert_send_invitation_subtitle":"لم يتم العثور على مستخدم برقم الهاتف هذا. هل ترغب في إخبار صديقك عن Padel Park؟",
+  "alert_share_invitation":"مرحبًا، تعال وتحقق من هذا التطبيق المذهل Padel Park، يمكننا حجز الجلسات ودعوة الأصدقاء لإكمال فريقنا. قم بالتنزيل من المتجر باستخدام الرابط أدناه. https://padellife.co.",
   "alert_cancel_booking":"لماذا ترغب في إلغاء الحجز الخاص بك؟",
   "alert_maintenance_title":"الصيانة جارية!",
   "alert_maintenance_subtitle":"منصتنا حاليًا قيد الصيانة، يرجى العودة لاحقًا.",
   "alert_update_title":"يتوفر تحديث",
-  "alert_update_subtitle":"يتوفر إصدار جديد من Padel Life. قم بتنزيل التحديث الجديد وتثبيته والاستفادة من الميزات الجديدة.",
+  "alert_update_subtitle":"يتوفر إصدار جديد من Padel Park. قم بتنزيل التحديث الجديد وتثبيته والاستفادة من الميزات الجديدة.",
   "cropper":"Cropper",
   "stadiums":"ملاعب",
   "bookings":"الحجوزات",
@@ -208,7 +208,7 @@
   "empty_bookings":"ليس لديك حجوزات في هذه اللحظة. سيتم سرد جميع حجوزاتك المستقبلية هنا.",
   "empty_stadiums":"في هذه اللحظة لا توجد ملاعب للخيار المحدد، جرب خيارًا آخر أو حاول لاحقًا.",
   "empty_notifications":"ليس لديك إشعارات في الوقت الحالي، سيتم عرض دائرة حمراء أعلى زر الإعلام على الشاشة الرئيسية لإعلامك.",
-  "empty_friends_myfriends":"ليس لديك أصدقاء في هذه اللحظة. أضف صديقًا إلى منصة Padel Life باستخدام رقم هاتفه.",
+  "empty_friends_myfriends":"ليس لديك أصدقاء في هذه اللحظة. أضف صديقًا إلى منصة Padel Park باستخدام رقم هاتفه.",
   "empty_pending_invitations":"يمكن لأصدقائك استعراض الملاعب المتاحة ودعوتك للانضمام إلى مباراتهم. سيتم عرض دعواتك هنا.",
   "empty_friends_invite":"ليس لديك أصدقاء في هذه اللحظة. من القائمة الجانبية، على خيار أصدقائي، أضف مستخدمين إلى قائمة أصدقائك باستخدام رقم الهاتف.",
   "session_already_taken":"هذا الوقت محجوز بالفعل!",

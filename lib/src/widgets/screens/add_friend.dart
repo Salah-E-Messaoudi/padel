@@ -210,7 +210,7 @@ class _AddFriendState extends State<AddFriend> {
                       onYes: () async {
                         Share.share(
                           AppLocalizations.of(context)!.alert_share_invitation,
-                          subject: 'Download and join Padel Life now',
+                          subject: 'Download and join Padel Park now',
                         );
                       },
                     );

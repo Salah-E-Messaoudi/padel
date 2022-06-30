@@ -53,7 +53,7 @@ class _PickContactState extends State<PickContact> {
       context: context,
       title: 'Need access to your contacts',
       content:
-          'Give Padel Life permission to access your contacts list in order to activate this feature.',
+          'Give Padel Park permission to access your contacts list in order to activate this feature.',
     );
   }
 

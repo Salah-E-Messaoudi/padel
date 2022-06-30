@@ -18,34 +18,33 @@ class AuthenticationService {
   static Future<UserData?> _userFromFirebaseUser(User? user) async {
     try {
       if (user == null) return null;
+      await Future.delayed(const Duration(milliseconds: 500));
       return FirebaseFirestore.instance
           .doc(FirestorePath.userInfo(uid: user.uid))
           .get(
             const GetOptions(source: Source.server),
           )
           .then((doc) async {
-        if (!doc.exists || doc.data() == null) {
-          return null;
-        }
-        late UserData userData;
-        ImageProvider<Object>? photo;
-        if (user.photoURL != null) {
-          photo = getCachedNetworkImageProvider(user.photoURL);
-        }
-        if (doc.data() != null && doc.data()!['uid'] == user.uid) {
+        if (!doc.metadata.hasPendingWrites &&
+            doc.exists &&
+            doc.data() != null &&
+            doc.data()!['uid'] == user.uid) {
+          late UserData userData;
+          ImageProvider<Object>? photo;
+          if (user.photoURL != null) {
+            photo = getCachedNetworkImageProvider(user.photoURL);
+          }
           userData = UserData.fromUser(
             user,
             doc,
             photo,
           );
+
+          return userData;
         } else {
-          userData = UserData.fromUser(
-            user,
-            null,
-            photo,
-          );
+          await Future.delayed(const Duration(milliseconds: 500));
+          return _userFromFirebaseUser(user);
         }
-        return userData;
       });
     } catch (e) {
       return null;

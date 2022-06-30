@@ -83,7 +83,7 @@ class _MyFriendsState extends State<MyFriends> {
                       IconButton(
                         onPressed: () => Share.share(
                           AppLocalizations.of(context)!.alert_share_invitation,
-                          subject: 'Download and join Padel Life now',
+                          subject: 'Download and join Padel Park now',
                         ),
                         icon: Icon(
                           Icons.share,

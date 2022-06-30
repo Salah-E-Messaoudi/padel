@@ -1,5 +1,5 @@
 {
-  "appTitle": "Padel Life",
+  "appTitle": "Padel Park",
   "@appTitle": {
     "description": "The title of the application"
   },
@@ -15,7 +15,7 @@
   "auth_title":"Let's sign you in",
   "auth_subtitle":"Sign in with your phone number\nWe will send you a 5 digits verification code",
   "register":"Register",
-  "register_dialog":"Register now to get access full access to all features and functionalities of Padel Life.",
+  "register_dialog":"Register now to get access full access to all features and functionalities of Padel Park.",
 
   "authentication_failed":"Authentication failed",
   "credential_already_in_use":"Credential already in use",
@@ -193,13 +193,13 @@
   "alert_delete_all_notifications_title":"Delete all!",
   "alert_delete_all_notifications_subtitle":"Are you sure you want to delete all notifications displayed here?",
   "alert_send_invitation_title":"Share your invitation",
-  "alert_send_invitation_subtitle":"No user with this phone number has been found. Would you like to tell your friend about Padel Life ?",
-  "alert_share_invitation":"Hi, come check this amazing app Padel Life, we can book sessions and invite friends to complete our team. Download from the store using the link bellow.\nhttps://example.com.",
+  "alert_send_invitation_subtitle":"No user with this phone number has been found. Would you like to tell your friend about Padel Park ?",
+  "alert_share_invitation":"Hi, come check this amazing app Padel Park, we can book sessions and invite friends to complete our team. Download from the store using the link bellow.\nhttps://example.com.",
   "alert_cancel_booking":"Why would you like to cancel your booking?",
   "alert_maintenance_title":"Maintenance underway!",
   "alert_maintenance_subtitle":"Currently our platform is under maintenance, please come back later.",
   "alert_update_title":"Update available!",
-  "alert_update_subtitle":"A new version of Padel Life is available. Download and install the new update and benefit from new features.",
+  "alert_update_subtitle":"A new version of Padel Park is available. Download and install the new update and benefit from new features.",
   "cropper":"Cropper",
   "stadiums":"Stadiums",
   "bookings":"Bookings",
@@ -215,7 +215,7 @@
   "empty_bookings":"You have no bookings at this moment. All your future bookings will be listed here.",
   "empty_stadiums":"At this moment there are no stadiums for selected option, try another option or try later.",
   "empty_notifications":"You have no notfications for now, a red circle will be displayed on top of the notification button on the mainscreen to notify you.",
-  "empty_friends_myfriends":"You have no friends at this moment. Add a friend to Padel Life platforme using his/her phone number.",
+  "empty_friends_myfriends":"You have no friends at this moment. Add a friend to Padel Park platforme using his/her phone number.",
   "empty_pending_invitations":"Your friends can bool stadiums and invite you to join their match. Your invitations will be displayed here.",
   "empty_friends_invite":"You have no friends at this moment. From the side menu, on my friends option, add users to your friends list using phone number.",
   "session_already_taken":"Session already taken!",

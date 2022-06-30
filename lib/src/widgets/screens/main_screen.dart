@@ -68,7 +68,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log('rebuildt...');
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
